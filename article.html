@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Article — Christo et Doctrinae</title>
+  <meta name="description" id="page-desc" content="An article from Christo et Doctrinae." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <a href="index.html">
+          <span class="logo-title">Christo et Doctrinae</span>
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="nav-hide-sm"><a href="about.html">About</a></li>
+        <li class="nav-has-dropdown">
+          <a href="articles.html" class="active">Read Our Work</a>
+          <ul class="dropdown-menu">
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a href="print-editions.html">Print Editions</a></li>
+          </ul>
+        </li>
+        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
+        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       ARTICLE CONTAINER — filled by JS
+       ============================================================ -->
+  <div id="article-loading" style="min-height:60vh; display:flex; align-items:center; justify-content:center; background:var(--bg);">
+    <p style="font-family:'Libre Baskerville',serif; font-style:italic; color:var(--text-muted); font-size:0.9rem;">Loading article…</p>
+  </div>
+
+  <div id="article-root" style="display:none;">
+
+    <!-- Article header -->
+    <header class="article-header" id="article-header"></header>
+
+    <!-- Article body -->
+    <main class="section" id="article-main">
+      <div class="container-narrow">
+        <div class="article-body prose clearfix" id="article-body"></div>
+
+        <!-- Back link -->
+        <div class="article-back" id="article-back" style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+          <a href="articles.html" class="btn btn-outline btn-sm">&larr; Back to Articles</a>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Not found state -->
+  <div id="article-not-found" style="display:none; min-height:60vh; text-align:center; padding:6rem 2rem;">
+    <span class="eyebrow">404</span>
+    <h1 style="font-size:2.5rem; margin-bottom:1rem;">Article Not Found</h1>
+    <p style="color:var(--text-muted); margin-bottom:2rem;">The article you're looking for could not be found.</p>
+    <a href="articles.html" class="btn btn-outline">Browse All Articles</a>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-title">Christo et Doctrinae</span>
+        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Journal</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="articles.html">Articles</a></li>
+          <li><a href="series.html">Series</a></li>
+          <li><a href="print-editions.html">Print Editions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contribute</h5>
+        <ul>
+          <li><a href="submissions.html">Submit Writing</a></li>
+          <li><a href="donate.html">Donate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="about.html#contact">Contact Us</a></li>
+          <li><a href="holy-week.html">Holy Week Series</a></li>
+          <li><a href="advent.html">Advent Series</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
+      <p><em>Fides quaerens intellectum.</em></p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       ARTICLE RENDERING SCRIPT
+       ============================================================ -->
+  <script>
+  (function () {
+
+    /* ----------------------------------------------------------
+       Frontmatter parser — handles scalars and YAML lists
+    ---------------------------------------------------------- */
+    function parseFrontmatter(raw) {
+      var match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+      if (!match) return { data: {}, body: raw };
+
+      var data  = {};
+      var lines = match[1].split('\n');
+      var i     = 0;
+
+      while (i < lines.length) {
+        var line  = lines[i];
+        var colon = line.indexOf(':');
+        if (colon === -1) { i++; continue; }
+
+        var key = line.slice(0, colon).trim();
+        var val = line.slice(colon + 1).trim();
+
+        if (val === '') {
+          var list = [];
+          i++;
+          while (i < lines.length && /^\s*-\s/.test(lines[i])) {
+            list.push(lines[i].trim().slice(1).trim().replace(/^['"]|['"]$/g, ''));
+            i++;
+          }
+          data[key] = list;
+        } else {
+          data[key] = val.replace(/^['"]|['"]$/g, '');
+          i++;
+        }
+      }
+      return { data: data, body: match[2] || '' };
+    }
+
+    /* ----------------------------------------------------------
+       Custom marked renderer — image positioning & captions
+       Syntax in alt text: "position|Caption text"
+       Positions: left, right, full, center (default)
+    ---------------------------------------------------------- */
+    var renderer = new marked.Renderer();
+    renderer.image = function (href, title, text) {
+      var position = 'center';
+      var caption  = '';
+
+      var pipe = typeof text === 'string' ? text.indexOf('|') : -1;
+      if (pipe !== -1) {
+        var prefix = text.slice(0, pipe).toLowerCase().trim();
+        if (prefix === 'left' || prefix === 'right' || prefix === 'full' || prefix === 'center') {
+          position = prefix;
+          caption  = text.slice(pipe + 1).trim();
+        } else {
+          caption = text;
+        }
+      } else {
+        caption = text || '';
+      }
+
+      // title attribute takes precedence as caption if provided
+      if (title) caption = title;
+
+      var cssClass = {
+        left:   'img-wrap img-wrap-left',
+        right:  'img-wrap img-wrap-right',
+        full:   'img-wrap img-full',
+        center: 'img-wrap img-center'
+      }[position] || 'img-wrap img-center';
+
+      var imgTag = '<img src="' + href + '" alt="' + (caption || '') + '" loading="lazy">';
+      if (caption) {
+        return '<figure class="' + cssClass + '">' + imgTag + '<figcaption>' + caption + '</figcaption></figure>';
+      }
+      return '<figure class="' + cssClass + '">' + imgTag + '</figure>';
+    };
+
+    marked.use({ renderer: renderer, breaks: false, gfm: true });
+
+    /* ----------------------------------------------------------
+       Helpers
+    ---------------------------------------------------------- */
+    function formatDate(str) {
+      if (!str) return '';
+      var d = new Date(str);
+      return isNaN(d) ? str : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function gradientBg(i) {
+      var g = [
+        'linear-gradient(135deg,#14131F,#2A1520,#7A1C2E)',
+        'linear-gradient(135deg,#1E1A10,#2A2010,#7A5A1C)',
+        'linear-gradient(135deg,#0D1A20,#102530,#1A4A5A)'
+      ];
+      return g[i % g.length];
+    }
+
+    /* ----------------------------------------------------------
+       Main render function
+    ---------------------------------------------------------- */
+    function renderArticle(meta, mdRaw) {
+      var fm   = parseFrontmatter(mdRaw);
+      var body = fm.body;
+
+      // Merge frontmatter from md file with meta from articles.json
+      // (articles.json is authoritative for metadata)
+      var title    = meta.title    || fm.data.title    || 'Untitled';
+      var subtitle = meta.subtitle || fm.data.subtitle || '';
+      var author   = meta.author   || fm.data.author   || '';
+      var date     = meta.date     || fm.data.date     || '';
+      var series   = meta.series   || fm.data.series   || '';
+      var tags     = meta.tags     || fm.data.tags     || [];
+      var cover    = meta.cover_image || fm.data.cover_image || '';
+
+      // Update page <title>
+      document.getElementById('page-title').textContent = title + ' — Christo et Doctrinae';
+      document.getElementById('page-desc').setAttribute('content', subtitle || title);
+
+      // Build header HTML
+      var headerHTML = '';
+
+      // Cover image
+      if (cover) {
+        headerHTML += '<div class="article-cover" style="background-image:url(\'' + cover + '\');"></div>';
+      } else {
+        headerHTML += '<div class="article-cover article-cover-placeholder" style="background:' + gradientBg(0) + ';"></div>';
+      }
+
+      // Header text block
+      headerHTML += '<div class="article-header-inner"><div class="container-narrow">';
+
+      if (series) {
+        headerHTML += '<a href="' + (series === 'Holy Week Series' ? 'holy-week.html' : series === 'Advent Series' ? 'advent.html' : 'series.html') + '" class="article-series-tag">' + series + '</a>';
+      }
+
+      headerHTML += '<h1 class="article-title">' + title + '</h1>';
+
+      if (subtitle) {
+        headerHTML += '<p class="article-subtitle">' + subtitle + '</p>';
+      }
+
+      headerHTML += '<div class="article-meta-line">';
+      if (author) headerHTML += '<span class="article-author">' + author + '</span>';
+      if (author && date) headerHTML += '<span class="article-meta-sep">&nbsp;&middot;&nbsp;</span>';
+      if (date) headerHTML += '<time class="article-date" datetime="' + date + '">' + formatDate(date) + '</time>';
+      headerHTML += '</div>';
+
+      if (Array.isArray(tags) && tags.length > 0) {
+        headerHTML += '<div class="article-tags">';
+        tags.forEach(function (t) {
+          headerHTML += '<span class="article-tag">' + t + '</span>';
+        });
+        headerHTML += '</div>';
+      }
+
+      headerHTML += '</div></div>'; // close container-narrow + article-header-inner
+
+      document.getElementById('article-header').innerHTML = headerHTML;
+
+      // Render body
+      document.getElementById('article-body').innerHTML = marked.parse(body);
+
+      // Update back link based on section
+      var backEl = document.getElementById('article-back');
+      if (series === 'Holy Week Series') {
+        backEl.innerHTML = '<a href="holy-week.html" class="btn btn-outline btn-sm">&larr; Holy Week Series</a>';
+      } else if (series === 'Advent Series') {
+        backEl.innerHTML = '<a href="advent.html" class="btn btn-outline btn-sm">&larr; Advent Series</a>';
+      } else if (meta.print_edition) {
+        backEl.innerHTML = '<a href="print-editions.html" class="btn btn-outline btn-sm">&larr; Print Editions</a>';
+      } else {
+        backEl.innerHTML = '<a href="articles.html" class="btn btn-outline btn-sm">&larr; Back to Articles</a>';
+      }
+
+      // Show article, hide loading
+      document.getElementById('article-loading').style.display = 'none';
+      document.getElementById('article-root').style.display    = '';
+    }
+
+    /* ----------------------------------------------------------
+       Entry point
+    ---------------------------------------------------------- */
+    var slug = new URLSearchParams(window.location.search).get('slug');
+
+    if (!slug) {
+      document.getElementById('article-loading').style.display = 'none';
+      document.getElementById('article-not-found').style.display = '';
+      return;
+    }
+
+    // Fetch article metadata from articles.json, then fetch the markdown file
+    fetch('data/articles.json')
+      .then(function (r) { return r.json(); })
+      .then(function (articles) {
+        var meta = articles.find(function (a) { return a.slug === slug; }) || { slug: slug };
+        return fetch('content/articles/' + slug + '.md')
+          .then(function (r) {
+            if (!r.ok) throw new Error('not found');
+            return r.text();
+          })
+          .then(function (mdRaw) {
+            renderArticle(meta, mdRaw);
+          });
+      })
+      .catch(function () {
+        document.getElementById('article-loading').style.display = 'none';
+        document.getElementById('article-not-found').style.display = '';
+      });
+
+  })();
+  </script>
+
+</body>
+</html>

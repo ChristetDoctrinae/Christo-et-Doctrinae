@@ -1,48 +1,74 @@
 # ================================================================
 # Netlify CMS Configuration — Christo et Doctrinae
 # ================================================================
-# To use the CMS:
-#   1. Connect this site to Netlify
-#   2. Enable Netlify Identity (Site > Identity > Enable)
-#   3. Enable Git Gateway (Identity > Services > Enable Git Gateway)
-#   4. Invite editors via Site > Identity > Invite Users
-#   5. Visit /admin to manage content
+# To activate:
+#   1. Connect repo to Netlify
+#   2. Site > Identity > Enable Identity
+#   3. Identity > Services > Enable Git Gateway
+#   4. Invite editors via Identity > Invite Users
+#   5. Visit /admin
 # ================================================================
 
 backend:
   name: git-gateway
   branch: main
 
-# Where uploaded images are stored and served from
+# ----------------------------------------------------------------
+# Media Library — drag-and-drop image uploads
+# ----------------------------------------------------------------
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
+
+media_library:
+  folder_support: true
 
 # ----------------------------------------------------------------
 # Collections
 # ----------------------------------------------------------------
 collections:
 
-  # --------------------------------------------------------------
-  # ARTICLES — editors create, edit, and delete articles here
-  # Each article is stored as a markdown file in content/articles/
-  # The build.js script converts these to data/articles.json so
-  # the homepage automatically shows the 3 most recent articles.
-  # --------------------------------------------------------------
+  # ------------------------------------------------------------
+  # TAGS — create and delete tags here; articles reference them
+  # ------------------------------------------------------------
+  - name: "tags"
+    label: "Tags"
+    label_singular: "Tag"
+    folder: "content/tags"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    fields:
+      - label: "Tag Name"
+        name: "name"
+        widget: "string"
+        hint: "Use lowercase, e.g. theology, art, culture, poetry"
+
+  # ------------------------------------------------------------
+  # ARTICLES — create, edit, publish articles
+  # ------------------------------------------------------------
   - name: "articles"
     label: "Articles"
     label_singular: "Article"
     folder: "content/articles"
     create: true
+    delete: true
     slug: "{{slug}}"
     summary: "{{title}} — {{author}} ({{date}})"
     sortable_fields: ["date", "title", "author"]
     view_filters:
+      - label: "Online Articles"
+        field: series
+        pattern: "^$"
       - label: "Holy Week Series"
         field: series
         pattern: "Holy Week Series"
       - label: "Advent Series"
         field: series
         pattern: "Advent Series"
+      - label: "Print Edition"
+        field: print_edition
+        pattern: "."
     fields:
       - label: "Title"
         name: "title"
@@ -53,47 +79,56 @@ collections:
         name: "subtitle"
         widget: "string"
         required: false
-        hint: "A short description or deck shown beneath the title"
+        hint: "A short description shown beneath the title on cards and the article page"
 
       - label: "Author"
         name: "author"
         widget: "string"
-        hint: "Author's full name"
+        hint: "Author's full name (student authors only)"
 
       - label: "Publication Date"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
-        date_format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
         time_format: false
         hint: "Date the article was or will be published"
+
+      - label: "Tags"
+        name: "tags"
+        widget: "relation"
+        collection: "tags"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+        multiple: true
+        min: 0
+        max: 3
+        required: false
+        hint: "Select up to 3 tags. To add new tags, go to the Tags section first."
 
       - label: "Series"
         name: "series"
         widget: "select"
         options:
-          - "Holy Week Series"
-          - "Advent Series"
-          - "Theology & Culture"
-          - "Faith & Reason"
-          - "Spiritual Formation"
-          - "Art & Theology"
-          - "Christian Ethics"
-          - "The Saints"
+          - { label: "None (online article)", value: "" }
+          - { label: "Holy Week Series", value: "Holy Week Series" }
+          - { label: "Advent Series", value: "Advent Series" }
+        default: ""
         required: false
-        hint: "Which series does this article belong to? Leave blank if none."
+        hint: "Series articles appear in the Series section, not the main Articles page"
 
       - label: "Print Edition"
         name: "print_edition"
         widget: "string"
         required: false
-        hint: "e.g. Spring 2025 — leave blank for digital-only articles"
+        hint: "e.g. Spring 2025 — leave blank for digital/online articles"
 
       - label: "Cover Image"
         name: "cover_image"
         widget: "image"
         required: false
-        hint: "Upload a cover/feature image for this article"
+        hint: "Upload a cover image (JPG, PNG, WEBP, or GIF). Drag and drop or click to browse."
         media_library:
           config:
             multiple: false
@@ -101,13 +136,20 @@ collections:
       - label: "Article Content"
         name: "body"
         widget: "markdown"
-        hint: "Write or paste the full article content here. Use the toolbar to format text, add headings, and insert images."
+        hint: |
+          Write or paste the full article here. Use the toolbar to format text.
 
-  # --------------------------------------------------------------
-  # TEAM — admin manages the team page here
-  # Edits are written directly to data/team.json
-  # The about page loads this file via JavaScript
-  # --------------------------------------------------------------
+          To add an image with positioning and a caption, use this format in the alt text:
+          • left|Your caption here  → floats image left, text wraps right
+          • right|Your caption here → floats image right, text wraps left
+          • full|Your caption here  → full-width image
+          • center|Your caption    → centered image (default)
+
+          Example: ![left|The chapel at dawn](images/uploads/chapel.jpg)
+
+  # ------------------------------------------------------------
+  # TEAM — edit team member tiles on the About page
+  # ------------------------------------------------------------
   - name: "team"
     label: "Team Members"
     files:
@@ -158,14 +200,54 @@ collections:
             max: 20
             fields:
               - { label: "Name",            name: "name",     widget: "string" }
-              - { label: "Title",           name: "title",    widget: "string", hint: "e.g. Senior Editor, Copy Editor, Contributing Editor" }
+              - { label: "Title",           name: "title",    widget: "string" }
               - { label: "Major of Study",  name: "major",    widget: "string" }
-              - { label: "Year at School",  name: "year",     widget: "string", hint: "e.g. Class of 2026" }
-              - { label: "Hometown & State",name: "hometown", widget: "string", hint: "e.g. Atlanta, GA" }
+              - { label: "Year at School",  name: "year",     widget: "string" }
+              - { label: "Hometown & State",name: "hometown", widget: "string" }
 
-  # --------------------------------------------------------------
-  # SETTINGS — admin updates site-wide settings here
-  # --------------------------------------------------------------
+  # ------------------------------------------------------------
+  # SUBMISSIONS — edit deadlines and guidelines
+  # ------------------------------------------------------------
+  - name: "submissions"
+    label: "Submissions Page"
+    files:
+      - label: "Deadlines & Guidelines"
+        name: "submissions"
+        file: "data/submissions.json"
+        format: "json"
+        fields:
+          - label: "Current Deadline Text"
+            name: "deadline_text"
+            widget: "text"
+            hint: "This appears in the info box at the top of the Submissions page"
+
+          - label: "Scholarly & Critical Writing Guidelines"
+            name: "scholarly_guidelines"
+            widget: "list"
+            label_singular: "Guideline"
+            field: { label: "Guideline", name: "item", widget: "string" }
+
+          - label: "Creative Writing & Poetry Guidelines"
+            name: "creative_guidelines"
+            widget: "list"
+            label_singular: "Guideline"
+            field: { label: "Guideline", name: "item", widget: "string" }
+
+          - label: "Visual Art & Photography Guidelines"
+            name: "visual_guidelines"
+            widget: "list"
+            label_singular: "Guideline"
+            field: { label: "Guideline", name: "item", widget: "string" }
+
+          - label: "Eligibility & Process Guidelines"
+            name: "eligibility_guidelines"
+            widget: "list"
+            label_singular: "Guideline"
+            field: { label: "Guideline", name: "item", widget: "string" }
+
+  # ------------------------------------------------------------
+  # SETTINGS — editor email and other site-wide settings
+  # ------------------------------------------------------------
   - name: "settings"
     label: "Site Settings"
     files:
@@ -177,7 +259,7 @@ collections:
           - label: "Editor in Chief Email"
             name: "editor_email"
             widget: "string"
-            hint: "This email is displayed in the Contact section of the About page"
+            hint: "Displayed in the Contact section of the About page"
             pattern:
               - ".+@.+"
               - "Must be a valid email address"

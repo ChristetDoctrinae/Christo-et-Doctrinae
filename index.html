@@ -48,17 +48,7 @@
   </section>
 
   <!-- ============================================================
-       PANEL 2 — COVER IMAGE PANEL
-       ============================================================ -->
-  <section class="cover-panel" aria-label="Cover image">
-    <div class="panel-overlay"></div>
-    <div class="panel-content">
-      <p class="panel-content-text">PLACEHOLDER TEXT COVER PAGE</p>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       PANEL 3 — THREE MOST RECENT ARTICLES
+       PANEL 2 — THREE MOST RECENT ARTICLES
        ============================================================ -->
   <section class="section" aria-labelledby="recent-heading">
     <div class="container">
@@ -75,7 +65,7 @@
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #1C1C2E 0%, #2A1A24 60%, #5E1A30 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Holy Week Series</span>
-            <h3 class="card-title"><a href="articles.html">On the Silence of Holy Saturday</a></h3>
+            <h3 class="card-title"><a href="article.html?slug=on-the-silence-of-holy-saturday">On the Silence of Holy Saturday</a></h3>
             <p class="card-subtitle">Between the death of God and the resurrection lies a day the Church has rarely known how to observe. What does it mean to wait in that silence?</p>
             <div class="card-meta">
               <strong>Jane Holloway</strong> &nbsp;·&nbsp; March 2025
@@ -87,7 +77,7 @@
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #1E1A10 0%, #2A2010 50%, #7A5A1C 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Theology &amp; Culture</span>
-            <h3 class="card-title"><a href="articles.html">Beauty and the Broken World</a></h3>
+            <h3 class="card-title"><a href="article.html?slug=beauty-and-the-broken-world">Beauty and the Broken World</a></h3>
             <p class="card-subtitle">How Christian aesthetics holds together the goodness of creation and the reality of suffering without collapsing either into sentimentality or despair.</p>
             <div class="card-meta">
               <strong>Thomas Aurelius Webb</strong> &nbsp;·&nbsp; February 2025
@@ -99,7 +89,7 @@
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #0D1A20 0%, #102530 50%, #1A4A5A 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Advent Series</span>
-            <h3 class="card-title"><a href="articles.html">Advent and the Discipline of Waiting</a></h3>
+            <h3 class="card-title"><a href="article.html?slug=advent-and-the-discipline-of-waiting">Advent and the Discipline of Waiting</a></h3>
             <p class="card-subtitle">In a culture of immediacy, the season of Advent calls the Church to something countercultural: to wait, and to wait well.</p>
             <div class="card-meta">
               <strong>Claire Dunnington</strong> &nbsp;·&nbsp; December 2024
@@ -144,7 +134,7 @@
           <div class="card-body">
             <span class="featured-label">Featured</span>
             <span class="card-series-tag">Theology &amp; Language</span>
-            <h3 class="card-title"><a href="articles.html">The Incarnation and the Limits of Language</a></h3>
+            <h3 class="card-title"><a href="article.html?slug=the-incarnation-and-the-limits-of-language">The Incarnation and the Limits of Language</a></h3>
             <p class="card-subtitle">When God speaks in the flesh, all human speech is reoriented. This essay traces the theological grammar of the Incarnation and asks what it demands of those who would speak truthfully.</p>
             <div class="card-meta">
               <strong>Margaret Holt</strong> &nbsp;·&nbsp; Spring 2025
@@ -157,7 +147,7 @@
           <div class="card-body">
             <span class="featured-label">Featured</span>
             <span class="card-series-tag">Faith &amp; Reason</span>
-            <h3 class="card-title"><a href="articles.html">Reading Augustine in a Digital Age</a></h3>
+            <h3 class="card-title"><a href="article.html?slug=reading-augustine-in-a-digital-age">Reading Augustine in a Digital Age</a></h3>
             <p class="card-subtitle">The Confessions speak to restlessness. Is our contemporary restlessness — the endless scroll, the fractured attention — a new form of the same ancient hunger?</p>
             <div class="card-meta">
               <strong>James R. Calloway</strong> &nbsp;·&nbsp; Spring 2025
@@ -322,7 +312,7 @@
           + thumb
           + '<div class="card-body">'
           + '<span class="card-series-tag">' + series + '</span>'
-          + '<h3 class="card-title"><a href="articles.html">' + article.title + '</a></h3>'
+          + '<h3 class="card-title"><a href="article.html?slug=' + article.slug + '">' + article.title + '</a></h3>'
           + '<p class="card-subtitle">' + subtitle + '</p>'
           + '<div class="card-meta"><strong>' + article.author + '</strong>'
           + (date ? ' &nbsp;&middot;&nbsp; ' + date : '')

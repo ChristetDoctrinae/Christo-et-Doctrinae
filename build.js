@@ -3,48 +3,55 @@
  * build.js — Christo et Doctrinae
  *
  * Reads all markdown articles from content/articles/,
- * parses their frontmatter, sorts by date (newest first),
- * and writes the result to data/articles.json.
- *
- * The homepage JavaScript fetches data/articles.json to display
- * the three most recently published articles automatically.
- *
- * Run:  node build.js
- * Or:   Netlify runs this automatically on every deploy (see netlify.toml)
+ * parses their frontmatter (including YAML list fields like tags),
+ * sorts by date (newest first), and writes to data/articles.json.
  */
 
 const fs   = require('fs');
 const path = require('path');
 
 // ----------------------------------------------------------------
-// Simple YAML frontmatter parser
+// Frontmatter parser — handles scalar values and YAML lists
 // ----------------------------------------------------------------
 function parseFrontmatter(raw) {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return { data: {}, body: raw };
 
-  const data = {};
-  match[1].split('\n').forEach(line => {
+  const data  = {};
+  const lines = match[1].split('\n');
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
     const colon = line.indexOf(':');
-    if (colon === -1) return;
+    if (colon === -1) { i++; continue; }
+
     const key = line.slice(0, colon).trim();
-    let val    = line.slice(colon + 1).trim();
-    // Strip surrounding quotes
-    val = val.replace(/^['"]|['"]$/g, '');
-    data[key] = val;
-  });
+    const val = line.slice(colon + 1).trim();
+
+    if (val === '') {
+      // Collect indented list items that follow
+      const list = [];
+      i++;
+      while (i < lines.length && /^\s*-\s/.test(lines[i])) {
+        list.push(lines[i].trim().slice(1).trim().replace(/^['"]|['"]$/g, ''));
+        i++;
+      }
+      data[key] = list;
+    } else {
+      data[key] = val.replace(/^['"]|['"]$/g, '');
+      i++;
+    }
+  }
 
   return { data, body: match[2] || '' };
 }
 
-// ----------------------------------------------------------------
-// Strip markdown syntax for plain-text excerpts
-// ----------------------------------------------------------------
 function stripMarkdown(md) {
   return md
-    .replace(/#{1,6}\s+/g, '')   // headings
-    .replace(/[*_`]/g, '')        // bold/italic/code
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/[*_`]/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/\n+/g, ' ')
     .trim();
 }
@@ -55,9 +62,7 @@ function stripMarkdown(md) {
 const articlesDir = path.join(__dirname, 'content', 'articles');
 const dataDir     = path.join(__dirname, 'data');
 
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 let articles = [];
 
@@ -65,9 +70,15 @@ if (fs.existsSync(articlesDir)) {
   const files = fs.readdirSync(articlesDir).filter(f => f.endsWith('.md'));
 
   articles = files.map(file => {
-    const raw             = fs.readFileSync(path.join(articlesDir, file), 'utf8');
-    const { data, body }  = parseFrontmatter(raw);
-    const plainBody       = stripMarkdown(body);
+    const raw            = fs.readFileSync(path.join(articlesDir, file), 'utf8');
+    const { data, body } = parseFrontmatter(raw);
+    const plainBody      = stripMarkdown(body);
+
+    // Normalise tags — may come in as a YAML list array or comma-separated string
+    let tags = data.tags || [];
+    if (typeof tags === 'string') {
+      tags = tags.split(',').map(t => t.trim()).filter(Boolean);
+    }
 
     return {
       slug:          file.replace(/\.md$/, ''),
@@ -78,11 +89,11 @@ if (fs.existsSync(articlesDir)) {
       series:        data.series        || '',
       print_edition: data.print_edition || '',
       cover_image:   data.cover_image   || '',
+      tags:          tags,
       excerpt:       plainBody.slice(0, 220)
     };
   });
 
-  // Sort newest first
   articles.sort((a, b) => {
     const da = a.date ? new Date(a.date) : new Date(0);
     const db = b.date ? new Date(b.date) : new Date(0);

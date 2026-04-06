@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Submissions — Christo et Doctrinae</title>
-  <meta name="description" content="Submit your theological essays, creative writing, poetry, or visual art to Christo et Doctrinae. We welcome work students and faculty." />
+  <meta name="description" content="Submit your theological essays, creative writing, poetry, or visual art to Christo et Doctrinae." />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -18,7 +18,6 @@
       <div class="nav-logo">
         <a href="index.html">
           <span class="logo-title">Christo et Doctrinae</span>
-          
         </a>
       </div>
       <ul class="nav-links">
@@ -48,11 +47,11 @@
   </header>
 
   <!-- ============================================================
-       INTRO & CALL
+       INTRO & DEADLINE — loaded from data/submissions.json
        ============================================================ -->
   <section class="section">
     <div class="container-narrow prose">
-      <p style="font-size: 1.08rem;">
+      <p style="font-size:1.05rem;">
         <em>Christo et Doctrinae</em> is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.
       </p>
       <p>
@@ -62,14 +61,14 @@
         Submissions are reviewed on a rolling basis. We aim to respond within eight weeks. If your work is accepted for our print edition, you will be contacted separately regarding layout and formatting.
       </p>
 
-      <div class="info-box">
-        <p><strong>Current Deadline:</strong> Submissions for our <strong>Fall 2025 digital edition</strong> are open through <strong>August 15, 2025</strong>. Submissions for the Spring 2026 print edition will open in October 2025.</p>
+      <div class="info-box" id="deadline-box">
+        <p><strong>Current Deadlines:</strong> <span id="deadline-text">Loading…</span></p>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       GUIDELINES
+       GUIDELINES — loaded from data/submissions.json
        ============================================================ -->
   <section class="section section-alt" id="guidelines">
     <div class="container">
@@ -79,59 +78,24 @@
         <div class="section-divider"></div>
       </div>
 
-      <div class="guidelines-grid">
-
+      <div class="guidelines-grid" id="guidelines-grid">
+        <!-- Populated by JS -->
         <div class="guidelines-box">
           <h3>Scholarly &amp; Critical Writing</h3>
-          <ul>
-            <li>Essays should be between 2,000 and 6,000 words. Shorter pieces (500–1,500 words) may be submitted as "Notes &amp; Reflections."</li>
-            <li>Submissions must include a title, an abstract of 150–200 words, and a brief author biography.</li>
-            <li>Please use Chicago footnote style for citations.</li>
-            <li>Avoid excessive technical jargon. We aim for an educated general audience, not solely specialists.</li>
-            <li>Work should engage seriously with primary or secondary sources where relevant.</li>
-            <li>We welcome work from a variety of Christian traditions and perspectives.</li>
-            <li>Previously published work will not be considered unless significantly revised.</li>
-            <li>Files should be submitted as .docx or .pdf. Please remove identifying information from the document itself for blind review.</li>
-          </ul>
+          <ul id="gl-scholarly"></ul>
         </div>
-
         <div class="guidelines-box">
           <h3>Creative Writing &amp; Poetry</h3>
-          <ul>
-            <li>Poetry: submit up to five poems in a single document.</li>
-            <li>Short fiction and personal essays: up to 5,000 words. Flash pieces under 1,000 words are welcome.</li>
-            <li>Creative nonfiction and memoir are particularly welcome — we are drawn to work that thinks as it remembers.</li>
-            <li>We are not looking for explicitly devotional or inspirational verse. We want work that earns its faith through form and language.</li>
-            <li>Work need not be explicitly Christian in theme, but should engage meaningfully with questions of faith, beauty, suffering, or transcendence.</li>
-            <li>Files as .docx or .pdf. Standard manuscript format for prose.</li>
-          </ul>
+          <ul id="gl-creative"></ul>
         </div>
-
         <div class="guidelines-box" id="art">
           <h3>Visual Art &amp; Photography</h3>
-          <ul>
-            <li>We accept original visual art, photography, and graphic work for both print and digital publication.</li>
-            <li>Digital files should be submitted at minimum 300 DPI (for print) or 1200px wide (for web).</li>
-            <li>File formats: .jpg, .png, or .tiff for photographs and digital art; .pdf for illustrated work.</li>
-            <li>Include a title, medium, dimensions (if applicable), and a brief artist statement (100–200 words).</li>
-            <li>By submitting, you confirm you hold rights to the work and grant us permission to publish.</li>
-            <li>We may contact you regarding cropping or color adjustments for print.</li>
-          </ul>
+          <ul id="gl-visual"></ul>
         </div>
-
         <div class="guidelines-box">
           <h3>Eligibility &amp; Process</h3>
-          <ul>
-            <li>We welcome submissions from undergraduate and graduate students, faculty, and the broader community of Christian scholarship.</li>
-            <li></li>
-            <li>All scholarly submissions undergo blind peer review by at least two editors.</li>
-            <li>Creative submissions are reviewed by our Arts &amp; Letters editorial team.</li>
-            <li>We aim to respond within <strong>eight weeks</strong> of receipt.</li>
-            <li>Authors retain copyright to their work. We ask for first publication rights.</li>
-            <li>Questions? Email <a href="mailto:submissions@christoetdoctrinae.org">submissions@christoetdoctrinae.org</a>.</li>
-          </ul>
+          <ul id="gl-eligibility"></ul>
         </div>
-
       </div>
     </div>
   </section>
@@ -141,10 +105,10 @@
        ============================================================ -->
   <section class="section">
     <div class="container-narrow">
-      <div class="section-header" style="text-align: left;">
+      <div class="section-header" style="text-align:left;">
         <span class="eyebrow">Submit Your Work</span>
         <h2>Submission Form</h2>
-        <div class="section-divider left" style="margin-left: 0;"></div>
+        <div class="section-divider left" style="margin-left:0;"></div>
       </div>
 
       <form action="#" method="POST" enctype="multipart/form-data" novalidate>
@@ -206,30 +170,30 @@
           </div>
 
           <div class="form-group form-full">
-            <label for="abstract">Abstract or Artist Statement <span style="font-style: italic; letter-spacing: normal; text-transform: none;">(150–250 words)</span></label>
+            <label for="abstract">Abstract or Artist Statement <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(150–250 words)</span></label>
             <textarea id="abstract" name="abstract" placeholder="Provide a brief summary of your argument or, for creative work, a short statement about the piece…"></textarea>
           </div>
 
           <div class="form-group form-full">
-            <label for="bio">Author / Artist Biography <span style="font-style: italic; letter-spacing: normal; text-transform: none;">(50–100 words)</span></label>
-            <textarea id="bio" name="bio" style="min-height: 100px;" placeholder="A brief third-person biography for publication purposes…"></textarea>
+            <label for="bio">Author / Artist Biography <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(50–100 words)</span></label>
+            <textarea id="bio" name="bio" style="min-height:100px;" placeholder="A brief third-person biography for publication purposes…"></textarea>
           </div>
 
           <div class="form-group form-full">
             <label for="file">Upload Manuscript or File</label>
-            <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.tiff" style="padding: 0.5rem 0.95rem; cursor: pointer;" />
+            <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.tiff" style="padding:0.5rem 0.95rem; cursor:pointer;" />
           </div>
 
           <div class="form-group form-full">
-            <label for="notes">Additional Notes <span style="font-style: italic; letter-spacing: normal; text-transform: none;">(optional)</span></label>
-            <textarea id="notes" name="notes" style="min-height: 80px;" placeholder="Any other information for the editorial board…"></textarea>
+            <label for="notes">Additional Notes <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(optional)</span></label>
+            <textarea id="notes" name="notes" style="min-height:80px;" placeholder="Any other information for the editorial board…"></textarea>
           </div>
 
         </div>
 
-        <div style="margin-top: 2rem;">
-          <label style="display: flex; gap: 0.6rem; align-items: flex-start; font-family: 'EB Garamond', serif; font-size: 0.92rem; color: var(--text-muted); letter-spacing: 0; text-transform: none; cursor: pointer; margin-bottom: 1.5rem;">
-            <input type="checkbox" name="rights" required style="width: auto; margin-top: 0.3rem; flex-shrink: 0;" />
+        <div style="margin-top:2rem;">
+          <label style="display:flex; gap:0.6rem; align-items:flex-start; font-family:'Libre Baskerville',serif; font-size:0.88rem; color:var(--text-muted); letter-spacing:0; text-transform:none; cursor:pointer; margin-bottom:1.5rem;">
+            <input type="checkbox" name="rights" required style="width:auto; margin-top:0.3rem; flex-shrink:0;" />
             I confirm that this is my original work, that I hold rights to it, and that it has not been previously published in substantially this form. I grant <em>Christo et Doctrinae</em> first publication rights.
           </label>
           <button type="submit" class="btn btn-primary">Submit for Review</button>
@@ -246,10 +210,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <span class="brand-title">Christo et Doctrinae</span>
-        
-        <p>A student journal of Christian thought dedicated to theological and artistic exploration of the Christian life. Published twice yearly in Greenville, South Carolina.</p>
-        <address>
-        </address>
+        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
       </div>
       <div class="footer-col">
         <h5>Journal</h5>
@@ -273,8 +234,7 @@
         <h5>Connect</h5>
         <ul>
           <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#editorial">Editorial Board</a></li>
-          <li><a href="about.html#advisors">Faculty Advisors</a></li>
+          <li><a href="about.html#team">Our Team</a></li>
         </ul>
       </div>
     </div>
@@ -283,6 +243,37 @@
       <p><em>Fides quaerens intellectum.</em></p>
     </div>
   </footer>
+
+  <!-- ============================================================
+       LOAD SUBMISSIONS CONTENT FROM CMS DATA
+       ============================================================ -->
+  <script>
+  (function () {
+    function listItems(arr, ulId) {
+      var ul = document.getElementById(ulId);
+      if (!ul || !Array.isArray(arr)) return;
+      ul.innerHTML = arr.map(function (item) {
+        return '<li>' + item + '</li>';
+      }).join('');
+    }
+
+    fetch('data/submissions.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var deadlineEl = document.getElementById('deadline-text');
+        if (deadlineEl && d.deadline_text) deadlineEl.textContent = d.deadline_text;
+
+        listItems(d.scholarly_guidelines,   'gl-scholarly');
+        listItems(d.creative_guidelines,    'gl-creative');
+        listItems(d.visual_guidelines,      'gl-visual');
+        listItems(d.eligibility_guidelines, 'gl-eligibility');
+      })
+      .catch(function () {
+        var deadlineEl = document.getElementById('deadline-text');
+        if (deadlineEl) deadlineEl.textContent = 'Check back soon for updated deadlines.';
+      });
+  })();
+  </script>
 
 </body>
 </html>
