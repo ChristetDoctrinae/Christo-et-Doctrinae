@@ -116,49 +116,22 @@
   </section>
 
   <!-- ============================================================
-       PANEL 5 — FEATURED PRINT EDITION ARTICLES
+       PANEL 5 — FEATURED ARTICLES (CMS-managed, up to 2)
+       Hidden if no featured articles are selected.
        ============================================================ -->
-  <section class="section section-alt" aria-labelledby="print-heading">
+  <section class="section section-alt" id="featured-panel" aria-labelledby="featured-heading" style="display:none;">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">Print Edition</span>
-        <h2 id="print-heading">From the Current Issue</h2>
+        <span class="eyebrow">Featured</span>
+        <h2 id="featured-heading">From the Editors</h2>
         <div class="section-divider"></div>
-        <p class="lead">Selected writing from our most recent print edition.</p>
+        <p class="lead">Selected writing chosen by the editorial board.</p>
       </div>
 
-      <div class="print-edition-grid">
-
-        <article class="card">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #14131F 0%, #2A1520 45%, #7A1C2E 100%);"></div>
-          <div class="card-body">
-            <span class="featured-label">Featured</span>
-            <span class="card-series-tag">Theology &amp; Language</span>
-            <h3 class="card-title"><a href="article.html?slug=the-incarnation-and-the-limits-of-language">The Incarnation and the Limits of Language</a></h3>
-            <p class="card-subtitle">When God speaks in the flesh, all human speech is reoriented. This essay traces the theological grammar of the Incarnation and asks what it demands of those who would speak truthfully.</p>
-            <div class="card-meta">
-              <strong>Margaret Holt</strong> &nbsp;·&nbsp; Spring 2025
-            </div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #1A1A2E 0%, #1A2A1A 50%, #3A5A2A 100%);"></div>
-          <div class="card-body">
-            <span class="featured-label">Featured</span>
-            <span class="card-series-tag">Faith &amp; Reason</span>
-            <h3 class="card-title"><a href="article.html?slug=reading-augustine-in-a-digital-age">Reading Augustine in a Digital Age</a></h3>
-            <p class="card-subtitle">The Confessions speak to restlessness. Is our contemporary restlessness — the endless scroll, the fractured attention — a new form of the same ancient hunger?</p>
-            <div class="card-meta">
-              <strong>James R. Calloway</strong> &nbsp;·&nbsp; Spring 2025
-            </div>
-          </div>
-        </article>
-
-      </div>
+      <div class="print-edition-grid" id="featured-articles-grid"></div>
 
       <div class="text-center mt-4">
-        <a href="print-editions.html" class="btn btn-outline">View All Editions</a>
+        <a href="articles.html" class="btn btn-outline">View All Articles</a>
       </div>
     </div>
   </section>
@@ -328,6 +301,53 @@
           if (grid) {
             grid.innerHTML = recent.map(renderArticle).join('');
           }
+
+          // --- Featured Articles panel ---
+          fetch('data/featured.json')
+            .then(function (r) { return r.json(); })
+            .then(function (featData) {
+              var slugs = featData.featured_articles;
+              if (!Array.isArray(slugs) || slugs.length === 0) return;
+
+              var bySlug = {};
+              articles.forEach(function (a) { bySlug[a.slug] = a; });
+
+              var featured = slugs.slice(0, 2)
+                .map(function (s) { return bySlug[s]; })
+                .filter(Boolean);
+
+              if (featured.length === 0) return;
+
+              var panel = document.getElementById('featured-panel');
+              var featGrid = document.getElementById('featured-articles-grid');
+              if (!panel || !featGrid) return;
+
+              // Single card: center it; two cards: side-by-side (default grid)
+              if (featured.length === 1) {
+                featGrid.style.maxWidth = '520px';
+                featGrid.style.margin = '0 auto';
+              }
+
+              featGrid.innerHTML = featured.map(function (article, i) {
+                var thumb = article.cover_image
+                  ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" />'
+                  : '<div class="card-thumb-placeholder" style="background:' + bgGradient(i) + ';"></div>';
+                var subtitle = article.subtitle || article.excerpt || '';
+                var date = formatDate(article.date);
+                return '<article class="card">'
+                  + thumb
+                  + '<div class="card-body">'
+                  + '<span class="featured-label">Featured</span>'
+                  + '<h3 class="card-title"><a href="article.html?slug=' + article.slug + '">' + article.title + '</a></h3>'
+                  + '<p class="card-subtitle">' + subtitle + '</p>'
+                  + '<div class="card-meta"><strong>' + article.author + '</strong>'
+                  + (date ? ' &nbsp;&middot;&nbsp; ' + date : '')
+                  + '</div></div></article>';
+              }).join('');
+
+              panel.style.display = '';
+            })
+            .catch(function () { /* featured panel stays hidden */ });
         })
         .catch(function () { /* keep placeholder cards */ });
     })();

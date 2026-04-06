@@ -20,6 +20,7 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 media_library:
+  name: default
   folder_support: true
 
 # ----------------------------------------------------------------
@@ -146,6 +147,30 @@ collections:
           • center|Your caption    → centered image (default)
 
           Example: ![left|The chapel at dawn](images/uploads/chapel.jpg)
+
+  # ------------------------------------------------------------
+  # FEATURED ARTICLES — select up to 2 articles for the homepage
+  # ------------------------------------------------------------
+  - name: "featured"
+    label: "Featured Articles"
+    files:
+      - label: "Homepage Featured Articles"
+        name: "featured"
+        file: "data/featured.json"
+        format: "json"
+        fields:
+          - label: "Featured Articles (select up to 2)"
+            name: "featured_articles"
+            widget: "relation"
+            collection: "articles"
+            search_fields: ["title", "author"]
+            value_field: "slug"
+            display_fields: ["title"]
+            multiple: true
+            min: 0
+            max: 2
+            required: false
+            hint: "Select up to 2 articles to feature on the homepage. Maximum 2 — deselect one before selecting another."
 
   # ------------------------------------------------------------
   # TEAM — edit team member tiles on the About page
