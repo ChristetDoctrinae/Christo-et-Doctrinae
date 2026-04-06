@@ -19,10 +19,6 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-media_library:
-  name: default
-  folder_support: true
-
 # ----------------------------------------------------------------
 # Collections
 # ----------------------------------------------------------------
@@ -130,9 +126,6 @@ collections:
         widget: "image"
         required: false
         hint: "Upload a cover image (JPG, PNG, WEBP, or GIF). Drag and drop or click to browse."
-        media_library:
-          config:
-            multiple: false
 
       - label: "Article Content"
         name: "body"
