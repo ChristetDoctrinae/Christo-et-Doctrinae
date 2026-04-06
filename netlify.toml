@@ -1,0 +1,23 @@
+# ================================================================
+# Netlify Configuration — Christo et Doctrinae
+# ================================================================
+
+[build]
+  # Runs before publishing. Converts CMS markdown articles to
+  # data/articles.json so the homepage shows the latest articles.
+  command = "node build.js"
+  publish = "."
+
+# Security headers for the admin panel
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# Cache-control for data files so the browser always fetches fresh content
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
