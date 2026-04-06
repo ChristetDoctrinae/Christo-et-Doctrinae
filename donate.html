@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate — Christo et Doctrinae</title>
+  <meta name="description" content="Support Christo et Doctrinae with a gift. Your generosity sustains student writers, our print edition, and the free availability of all our work online." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Donate-specific styles */
+    .donate-form-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 2.5rem;
+    }
+
+    .amount-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .amount-btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background-color: var(--bg);
+      border: 1px solid var(--border-dark);
+      border-radius: 2px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .amount-btn:hover,
+    .amount-btn.selected {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #F4EDE0;
+    }
+
+    .frequency-toggle {
+      display: flex;
+      border: 1px solid var(--border-dark);
+      border-radius: 2px;
+      overflow: hidden;
+      width: fit-content;
+      margin-bottom: 2rem;
+    }
+
+    .freq-btn {
+      padding: 0.55rem 1.5rem;
+      background-color: var(--bg);
+      border: none;
+      font-family: 'EB Garamond', serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .freq-btn:first-child {
+      border-right: 1px solid var(--border-dark);
+    }
+
+    .freq-btn.active {
+      background-color: var(--nav-bg);
+      color: var(--gold);
+    }
+
+    .impact-stat {
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .impact-stat .stat-number {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .impact-stat .stat-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <a href="index.html">
+          <span class="logo-title">Christo et Doctrinae</span>
+          <span class="logo-sub">Furman University</span>
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li class="nav-hide-sm"><a href="about.html">About</a></li>
+        <li class="nav-has-dropdown">
+          <a href="articles.html">Read Our Work</a>
+          <ul class="dropdown-menu">
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a href="print-editions.html">Print Editions</a></li>
+          </ul>
+        </li>
+        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
+        <li><a href="donate.html" class="nav-donate-btn" style="background-color: var(--accent-dark) !important;">Donate</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       PAGE HEADER
+       ============================================================ -->
+  <header class="page-header">
+    <span class="eyebrow">Support the Journal</span>
+    <h1>Make a Gift</h1>
+    <p class="lead">Your generosity keeps this work alive — in print, online, and in the minds of students who need a place to think.</p>
+  </header>
+
+  <!-- ============================================================
+       IMPACT STATS
+       ============================================================ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 2px; background-color: var(--bg-card); overflow: hidden;">
+        <div class="impact-stat" style="border-right: 1px solid var(--border);">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Years of publication</span>
+        </div>
+        <div class="impact-stat" style="border-right: 1px solid var(--border);">
+          <span class="stat-number">47</span>
+          <span class="stat-label">Student contributors published</span>
+        </div>
+        <div class="impact-stat" style="border-right: 1px solid var(--border);">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Print editions in circulation</span>
+        </div>
+        <div class="impact-stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Of content freely available online</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY GIVE
+       ============================================================ -->
+  <section class="section">
+    <div class="container" style="display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; align-items: start;">
+
+      <div class="prose">
+        <span class="eyebrow">Why It Matters</span>
+        <h2>What Your Gift Supports</h2>
+        <div class="section-divider left" style="margin-left: 0; margin-bottom: 1.5rem;"></div>
+
+        <p>
+          <em>Christo et Doctrinae</em> is entirely student-run and relies on the generosity of individuals who believe that serious Christian thought has a place in university life. We receive no direct university funding. Every dollar we raise goes directly to producing the journal.
+        </p>
+
+        <h3>The Print Edition</h3>
+        <p>
+          Our annual print edition is the heart of what we do. It is designed, typeset, and produced by student editors, and printed in a limited run that is distributed on campus and by subscription. A single print run costs approximately $2,400. Gifts at any level help make this possible.
+        </p>
+
+        <h3>Student Stipends</h3>
+        <p>
+          We believe student editors should be compensated for their work. Our editorial board contributes hundreds of hours each year to the journal. Donor gifts allow us to offer modest stipends to our senior editors, making the work accessible to students who might otherwise not be able to take it on.
+        </p>
+
+        <h3>Guest Lectures &amp; Events</h3>
+        <p>
+          Each year we host a lecture by a theologian, artist, or writer whose work exemplifies what we care about. Past guests have included novelists, philosophers, church historians, and practicing artists. These events are open to the whole university and free to attend.
+        </p>
+
+        <h3>Open Access</h3>
+        <p>
+          Every article we publish is freely available on our website. We are committed to making Christian thought accessible to anyone who wants it — not only to those who can afford a subscription. Donor support makes this possible.
+        </p>
+      </div>
+
+      <div>
+        <div class="donate-form-card">
+          <span class="eyebrow">Give Today</span>
+          <h3 style="margin-bottom: 1.5rem;">Choose Your Gift</h3>
+
+          <div style="margin-bottom: 1.25rem;">
+            <p style="font-size: 0.75rem; font-family: 'Playfair Display', serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;">Frequency</p>
+            <div class="frequency-toggle">
+              <button class="freq-btn active" type="button">One-time</button>
+              <button class="freq-btn" type="button">Monthly</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <p style="font-size: 0.75rem; font-family: 'Playfair Display', serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.65rem;">Amount</p>
+            <div class="amount-buttons">
+              <button class="amount-btn" type="button">$25</button>
+              <button class="amount-btn selected" type="button">$50</button>
+              <button class="amount-btn" type="button">$100</button>
+              <button class="amount-btn" type="button">$250</button>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="custom-amount" style="margin-bottom: 0.35rem;">Or enter a custom amount</label>
+              <div style="position: relative;">
+                <span style="position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-family: 'EB Garamond', serif;">$</span>
+                <input type="number" id="custom-amount" name="custom_amount" min="1" style="padding-left: 1.8rem;" placeholder="Other amount" />
+              </div>
+            </div>
+          </div>
+
+          <form action="#" method="POST" novalidate>
+            <div class="form-grid" style="margin-bottom: 1.25rem;">
+              <div class="form-group">
+                <label for="donor-first">First Name</label>
+                <input type="text" id="donor-first" name="first_name" autocomplete="given-name" required />
+              </div>
+              <div class="form-group">
+                <label for="donor-last">Last Name</label>
+                <input type="text" id="donor-last" name="last_name" autocomplete="family-name" required />
+              </div>
+              <div class="form-group form-full">
+                <label for="donor-email">Email Address</label>
+                <input type="email" id="donor-email" name="email" autocomplete="email" required />
+              </div>
+              <div class="form-group form-full">
+                <label for="donor-notes">Dedication or Message <span style="font-style: italic; letter-spacing: normal; text-transform: none;">(optional)</span></label>
+                <input type="text" id="donor-notes" name="notes" placeholder="In memory of, in honor of, etc." />
+              </div>
+            </div>
+
+            <label style="display: flex; gap: 0.6rem; align-items: flex-start; font-family: 'EB Garamond', serif; font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0; text-transform: none; cursor: pointer; margin-bottom: 1.25rem;">
+              <input type="checkbox" name="anonymous" style="width: auto; margin-top: 0.25rem; flex-shrink: 0;" />
+              Make this gift anonymous
+            </label>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">
+              Proceed to Payment
+            </button>
+            <p style="font-size: 0.76rem; color: var(--text-muted); text-align: center; margin-top: 0.75rem; margin-bottom: 0;">Gifts are processed securely. <em>Christo et Doctrinae</em> is a registered student organization at Furman University.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GIVING TIERS
+       ============================================================ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Named Giving Levels</span>
+        <h2>Ways to Give</h2>
+        <div class="section-divider"></div>
+        <p class="lead">Every gift, of any amount, makes a difference. Named giving levels recognize donors who choose to give at a sustained level.</p>
+      </div>
+
+      <div class="donate-tiers">
+
+        <div class="tier">
+          <span class="tier-amount">$25</span>
+          <span class="tier-name">The Reader</span>
+          <p>Sustains free online access to one article for a full year. A meaningful gift that keeps knowledge open.</p>
+          <a href="#" class="btn btn-outline btn-sm">Give at This Level</a>
+        </div>
+
+        <div class="tier tier-featured">
+          <span class="tier-badge">Most Popular</span>
+          <span class="tier-amount">$100</span>
+          <span class="tier-name">The Patron</span>
+          <p>Covers a significant portion of one student editor's stipend. Directly supports the work of a student who is giving their time to this community.</p>
+          <a href="#" class="btn btn-primary btn-sm">Give at This Level</a>
+        </div>
+
+        <div class="tier">
+          <span class="tier-amount">$250</span>
+          <span class="tier-name">The Benefactor</span>
+          <p>Covers the cost of printing and binding 25 copies of our annual print edition — a tangible investment in the journal's enduring form.</p>
+          <a href="#" class="btn btn-outline btn-sm">Give at This Level</a>
+        </div>
+
+        <div class="tier">
+          <span class="tier-amount">$500+</span>
+          <span class="tier-name">The Endower</span>
+          <p>Contributes meaningfully to our annual operations, including the lecture series and design costs. Donors at this level are recognized in our print edition.</p>
+          <a href="#" class="btn btn-outline btn-sm">Give at This Level</a>
+        </div>
+
+      </div>
+
+      <div class="info-box">
+        <p>Interested in a larger gift or an institutional partnership? Please contact our development editor, David Park, at <a href="mailto:development@christoetdoctrinae.org">development@christoetdoctrinae.org</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIAL
+       ============================================================ -->
+  <div class="mission-strip">
+    <span class="eyebrow">From a Donor</span>
+    <blockquote style="font-size: 1.5rem;">
+      I give because I believe the Church needs people who think — who read and argue and write their way toward truth. This journal is training those people. That is worth supporting.
+    </blockquote>
+    <cite>— A Donor &amp; Furman Alumna, Class of 2018</cite>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-title">Christo et Doctrinae</span>
+        <span class="brand-sub">Furman University</span>
+        <p>A student journal of Christian thought dedicated to theological and artistic exploration of the Christian life. Published twice yearly in Greenville, South Carolina.</p>
+        <address>
+          Furman University<br />
+          3300 Poinsett Highway<br />
+          Greenville, SC 29613
+        </address>
+      </div>
+      <div class="footer-col">
+        <h5>Journal</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="articles.html">Articles</a></li>
+          <li><a href="series.html">Series</a></li>
+          <li><a href="print-editions.html">Print Editions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contribute</h5>
+        <ul>
+          <li><a href="submissions.html">Submit Writing</a></li>
+          <li><a href="submissions.html#art">Submit Art</a></li>
+          <li><a href="submissions.html#guidelines">Guidelines</a></li>
+          <li><a href="donate.html">Donate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="about.html#contact">Contact Us</a></li>
+          <li><a href="about.html#editorial">Editorial Board</a></li>
+          <li><a href="about.html#advisors">Faculty Advisors</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Christo et Doctrinae, Furman University. All rights reserved.</p>
+      <p><em>Fides quaerens intellectum.</em></p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple interactive amount / frequency selection
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+
+    document.querySelectorAll('.freq-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
