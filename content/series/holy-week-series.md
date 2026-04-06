@@ -1,0 +1,5 @@
+---
+name: Holy Week Series
+is_yearly: true
+description: A sustained meditation on the final days of Christ's earthly ministry — from the triumphal entry to the silence of the tomb.
+---

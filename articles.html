@@ -112,8 +112,8 @@
         <ul>
           <li><a href="about.html#contact">Contact Us</a></li>
           <li><a href="about.html#team">Our Team</a></li>
-          <li><a href="holy-week.html">Holy Week Series</a></li>
-          <li><a href="advent.html">Advent Series</a></li>
+          <li><a href="series-detail.html?series=holy-week-series">Holy Week Series</a></li>
+          <li><a href="series-detail.html?series=advent-series">Advent Series</a></li>
         </ul>
       </div>
     </div>
@@ -138,6 +138,18 @@
       'linear-gradient(150deg,#1A1408 0%,#2A200C 50%,#4A3A14 100%)'
     ];
 
+    var FOCAL_POSITIONS = {
+      'center':       'center center',
+      'top':          'center top',
+      'bottom':       'center bottom',
+      'left':         'left center',
+      'right':        'right center',
+      'top-left':     'left top',
+      'top-right':    'right top',
+      'bottom-left':  'left bottom',
+      'bottom-right': 'right bottom'
+    };
+
     function formatDate(str) {
       if (!str) return '';
       var d = new Date(str);
@@ -145,8 +157,9 @@
     }
 
     function cardHTML(article, idx) {
+      var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
       var thumb = article.cover_image
-        ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" />'
+        ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
         : '<div class="card-thumb-placeholder" style="background:' + GRADIENTS[idx % GRADIENTS.length] + ';"></div>';
 
       var tagHTML = '';

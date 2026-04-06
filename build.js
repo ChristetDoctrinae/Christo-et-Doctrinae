@@ -2,9 +2,11 @@
 /**
  * build.js — Christo et Doctrinae
  *
- * Reads all markdown articles from content/articles/,
+ * Reads all markdown files from content/articles/ and content/series/,
  * parses their frontmatter (including YAML list fields like tags),
- * sorts by date (newest first), and writes to data/articles.json.
+ * and writes:
+ *   data/articles.json — sorted by date, newest first
+ *   data/series.json   — sorted by name
  */
 
 const fs   = require('fs');
@@ -57,13 +59,17 @@ function stripMarkdown(md) {
 }
 
 // ----------------------------------------------------------------
-// Main
+// Paths
 // ----------------------------------------------------------------
 const articlesDir = path.join(__dirname, 'content', 'articles');
+const seriesDir   = path.join(__dirname, 'content', 'series');
 const dataDir     = path.join(__dirname, 'data');
 
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
+// ----------------------------------------------------------------
+// Build articles.json
+// ----------------------------------------------------------------
 let articles = [];
 
 if (fs.existsSync(articlesDir)) {
@@ -87,8 +93,10 @@ if (fs.existsSync(articlesDir)) {
       author:        data.author        || '',
       date:          data.date          || '',
       series:        data.series        || '',
+      series_year:   data.series_year   || '',
       print_edition: data.print_edition || '',
       cover_image:   data.cover_image   || '',
+      focal_point:   data.focal_point   || 'center',
       tags:          tags,
       excerpt:       plainBody.slice(0, 220)
     };
@@ -107,3 +115,32 @@ fs.writeFileSync(
 );
 
 console.log(`✓ Built ${articles.length} article${articles.length !== 1 ? 's' : ''} → data/articles.json`);
+
+// ----------------------------------------------------------------
+// Build series.json
+// ----------------------------------------------------------------
+let seriesList = [];
+
+if (fs.existsSync(seriesDir)) {
+  const files = fs.readdirSync(seriesDir).filter(f => f.endsWith('.md'));
+
+  seriesList = files.map(file => {
+    const raw       = fs.readFileSync(path.join(seriesDir, file), 'utf8');
+    const { data }  = parseFrontmatter(raw);
+    return {
+      slug:        file.replace(/\.md$/, ''),
+      name:        data.name        || '',
+      is_yearly:   data.is_yearly === 'true' || data.is_yearly === true,
+      description: data.description || ''
+    };
+  });
+
+  seriesList.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+fs.writeFileSync(
+  path.join(dataDir, 'series.json'),
+  JSON.stringify(seriesList, null, 2)
+);
+
+console.log(`✓ Built ${seriesList.length} series → data/series.json`);

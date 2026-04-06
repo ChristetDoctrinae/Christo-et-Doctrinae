@@ -25,6 +25,35 @@ public_folder: "/images/uploads"
 collections:
 
   # ------------------------------------------------------------
+  # SERIES — create and manage series; articles reference them
+  # ------------------------------------------------------------
+  - name: "series"
+    label: "Series"
+    label_singular: "Series"
+    folder: "content/series"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    fields:
+      - label: "Series Name"
+        name: "name"
+        widget: "string"
+        hint: "The full series name, e.g. 'Holy Week Series' or 'The Saints'"
+
+      - label: "Is Yearly Series?"
+        name: "is_yearly"
+        widget: "boolean"
+        default: false
+        hint: "Yearly series (e.g. Holy Week, Advent) group articles by year on the series page. Non-yearly series show a flat list of all articles."
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "Brief description shown on the Series page (1–3 sentences)"
+
+  # ------------------------------------------------------------
   # TAGS — create and delete tags here; articles reference them
   # ------------------------------------------------------------
   - name: "tags"
@@ -106,14 +135,20 @@ collections:
 
       - label: "Series"
         name: "series"
-        widget: "select"
-        options:
-          - { label: "None (online article)", value: "" }
-          - { label: "Holy Week Series", value: "Holy Week Series" }
-          - { label: "Advent Series", value: "Advent Series" }
-        default: ""
+        widget: "relation"
+        collection: "series"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+        multiple: false
         required: false
-        hint: "Series articles appear in the Series section, not the main Articles page"
+        hint: "Select the series this article belongs to. To create a new series, go to the Series section first, then return here."
+
+      - label: "Series Year"
+        name: "series_year"
+        widget: "string"
+        required: false
+        hint: "For yearly series only (e.g. Holy Week, Advent): enter the year, e.g. 2025. Leave blank for non-yearly series."
 
       - label: "Print Edition"
         name: "print_edition"
@@ -125,7 +160,24 @@ collections:
         name: "cover_image"
         widget: "image"
         required: false
-        hint: "Upload a cover image (JPG, PNG, WEBP, or GIF). Drag and drop or click to browse."
+        hint: "Upload a cover image (JPG, PNG, WEBP, or GIF). This image will appear as the thumbnail wherever this article is listed."
+
+      - label: "Cover Image Focal Point"
+        name: "focal_point"
+        widget: "select"
+        required: false
+        default: "center"
+        options:
+          - { label: "Center (default)", value: "center" }
+          - { label: "Top",              value: "top" }
+          - { label: "Bottom",           value: "bottom" }
+          - { label: "Left",             value: "left" }
+          - { label: "Right",            value: "right" }
+          - { label: "Top Left",         value: "top-left" }
+          - { label: "Top Right",        value: "top-right" }
+          - { label: "Bottom Left",      value: "bottom-left" }
+          - { label: "Bottom Right",     value: "bottom-right" }
+        hint: "Which part of the cover image should stay in frame when cropped to a thumbnail card?"
 
       - label: "Article Content"
         name: "body"

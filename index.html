@@ -141,7 +141,7 @@
        ============================================================ -->
   <div class="series-tiles" aria-label="Journal series">
 
-    <a href="holy-week.html" class="series-tile">
+    <a href="series-detail.html?series=holy-week-series" class="series-tile">
       <div class="series-tile-bg" style="background-color: #1A1220;"></div>
       <div class="series-tile-overlay"></div>
       <div class="series-tile-content">
@@ -152,7 +152,7 @@
       </div>
     </a>
 
-    <a href="advent.html" class="series-tile">
+    <a href="series-detail.html?series=advent-series" class="series-tile">
       <div class="series-tile-bg" style="background-color: #0D1520;"></div>
       <div class="series-tile-overlay"></div>
       <div class="series-tile-content">
@@ -272,9 +272,22 @@
         return gradients[index % gradients.length];
       }
 
+      var FOCAL_POSITIONS = {
+        'center':       'center center',
+        'top':          'center top',
+        'bottom':       'center bottom',
+        'left':         'left center',
+        'right':        'right center',
+        'top-left':     'left top',
+        'top-right':    'right top',
+        'bottom-left':  'left bottom',
+        'bottom-right': 'right bottom'
+      };
+
       function renderArticle(article, index) {
+        var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
         var thumb = article.cover_image
-          ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" />'
+          ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
           : '<div class="card-thumb-placeholder" style="background:' + bgGradient(index) + ';"></div>';
 
         var subtitle = article.subtitle || article.excerpt || '';
@@ -329,8 +342,9 @@
               }
 
               featGrid.innerHTML = featured.map(function (article, i) {
+                var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
                 var thumb = article.cover_image
-                  ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" />'
+                  ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
                   : '<div class="card-thumb-placeholder" style="background:' + bgGradient(i) + ';"></div>';
                 var subtitle = article.subtitle || article.excerpt || '';
                 var date = formatDate(article.date);

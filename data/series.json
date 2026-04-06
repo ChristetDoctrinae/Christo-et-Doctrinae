@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "holy-week-series",
+    "name": "Holy Week Series",
+    "is_yearly": true,
+    "description": "A sustained meditation on the final days of Christ's earthly ministry — from the triumphal entry to the silence of the tomb."
+  },
+  {
+    "slug": "advent-series",
+    "name": "Advent Series",
+    "is_yearly": true,
+    "description": "Annual reflections for the season of waiting — on longing, expectation, darkness, and the coming of the Light."
+  }
+]

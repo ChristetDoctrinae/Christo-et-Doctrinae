@@ -101,8 +101,8 @@
         <h5>Connect</h5>
         <ul>
           <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="holy-week.html">Holy Week Series</a></li>
-          <li><a href="advent.html">Advent Series</a></li>
+          <li><a href="series-detail.html?series=holy-week-series">Holy Week Series</a></li>
+          <li><a href="series-detail.html?series=advent-series">Advent Series</a></li>
         </ul>
       </div>
     </div>
@@ -222,13 +222,21 @@
 
       // Merge frontmatter from md file with meta from articles.json
       // (articles.json is authoritative for metadata)
-      var title    = meta.title    || fm.data.title    || 'Untitled';
-      var subtitle = meta.subtitle || fm.data.subtitle || '';
-      var author   = meta.author   || fm.data.author   || '';
-      var date     = meta.date     || fm.data.date     || '';
-      var series   = meta.series   || fm.data.series   || '';
-      var tags     = meta.tags     || fm.data.tags     || [];
-      var cover    = meta.cover_image || fm.data.cover_image || '';
+      var title       = meta.title       || fm.data.title       || 'Untitled';
+      var subtitle    = meta.subtitle    || fm.data.subtitle    || '';
+      var author      = meta.author      || fm.data.author      || '';
+      var date        = meta.date        || fm.data.date        || '';
+      var series      = meta.series      || fm.data.series      || '';
+      var tags        = meta.tags        || fm.data.tags        || [];
+      var cover       = meta.cover_image || fm.data.cover_image || '';
+      var focalPoint  = meta.focal_point || fm.data.focal_point || 'center';
+
+      var FOCAL_POSITIONS = {
+        'center': 'center center', 'top': 'center top', 'bottom': 'center bottom',
+        'left': 'left center', 'right': 'right center',
+        'top-left': 'left top', 'top-right': 'right top',
+        'bottom-left': 'left bottom', 'bottom-right': 'right bottom'
+      };
 
       // Update page <title>
       document.getElementById('page-title').textContent = title + ' — Christo et Doctrinae';
@@ -239,7 +247,8 @@
 
       // Cover image
       if (cover) {
-        headerHTML += '<div class="article-cover" style="background-image:url(\'' + cover + '\');"></div>';
+        var coverPos = FOCAL_POSITIONS[focalPoint] || 'center center';
+        headerHTML += '<div class="article-cover" style="background-image:url(\'' + cover + '\'); background-position:' + coverPos + ';"></div>';
       } else {
         headerHTML += '<div class="article-cover article-cover-placeholder" style="background:' + gradientBg(0) + ';"></div>';
       }
@@ -248,7 +257,8 @@
       headerHTML += '<div class="article-header-inner"><div class="container-narrow">';
 
       if (series) {
-        headerHTML += '<a href="' + (series === 'Holy Week Series' ? 'holy-week.html' : series === 'Advent Series' ? 'advent.html' : 'series.html') + '" class="article-series-tag">' + series + '</a>';
+        var seriesSlug = series.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        headerHTML += '<a href="series-detail.html?series=' + seriesSlug + '" class="article-series-tag">' + series + '</a>';
       }
 
       headerHTML += '<h1 class="article-title">' + title + '</h1>';
@@ -280,10 +290,9 @@
 
       // Update back link based on section
       var backEl = document.getElementById('article-back');
-      if (series === 'Holy Week Series') {
-        backEl.innerHTML = '<a href="holy-week.html" class="btn btn-outline btn-sm">&larr; Holy Week Series</a>';
-      } else if (series === 'Advent Series') {
-        backEl.innerHTML = '<a href="advent.html" class="btn btn-outline btn-sm">&larr; Advent Series</a>';
+      if (series) {
+        var backSlug = series.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        backEl.innerHTML = '<a href="series-detail.html?series=' + backSlug + '" class="btn btn-outline btn-sm">&larr; ' + series + '</a>';
       } else if (meta.print_edition) {
         backEl.innerHTML = '<a href="print-editions.html" class="btn btn-outline btn-sm">&larr; Print Editions</a>';
       } else {
