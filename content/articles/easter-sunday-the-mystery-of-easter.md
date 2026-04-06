@@ -3,7 +3,7 @@ title: "Easter Sunday: The Mystery of Easter"
 subtitle: A joyful meditation on the mystery of the Resurrection in John’s gospel.
 author: Karissa Horn
 date: 2026-04-05
-series: Holy Week Series
+series: ""
 cover_image: /images/uploads/couleur-dahlia-3538749-1-.jpg
 ---
 <!--StartFragment-->
