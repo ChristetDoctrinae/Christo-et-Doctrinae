@@ -118,7 +118,16 @@ collections:
         format: "YYYY-MM-DD"
         date_format: "MMMM D, YYYY"
         time_format: false
-        hint: "Date the article was or will be published"
+        hint: "The display date for the article (shown to readers)"
+
+      - label: "Scheduled Publish Date"
+        name: "publish_date"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm"
+        date_format: "MMMM D, YYYY"
+        time_format: "h:mm A"
+        required: false
+        hint: "Leave blank to publish immediately on next deploy. Set a future date and time to schedule — the article will be hidden until a site rebuild after this date. Note: a manual deploy or scheduled build hook is required to automatically publish at the set time."
 
       - label: "Tags"
         name: "tags"
@@ -314,6 +323,71 @@ collections:
             widget: "list"
             label_singular: "Guideline"
             field: { label: "Guideline", name: "item", widget: "string" }
+
+  # ------------------------------------------------------------
+  # PRINT EDITIONS — manage each print edition
+  # ------------------------------------------------------------
+  - name: "print_editions"
+    label: "Print Editions"
+    label_singular: "Print Edition"
+    folder: "content/editions"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{theme}} ({{season}})"
+    sortable_fields: ["volume_number", "season"]
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "e.g. Volume III"
+
+      - label: "Theme"
+        name: "theme"
+        widget: "string"
+        hint: "The edition's thematic title, e.g. Love & Justice"
+
+      - label: "Season / Date"
+        name: "season"
+        widget: "string"
+        hint: "e.g. Spring 2025"
+
+      - label: "Volume Number"
+        name: "volume_number"
+        widget: "number"
+        value_type: "int"
+        hint: "Used to sort editions — higher number = more recent"
+
+      - label: "Cover Image"
+        name: "cover_image"
+        widget: "image"
+        required: false
+        hint: "Upload a cover photo or scan. If not provided, a styled typographic cover will be shown."
+
+      - label: "Page Count"
+        name: "page_count"
+        widget: "number"
+        value_type: "int"
+        required: false
+
+      - label: "Contents"
+        name: "contents"
+        widget: "string"
+        required: false
+        hint: "Short summary of contents, e.g. 9 essays · 5 poems · 1 short story · Perfect bound"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "1–3 sentence description of the edition shown on the Print Editions page"
+
+      - label: "PDF File"
+        name: "pdf_file"
+        widget: "file"
+        required: false
+        hint: "Upload the PDF of this edition. When set, clicking the edition will open the flipbook viewer."
+        default: ""
 
   # ------------------------------------------------------------
   # SETTINGS — editor email and other site-wide settings

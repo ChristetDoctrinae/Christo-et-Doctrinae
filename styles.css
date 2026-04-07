@@ -1640,6 +1640,331 @@ h4 { font-size: 1.2rem; }
 }
 
 /* ----------------------------------------------------------------
+   Page Subtitle Bar
+   Shared by series.html and print-editions.html for the small
+   understated description above the main content.
+   ---------------------------------------------------------------- */
+.page-subtitle-bar {
+  padding: 1.25rem 2rem 1.5rem;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.page-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.85;
+  font-style: italic;
+}
+
+/* ----------------------------------------------------------------
+   Print Editions — dynamic page layout
+   ---------------------------------------------------------------- */
+.editions-featured-wrap {
+  max-width: 780px;
+  margin: 0 auto 4rem;
+}
+
+.edition-featured-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 3rem;
+  align-items: start;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2.5rem;
+  position: relative;
+}
+
+.edition-featured-card .edition-cover {
+  width: 100%;
+}
+
+.edition-featured-card .edition-card-body {
+  text-align: left;
+}
+
+.edition-featured-card .edition-card-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.edition-featured-card .edition-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.edition-featured-card .edition-contents {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.editions-archive {
+  margin-top: 1.5rem;
+}
+
+.editions-archive-heading {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Edition card — standard (archive grid) */
+.edition-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.edition-card-title {
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0;
+}
+
+.edition-card-body {
+  width: 100%;
+}
+
+.edition-card .edition-card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 0.6rem;
+}
+
+.edition-card .edition-contents {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+/* Cover — photo variant */
+.edition-cover-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 8px 12px 36px rgba(0,0,0,0.3), 2px 4px 10px rgba(0,0,0,0.15);
+}
+
+.edition-cover-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+/* Cover — styled text variant */
+.edition-cover-styled {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 8px 12px 36px rgba(0,0,0,0.3), 2px 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.45s ease;
+}
+
+.edition-cover-styled::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Hover effect on clickable editions */
+.edition-has-pdf {
+  cursor: pointer;
+}
+
+.edition-has-pdf .edition-cover-styled,
+.edition-has-pdf .edition-cover-photo img {
+  transition: transform 0.45s ease, box-shadow 0.35s ease;
+}
+
+.edition-has-pdf:hover .edition-cover-styled,
+.edition-has-pdf:hover .edition-cover-photo img {
+  transform: translateY(-4px);
+  box-shadow: 12px 20px 48px rgba(0,0,0,0.45), 3px 6px 14px rgba(0,0,0,0.2);
+}
+
+/* "Click to read" hint */
+.edition-view-hint {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.edition-has-pdf:hover .edition-view-hint {
+  opacity: 1;
+}
+
+.edition-view-hint--unavailable {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+/* ----------------------------------------------------------------
+   Flipbook Modal
+   ---------------------------------------------------------------- */
+.flipbook-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(8, 7, 16, 0.97);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.flipbook-modal.is-open {
+  display: flex;
+}
+
+.flipbook-topbar {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(244,237,224,0.08);
+}
+
+.flipbook-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(244,237,224,0.6);
+}
+
+.flipbook-close {
+  background: none;
+  border: none;
+  color: rgba(244,237,224,0.5);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  line-height: 1;
+  border-radius: 1px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.flipbook-close:hover {
+  color: #F4EDE0;
+  background: rgba(244,237,224,0.08);
+}
+
+.flipbook-viewer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 860px;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+#flipbook-canvas {
+  max-width: 100%;
+  max-height: calc(100vh - 180px);
+  box-shadow: 0 8px 60px rgba(0,0,0,0.7), 0 2px 20px rgba(0,0,0,0.5);
+  display: block;
+}
+
+.flipbook-loading {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  color: rgba(244,237,224,0.4);
+  font-size: 0.88rem;
+}
+
+.flipbook-error {
+  font-family: 'Libre Baskerville', serif;
+  color: rgba(244,237,224,0.45);
+  font-size: 0.88rem;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.flipbook-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-shrink: 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(244,237,224,0.08);
+  width: 100%;
+  max-width: 860px;
+  justify-content: center;
+}
+
+.flipbook-btn {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  background: none;
+  border: 1px solid rgba(244,237,224,0.25);
+  color: rgba(244,237,224,0.65);
+  padding: 0.45rem 1.25rem;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.flipbook-btn:hover:not(:disabled) {
+  border-color: rgba(244,237,224,0.6);
+  color: #F4EDE0;
+}
+
+.flipbook-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.flipbook-page-info {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.75rem;
+  color: rgba(244,237,224,0.4);
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------
    Responsive
    ---------------------------------------------------------------- */
 @media (max-width: 1100px) {
@@ -1653,6 +1978,10 @@ h4 { font-size: 1.2rem; }
 }
 
 @media (max-width: 860px) {
+  .edition-featured-card { grid-template-columns: 1fr; }
+  .edition-featured-card .edition-cover { max-width: 240px; margin: 0 auto 1.5rem; }
+  .flipbook-controls { gap: 1rem; }
+  .flipbook-btn { padding: 0.4rem 0.85rem; }
   .card-featured { grid-template-columns: 1fr; }
   .card-featured .card-thumb-placeholder { min-height: 240px; height: 240px; }
   .guidelines-grid { grid-template-columns: 1fr; }

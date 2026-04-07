@@ -2,11 +2,15 @@
 /**
  * build.js — Christo et Doctrinae
  *
- * Reads all markdown files from content/articles/ and content/series/,
- * parses their frontmatter (including YAML list fields like tags),
- * and writes:
- *   data/articles.json — sorted by date, newest first
- *   data/series.json   — sorted by name
+ * Reads markdown files from content/articles/, content/series/, content/editions/,
+ * parses frontmatter, and writes:
+ *   data/articles.json  — published articles, sorted newest first
+ *   data/series.json    — all series, sorted by name
+ *   data/editions.json  — print editions, sorted by volume_number descending
+ *
+ * Scheduled publishing: articles with publish_date set to a future datetime
+ * are excluded from articles.json until that date has passed and the site
+ * is rebuilt (manually or via a scheduled Netlify build hook).
  */
 
 const fs   = require('fs');
@@ -32,7 +36,6 @@ function parseFrontmatter(raw) {
     const val = line.slice(colon + 1).trim();
 
     if (val === '') {
-      // Collect indented list items that follow
       const list = [];
       i++;
       while (i < lines.length && /^\s*-\s/.test(lines[i])) {
@@ -63,12 +66,16 @@ function stripMarkdown(md) {
 // ----------------------------------------------------------------
 const articlesDir = path.join(__dirname, 'content', 'articles');
 const seriesDir   = path.join(__dirname, 'content', 'series');
+const editionsDir = path.join(__dirname, 'content', 'editions');
 const dataDir     = path.join(__dirname, 'data');
 
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
+const now = new Date();
+
 // ----------------------------------------------------------------
 // Build articles.json
+// Excludes articles whose publish_date is set to a future datetime.
 // ----------------------------------------------------------------
 let articles = [];
 
@@ -80,7 +87,6 @@ if (fs.existsSync(articlesDir)) {
     const { data, body } = parseFrontmatter(raw);
     const plainBody      = stripMarkdown(body);
 
-    // Normalise tags — may come in as a YAML list array or comma-separated string
     let tags = data.tags || [];
     if (typeof tags === 'string') {
       tags = tags.split(',').map(t => t.trim()).filter(Boolean);
@@ -92,6 +98,7 @@ if (fs.existsSync(articlesDir)) {
       subtitle:      data.subtitle      || '',
       author:        data.author        || '',
       date:          data.date          || '',
+      publish_date:  data.publish_date  || '',
       series:        data.series        || '',
       series_year:   data.series_year   || '',
       print_edition: data.print_edition || '',
@@ -100,6 +107,13 @@ if (fs.existsSync(articlesDir)) {
       tags:          tags,
       excerpt:       plainBody.slice(0, 220)
     };
+  });
+
+  // Filter out scheduled articles whose publish_date is in the future
+  articles = articles.filter(a => {
+    if (!a.publish_date) return true;
+    const scheduled = new Date(a.publish_date);
+    return isNaN(scheduled) || scheduled <= now;
   });
 
   articles.sort((a, b) => {
@@ -113,7 +127,6 @@ fs.writeFileSync(
   path.join(dataDir, 'articles.json'),
   JSON.stringify(articles, null, 2)
 );
-
 console.log(`✓ Built ${articles.length} article${articles.length !== 1 ? 's' : ''} → data/articles.json`);
 
 // ----------------------------------------------------------------
@@ -123,10 +136,9 @@ let seriesList = [];
 
 if (fs.existsSync(seriesDir)) {
   const files = fs.readdirSync(seriesDir).filter(f => f.endsWith('.md'));
-
   seriesList = files.map(file => {
-    const raw       = fs.readFileSync(path.join(seriesDir, file), 'utf8');
-    const { data }  = parseFrontmatter(raw);
+    const raw      = fs.readFileSync(path.join(seriesDir, file), 'utf8');
+    const { data } = parseFrontmatter(raw);
     return {
       slug:        file.replace(/\.md$/, ''),
       name:        data.name        || '',
@@ -134,7 +146,6 @@ if (fs.existsSync(seriesDir)) {
       description: data.description || ''
     };
   });
-
   seriesList.sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -142,5 +153,37 @@ fs.writeFileSync(
   path.join(dataDir, 'series.json'),
   JSON.stringify(seriesList, null, 2)
 );
-
 console.log(`✓ Built ${seriesList.length} series → data/series.json`);
+
+// ----------------------------------------------------------------
+// Build editions.json
+// ----------------------------------------------------------------
+let editionsList = [];
+
+if (fs.existsSync(editionsDir)) {
+  const files = fs.readdirSync(editionsDir).filter(f => f.endsWith('.md'));
+  editionsList = files.map(file => {
+    const raw            = fs.readFileSync(path.join(editionsDir, file), 'utf8');
+    const { data, body } = parseFrontmatter(raw);
+    return {
+      slug:          file.replace(/\.md$/, ''),
+      title:         data.title         || '',
+      theme:         data.theme         || '',
+      season:        data.season        || '',
+      volume_number: parseInt(data.volume_number, 10) || 0,
+      cover_image:   data.cover_image   || '',
+      page_count:    parseInt(data.page_count, 10) || 0,
+      contents:      data.contents      || '',
+      description:   data.description   || '',
+      pdf_file:      data.pdf_file      || ''
+    };
+  });
+  // Most recent edition first
+  editionsList.sort((a, b) => b.volume_number - a.volume_number);
+}
+
+fs.writeFileSync(
+  path.join(dataDir, 'editions.json'),
+  JSON.stringify(editionsList, null, 2)
+);
+console.log(`✓ Built ${editionsList.length} edition${editionsList.length !== 1 ? 's' : ''} → data/editions.json`);

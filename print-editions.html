@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Print Editions — Christo et Doctrinae</title>
-  <meta name="description" content="Browse and order print editions of Christo et Doctrinae — beautifully designed annual volumes of Christian thought, theology, and art." />
+  <meta name="description" content="Browse print editions of Christo et Doctrinae — beautifully designed annual volumes of Christian thought, theology, and art." />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -18,7 +18,6 @@
       <div class="nav-logo">
         <a href="index.html">
           <span class="logo-title">Christo et Doctrinae</span>
-          
         </a>
       </div>
       <ul class="nav-links">
@@ -44,7 +43,7 @@
   <header class="page-header">
     <span class="eyebrow">Read Our Work</span>
     <h1>Print Editions</h1>
-    <p class="lead">Each spring, we gather the year's best work into a beautifully designed volume — for the shelf, for the desk, for the long read.</p>
+    <p class="lead">Each spring, a beautifully designed volume — for the shelf, for the desk, for the long read.</p>
   </header>
 
   <!-- ============================================================
@@ -59,155 +58,28 @@
   </div>
 
   <!-- ============================================================
-       ABOUT PRINT
+       PAGE DESCRIPTION — small subtitle, not a panel of focus
        ============================================================ -->
-  <section class="section">
-    <div class="container-narrow" style="text-align: center;">
-      <p style="font-size: 1.05rem; color: var(--text-muted); font-style: italic; line-height: 1.85; max-width: 640px; margin: 0 auto;">
-        Our print edition is designed by student editors and printed in a limited annual run. It is the form of the journal we care most about — a physical object that rewards slow reading, that can be lent and borrowed and left on a shelf. Each volume has a theme that gathers its contents without reducing them.
-      </p>
-    </div>
-  </section>
+  <div class="page-subtitle-bar">
+    <p class="page-subtitle">
+      Our print edition is designed by student editors and printed in a limited annual run. It is the form of the journal we care most about — a physical object that rewards slow reading, that can be lent and borrowed and left on a shelf. Each volume has a theme that gathers its contents without reducing them.
+    </p>
+  </div>
 
   <!-- ============================================================
-       CURRENT EDITION (FEATURED)
+       EDITIONS — loaded dynamically from data/editions.json
+       Click any edition to open the flipbook viewer.
        ============================================================ -->
-  <section class="section section-alt">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Most Recent</span>
-        <h2>Current Edition</h2>
-        <div class="section-divider"></div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 280px 1fr; gap: 3.5rem; align-items: center; background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 3rem;">
-
-        <div style="text-align: center;">
-          <div style="width: 100%; aspect-ratio: 3/4; background: linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%); border-radius: 2px; box-shadow: 8px 12px 36px rgba(0,0,0,0.35), 2px 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; padding: 2.5rem; position: relative; overflow: hidden; margin-bottom: 1.25rem;">
-            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: rgba(255,255,255,0.08);"></div>
-            <div style="text-align: center; color: #F4EDE0;">
-              <span style="display: block; font-size: 0.55rem; letter-spacing: 0.28em; text-transform: uppercase; color: #B8976A; margin-bottom: 1rem;">Volume III</span>
-              <span style="display: block; font-family: 'Playfair Display', serif; font-size: 0.7rem; letter-spacing: 0.14em; color: rgba(244,237,224,0.6); margin-bottom: 0.75rem;">Christo et Doctrinae</span>
-              <div style="width: 28px; height: 1px; background: #B8976A; margin: 0.85rem auto;"></div>
-              <span style="display: block; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; line-height: 1.3;">Love<br/>&amp;<br/>Justice</span>
-              <div style="width: 28px; height: 1px; background: #B8976A; margin: 0.85rem auto;"></div>
-              <span style="display: block; font-size: 0.6rem; letter-spacing: 0.18em; color: rgba(244,237,224,0.45);">Spring 2025</span>
-            </div>
-          </div>
-          <a href="#" class="btn btn-primary btn-sm" style="width: 100%; display: block; text-align: center;">Order a Copy — $12</a>
-          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 0;">Free shipping within the US</p>
-        </div>
-
-        <div class="prose">
-          <span class="eyebrow">Spring 2025</span>
-          <h2 style="font-size: 2rem; margin-top: 0.25rem; margin-bottom: 0.25rem;">Volume III</h2>
-          <h3 style="font-size: 1.4rem; font-style: italic; font-weight: 400; color: var(--accent); margin-top: 0; margin-bottom: 1.25rem;">Love &amp; Justice</h3>
-
-          <p>
-            The third volume of <em>Christo et Doctrinae</em> gathers around a conviction: that love and justice, long set in opposition, are in the Christian moral vision inseparable. To love is to will justice; to pursue justice without love is to pursue an abstraction. This volume does not resolve the tension so much as inhabit it — with rigor, with care, and with a kind of stubborn hope.
-          </p>
-
-          <p>
-            The volume includes essays on agape and its secular imitators, on the prophetic tradition and contemporary poverty, on the theology of criminal justice reform, and on love as a mode of knowing. It also includes poetry, a short story, and original artwork by student contributors.
-          </p>
-
-          <div style="margin: 1.75rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 0;">
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><strong style="color: var(--text);">Contents:</strong> 9 essays · 5 poems · 1 short story · 12 pages of artwork · 88 pages total · Perfect bound · Designed by Sophia Reinholt</p>
-          </div>
-
-          <a href="articles.html" style="font-size: 0.88rem; color: var(--accent);">Read selected articles online →</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       BACK CATALOGUE
-       ============================================================ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Archive</span>
-        <h2>Previous Editions</h2>
-        <div class="section-divider"></div>
-      </div>
-
-      <div class="editions-grid">
-
-        <!-- Vol II -->
-        <div class="edition-card">
-          <div class="edition-cover" style="background: linear-gradient(145deg, #14131F 0%, #1C1C2E 50%, #2A1A3A 100%);">
-            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.08);"></div>
-            <div class="edition-cover-text">
-              <span class="vol-label">Volume II</span>
-              <span class="journal-name">Christo et Doctrinae</span>
-              <div class="divider-line"></div>
-              <span class="issue-title">The Pilgrim's Way</span>
-              <div class="divider-line"></div>
-              <span class="year">Spring 2024</span>
-            </div>
-          </div>
-          <h4>Volume II — <em>The Pilgrim's Way</em></h4>
-          <p class="edition-meta">Spring 2024 · 76 pages</p>
-          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-            On journey, pilgrimage, and the Christian life as a movement — toward, through, and with. Includes essays on wayfaring in Bonaventure, Dante's <em>Commedia</em>, and the contemporary retreat movement.
-          </p>
-          <a href="#" class="btn btn-outline btn-sm">Order ($10)</a>
-        </div>
-
-        <!-- Vol I -->
-        <div class="edition-card">
-          <div class="edition-cover" style="background: linear-gradient(145deg, #0F1A14 0%, #182818 50%, #2A4028 100%);">
-            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.08);"></div>
-            <div class="edition-cover-text">
-              <span class="vol-label">Volume I</span>
-              <span class="journal-name">Christo et Doctrinae</span>
-              <div class="divider-line"></div>
-              <span class="issue-title">In the Beginning</span>
-              <div class="divider-line"></div>
-              <span class="year">Spring 2023</span>
-            </div>
-          </div>
-          <h4>Volume I — <em>In the Beginning</em></h4>
-          <p class="edition-meta">Spring 2023 · 64 pages</p>
-          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-            The inaugural print edition. On creation, beginning, and what it means for Christians to inherit a world that was made — and called good. Essays, poetry, and original photography.
-          </p>
-          <p style="font-size: 0.8rem; color: var(--gold); font-style: italic; margin-bottom: 1.25rem;">Limited copies remaining</p>
-          <a href="#" class="btn btn-outline btn-sm">Order ($10)</a>
-        </div>
-
-        <!-- Subscription -->
-        <div class="edition-card">
-          <div class="edition-cover" style="background: linear-gradient(145deg, #1C1818 0%, #2A1A14 50%, #4A2A1A 100%); justify-content: center; align-items: center; text-align: center;">
-            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.08);"></div>
-            <div style="color: #F4EDE0; padding: 2rem;">
-              <div style="width: 48px; height: 48px; border: 1px solid rgba(184,151,106,0.5); border-radius: 50%; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#B8976A" width="24" height="24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-              </div>
-              <span style="display: block; font-family: 'Playfair Display', serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #B8976A; margin-bottom: 0.75rem;">Annual</span>
-              <span style="display: block; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-style: italic; line-height: 1.4;">Subscribe to<br/>Each Edition</span>
-              <div style="width: 28px; height: 1px; background: #B8976A; margin: 1rem auto;"></div>
-              <span style="display: block; font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: #B8976A;">$18 / yr</span>
-            </div>
-          </div>
-          <h4>Annual Subscription</h4>
-          <p class="edition-meta">Each spring edition · Free shipping</p>
-          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-            Receive each spring edition delivered to your door. Subscribers also receive our annual letter from the editors, reflecting on the year's work.
-          </p>
-          <a href="donate.html" class="btn btn-primary btn-sm">Subscribe — $18/yr</a>
-        </div>
-
-      </div>
+  <section class="section section-alt" id="editions-section">
+    <div class="container" id="editions-container">
+      <p style="color:var(--text-muted); font-style:italic;">Loading editions…</p>
     </div>
   </section>
 
   <!-- ============================================================
        BULK / LIBRARY ORDERS
        ============================================================ -->
-  <section class="section section-alt">
+  <section class="section">
     <div class="container-narrow" style="text-align: center;">
       <span class="eyebrow">Libraries &amp; Institutions</span>
       <h2>Bulk &amp; Library Orders</h2>
@@ -226,10 +98,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <span class="brand-title">Christo et Doctrinae</span>
-        
-        <p>A student journal of Christian thought dedicated to theological and artistic exploration of the Christian life. Published twice yearly in Greenville, South Carolina.</p>
-        <address>
-        </address>
+        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
       </div>
       <div class="footer-col">
         <h5>Journal</h5>
@@ -253,8 +122,7 @@
         <h5>Connect</h5>
         <ul>
           <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#editorial">Editorial Board</a></li>
-          <li><a href="about.html#advisors">Faculty Advisors</a></li>
+          <li><a href="about.html#team">Our Team</a></li>
         </ul>
       </div>
     </div>
@@ -263,6 +131,279 @@
       <p><em>Fides quaerens intellectum.</em></p>
     </div>
   </footer>
+
+  <!-- ============================================================
+       FLIPBOOK MODAL
+       ============================================================ -->
+  <div id="flipbook-modal" class="flipbook-modal" role="dialog" aria-modal="true" aria-label="Edition flipbook viewer">
+
+    <div class="flipbook-topbar">
+      <span id="flipbook-title" class="flipbook-title"></span>
+      <button id="flipbook-close" class="flipbook-close" aria-label="Close viewer">&#10005;</button>
+    </div>
+
+    <div class="flipbook-viewer">
+      <div id="flipbook-loading" class="flipbook-loading">Loading edition…</div>
+      <div id="flipbook-error" class="flipbook-error" style="display:none;">
+        <p>This edition's PDF is not yet available for online viewing.</p>
+        <p style="font-size:0.8rem; margin-top:0.5rem;">Check back after the next site update.</p>
+      </div>
+      <canvas id="flipbook-canvas" style="display:none;"></canvas>
+    </div>
+
+    <div class="flipbook-controls" id="flipbook-controls" style="visibility:hidden;">
+      <button class="flipbook-btn" id="flipbook-prev" disabled>&#8592; Previous</button>
+      <span class="flipbook-page-info">
+        Page <strong id="flipbook-current">1</strong> of <span id="flipbook-total">—</span>
+      </span>
+      <button class="flipbook-btn" id="flipbook-next" disabled>Next &#8594;</button>
+    </div>
+
+  </div>
+
+  <!-- ============================================================
+       EDITIONS SCRIPT
+       ============================================================ -->
+  <script>
+  (function () {
+
+    // Cover gradients for editions without a cover image
+    var COVER_GRADIENTS = [
+      'linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%)',
+      'linear-gradient(145deg, #14131F 0%, #1C1C2E 50%, #2A1A3A 100%)',
+      'linear-gradient(145deg, #0F1A14 0%, #182818 50%, #2A4028 100%)',
+      'linear-gradient(145deg, #1A1408 0%, #2A2010 50%, #5A4820 100%)'
+    ];
+
+    /* ----------------------------------------------------------
+       Render a styled text cover (when no image is available)
+    ---------------------------------------------------------- */
+    function textCoverHTML(edition, idx) {
+      var grad = COVER_GRADIENTS[idx % COVER_GRADIENTS.length];
+      return '<div class="edition-cover edition-cover-styled" style="background:' + grad + ';">'
+        + '<div class="edition-cover-text">'
+        + '<span class="vol-label">' + edition.title + '</span>'
+        + '<span class="journal-name">Christo et Doctrinae</span>'
+        + '<div class="divider-line"></div>'
+        + '<span class="issue-title">' + edition.theme + '</span>'
+        + '<div class="divider-line"></div>'
+        + '<span class="year">' + edition.season + '</span>'
+        + '</div></div>';
+    }
+
+    /* ----------------------------------------------------------
+       Render an image cover
+    ---------------------------------------------------------- */
+    function imageCoverHTML(edition) {
+      return '<div class="edition-cover edition-cover-photo">'
+        + '<img src="' + edition.cover_image + '" alt="' + edition.title + ' — ' + edition.theme + '" loading="lazy" />'
+        + '</div>';
+    }
+
+    /* ----------------------------------------------------------
+       Render a single edition card
+    ---------------------------------------------------------- */
+    function editionCardHTML(edition, idx, isFeatured) {
+      var cover = edition.cover_image ? imageCoverHTML(edition) : textCoverHTML(edition, idx);
+      var hasPdf = !!edition.pdf_file;
+
+      var cls = 'edition-card' + (isFeatured ? ' edition-featured-card' : '') + (hasPdf ? ' edition-has-pdf' : '');
+      var pdfAttr = hasPdf ? ' data-pdf="' + edition.pdf_file + '"' : '';
+      var titleAttr = ' data-title="' + edition.title + (edition.theme ? ' \u2014 ' + edition.theme : '') + '"';
+      var hint = hasPdf
+        ? '<span class="edition-view-hint">Click to read</span>'
+        : '<span class="edition-view-hint edition-view-hint--unavailable">PDF coming soon</span>';
+
+      var metaParts = [];
+      if (edition.season) metaParts.push(edition.season);
+      if (edition.page_count) metaParts.push(edition.page_count + ' pages');
+
+      return '<div class="' + cls + '"' + pdfAttr + titleAttr + '>'
+        + cover
+        + hint
+        + '<div class="edition-card-body">'
+        + '<h3 class="edition-card-title">' + edition.title + (edition.theme ? ' <em>\u2014 ' + edition.theme + '</em>' : '') + '</h3>'
+        + (metaParts.length ? '<p class="edition-meta">' + metaParts.join(' \u00b7 ') + '</p>' : '')
+        + (edition.description ? '<p class="edition-card-desc">' + edition.description + '</p>' : '')
+        + (edition.contents ? '<p class="edition-contents">' + edition.contents + '</p>' : '')
+        + '</div></div>';
+    }
+
+    /* ----------------------------------------------------------
+       Render all editions into the container
+    ---------------------------------------------------------- */
+    function renderEditions(editions) {
+      var container = document.getElementById('editions-container');
+      if (!editions.length) {
+        container.innerHTML = '<p style="color:var(--text-muted);font-style:italic;">No editions published yet.</p>';
+        return;
+      }
+
+      var html = '';
+
+      // Featured (most recent) edition
+      html += '<div class="editions-featured-wrap">';
+      html += editionCardHTML(editions[0], 0, true);
+      html += '</div>';
+
+      // Previous editions grid
+      if (editions.length > 1) {
+        html += '<div class="editions-archive">';
+        html += '<h2 class="editions-archive-heading">Previous Editions</h2>';
+        html += '<div class="editions-grid">';
+        editions.slice(1).forEach(function (ed, i) {
+          html += editionCardHTML(ed, i + 1, false);
+        });
+        html += '</div></div>';
+      }
+
+      container.innerHTML = html;
+
+      // Attach click handlers
+      container.querySelectorAll('.edition-has-pdf').forEach(function (card) {
+        card.addEventListener('click', function () {
+          openFlipbook(this.dataset.pdf, this.dataset.title);
+        });
+      });
+    }
+
+    /* ----------------------------------------------------------
+       Flipbook viewer (PDF.js)
+    ---------------------------------------------------------- */
+    var pdfDoc     = null;
+    var currentPage = 1;
+    var rendering  = false;
+
+    function openFlipbook(pdfUrl, title) {
+      var modal = document.getElementById('flipbook-modal');
+      document.getElementById('flipbook-title').textContent = title || '';
+      document.getElementById('flipbook-loading').style.display = '';
+      document.getElementById('flipbook-error').style.display = 'none';
+      document.getElementById('flipbook-canvas').style.display = 'none';
+      document.getElementById('flipbook-controls').style.visibility = 'hidden';
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      if (!pdfUrl) {
+        document.getElementById('flipbook-loading').style.display = 'none';
+        document.getElementById('flipbook-error').style.display = '';
+        return;
+      }
+
+      // Lazy-load PDF.js
+      if (typeof pdfjsLib === 'undefined') {
+        var script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.onload = function () {
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          loadPdf(pdfUrl);
+        };
+        script.onerror = function () {
+          document.getElementById('flipbook-loading').style.display = 'none';
+          document.getElementById('flipbook-error').style.display = '';
+        };
+        document.head.appendChild(script);
+      } else {
+        loadPdf(pdfUrl);
+      }
+    }
+
+    function loadPdf(url) {
+      pdfjsLib.getDocument(url).promise.then(function (pdf) {
+        pdfDoc = pdf;
+        currentPage = 1;
+        document.getElementById('flipbook-total').textContent = pdf.numPages;
+        document.getElementById('flipbook-prev').disabled = true;
+        document.getElementById('flipbook-next').disabled = pdf.numPages <= 1;
+        renderPage(1);
+      }).catch(function () {
+        document.getElementById('flipbook-loading').style.display = 'none';
+        document.getElementById('flipbook-error').style.display = '';
+      });
+    }
+
+    function renderPage(num) {
+      if (rendering || !pdfDoc) return;
+      rendering = true;
+
+      pdfDoc.getPage(num).then(function (page) {
+        var canvas  = document.getElementById('flipbook-canvas');
+        var ctx     = canvas.getContext('2d');
+
+        // Scale to fit the viewer width
+        var maxW    = Math.min(window.innerWidth * 0.88, 820);
+        var maxH    = window.innerHeight - 180;
+        var baseVp  = page.getViewport({ scale: 1 });
+        var scale   = Math.min(maxW / baseVp.width, maxH / baseVp.height);
+        var vp      = page.getViewport({ scale: scale });
+
+        canvas.width  = vp.width;
+        canvas.height = vp.height;
+
+        return page.render({ canvasContext: ctx, viewport: vp }).promise;
+      }).then(function () {
+        document.getElementById('flipbook-loading').style.display = 'none';
+        document.getElementById('flipbook-canvas').style.display = 'block';
+        document.getElementById('flipbook-controls').style.visibility = '';
+        document.getElementById('flipbook-current').textContent = num;
+        document.getElementById('flipbook-prev').disabled = num <= 1;
+        document.getElementById('flipbook-next').disabled = num >= pdfDoc.numPages;
+        rendering = false;
+      }).catch(function () {
+        document.getElementById('flipbook-loading').style.display = 'none';
+        document.getElementById('flipbook-error').style.display = '';
+        rendering = false;
+      });
+    }
+
+    function closeFlipbook() {
+      document.getElementById('flipbook-modal').classList.remove('is-open');
+      document.body.style.overflow = '';
+      pdfDoc = null;
+      rendering = false;
+    }
+
+    // Controls
+    document.getElementById('flipbook-close').addEventListener('click', closeFlipbook);
+
+    document.getElementById('flipbook-prev').addEventListener('click', function () {
+      if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+    });
+
+    document.getElementById('flipbook-next').addEventListener('click', function () {
+      if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function (e) {
+      var modal = document.getElementById('flipbook-modal');
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeFlipbook();
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+      }
+    });
+
+    // Click outside canvas to close
+    document.getElementById('flipbook-modal').addEventListener('click', function (e) {
+      if (e.target === this) closeFlipbook();
+    });
+
+    // Load editions
+    fetch('data/editions.json')
+      .then(function (r) { return r.json(); })
+      .then(renderEditions)
+      .catch(function () {
+        document.getElementById('editions-container').innerHTML =
+          '<p style="color:var(--text-muted);font-style:italic;">Could not load editions. Please try again later.</p>';
+      });
+
+  })();
+  </script>
 
 </body>
 </html>
