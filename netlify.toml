@@ -5,7 +5,7 @@
 [build]
   # 1. tinacms build  → compiles the Tina admin app into ./admin/
   # 2. node build.js  → converts markdown content → data/*.json
-  command = "tinacms build && node build.js"
+  command = "npm run build"
   publish = "."
 
 [build.environment]
