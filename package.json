@@ -10,7 +10,9 @@
     "tinacms": "^2.6.0",
     "next-tinacms-cloudinary": "^4.2.0",
     "cloudinary": "^2.0.1",
-    "busboy": "^1.6.0"
+    "busboy": "^1.6.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
     "@tinacms/cli": "^1.6.10"
