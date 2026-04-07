@@ -1,0 +1,18 @@
+{
+  "name": "christo-et-doctrinae",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tinacms dev -c \"node build.js\"",
+    "build": "tinacms build && node build.js"
+  },
+  "dependencies": {
+    "tinacms": "^2.6.0",
+    "next-tinacms-cloudinary": "^4.2.0",
+    "cloudinary": "^2.0.1",
+    "busboy": "^1.6.0"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^1.6.10"
+  }
+}

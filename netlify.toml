@@ -3,17 +3,37 @@
 # ================================================================
 
 [build]
-  # Runs before publishing. Converts CMS markdown articles to
-  # data/articles.json so the homepage shows the latest articles.
-  command = "node build.js"
+  # 1. tinacms build  → compiles the Tina admin app into ./admin/
+  # 2. node build.js  → converts markdown content → data/*.json
+  command = "tinacms build && node build.js"
   publish = "."
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# ----------------------------------------------------------------
+# Cloudinary media proxy
+# Routes /api/cloudinary[/*] to the Netlify Function that handles
+# Cloudinary list / upload / delete for the Tina media library.
+# ----------------------------------------------------------------
+[[redirects]]
+  from   = "/api/cloudinary"
+  to     = "/.netlify/functions/cloudinary"
+  status = 200
+  force  = true
+
+[[redirects]]
+  from   = "/api/cloudinary/*"
+  to     = "/.netlify/functions/cloudinary"
+  status = 200
+  force  = true
 
 # Security headers for the admin panel
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
+    X-Frame-Options      = "SAMEORIGIN"
+    X-XSS-Protection     = "1; mode=block"
     X-Content-Type-Options = "nosniff"
 
 # Cache-control for data files so the browser always fetches fresh content
