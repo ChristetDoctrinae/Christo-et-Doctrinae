@@ -167,7 +167,7 @@
   <script>
   (function () {
 
-    // Cover gradients for editions without a cover image
+    // Fallback cover gradients (shown before PDF cover loads, or if no PDF)
     var COVER_GRADIENTS = [
       'linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%)',
       'linear-gradient(145deg, #14131F 0%, #1C1C2E 50%, #2A1A3A 100%)',
@@ -176,11 +176,109 @@
     ];
 
     /* ----------------------------------------------------------
-       Render a styled text cover (when no image is available)
+       Shared PDF.js loader — loads the script once; both the
+       cover preview extractor and the flipbook viewer use it.
     ---------------------------------------------------------- */
-    function textCoverHTML(edition, idx) {
-      var grad = COVER_GRADIENTS[idx % COVER_GRADIENTS.length];
-      return '<div class="edition-cover edition-cover-styled" style="background:' + grad + ';">'
+    var pdfJsReady     = false;
+    var pdfJsFailed    = false;
+    var pdfJsCallbacks = [];
+
+    function ensurePdfJs(onReady, onFail) {
+      if (pdfJsReady)  { onReady(); return; }
+      if (pdfJsFailed) { if (onFail) onFail(); return; }
+      if (onReady) pdfJsCallbacks.push({ ok: onReady, fail: onFail || null });
+      if (pdfJsCallbacks.length > 1) return; // already loading
+
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      s.onload = function () {
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        pdfJsReady = true;
+        pdfJsCallbacks.forEach(function (cb) { cb.ok(); });
+        pdfJsCallbacks = [];
+      };
+      s.onerror = function () {
+        pdfJsFailed = true;
+        pdfJsCallbacks.forEach(function (cb) { if (cb.fail) cb.fail(); });
+        pdfJsCallbacks = [];
+      };
+      document.head.appendChild(s);
+    }
+
+    /* ----------------------------------------------------------
+       Cover preview — renders the first page of a PDF into the
+       edition's cover element, replacing the gradient placeholder.
+       Uses disableAutoFetch so only the needed bytes are fetched.
+    ---------------------------------------------------------- */
+    function renderPdfCover(pdfUrl, coverEl) {
+      ensurePdfJs(function () {
+        pdfjsLib.getDocument({ url: pdfUrl, disableAutoFetch: true, disableStream: false })
+          .promise
+          .then(function (pdf) { return pdf.getPage(1); })
+          .then(function (page) {
+            var vp0   = page.getViewport({ scale: 1 });
+            var scale = 480 / vp0.width;          // render at 480px wide
+            var vp    = page.getViewport({ scale: scale });
+            var cvs   = document.createElement('canvas');
+            var ctx   = cvs.getContext('2d');
+            cvs.width  = vp.width;
+            cvs.height = vp.height;
+            cvs.className = 'edition-cover-canvas';
+            return page.render({ canvasContext: ctx, viewport: vp })
+              .promise
+              .then(function () {
+                coverEl.innerHTML = '';
+                coverEl.appendChild(cvs);
+                coverEl.classList.remove('edition-cover-styled');
+                coverEl.classList.add('edition-cover-from-pdf');
+              });
+          })
+          .catch(function () { /* keep gradient placeholder on error */ });
+      });
+    }
+
+    /* ----------------------------------------------------------
+       Lazy-load cover previews using IntersectionObserver.
+       Covers with data-pdf-cover are observed; PDF.js is only
+       loaded when the first cover element scrolls into view.
+    ---------------------------------------------------------- */
+    function initCoverPreviews() {
+      var covers = Array.prototype.slice.call(
+        document.querySelectorAll('[data-pdf-cover]')
+      );
+      if (!covers.length) return;
+
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              obs.unobserve(entry.target);
+              renderPdfCover(entry.target.dataset.pdfCover, entry.target);
+            }
+          });
+        }, { rootMargin: '300px' }); // pre-load slightly before visible
+        covers.forEach(function (el) { obs.observe(el); });
+      } else {
+        // Fallback for older browsers: load all immediately
+        covers.forEach(function (el) {
+          renderPdfCover(el.dataset.pdfCover, el);
+        });
+      }
+    }
+
+    /* ----------------------------------------------------------
+       Edition card rendering — cover is always the gradient
+       placeholder initially; if a PDF exists it will be replaced
+       with the first-page preview after the element is visible.
+    ---------------------------------------------------------- */
+    function coverHTML(edition, idx) {
+      var grad     = COVER_GRADIENTS[idx % COVER_GRADIENTS.length];
+      var pdfAttr  = edition.pdf_file
+        ? ' data-pdf-cover="' + edition.pdf_file + '"'
+        : '';
+      return '<div class="edition-cover edition-cover-styled"' + pdfAttr
+        + ' style="background:' + grad + ';">'
         + '<div class="edition-cover-text">'
         + '<span class="vol-label">' + edition.title + '</span>'
         + '<span class="journal-name">Christo et Doctrinae</span>'
@@ -191,47 +289,33 @@
         + '</div></div>';
     }
 
-    /* ----------------------------------------------------------
-       Render an image cover
-    ---------------------------------------------------------- */
-    function imageCoverHTML(edition) {
-      return '<div class="edition-cover edition-cover-photo">'
-        + '<img src="' + edition.cover_image + '" alt="' + edition.title + ' — ' + edition.theme + '" loading="lazy" />'
-        + '</div>';
-    }
-
-    /* ----------------------------------------------------------
-       Render a single edition card
-    ---------------------------------------------------------- */
     function editionCardHTML(edition, idx, isFeatured) {
-      var cover = edition.cover_image ? imageCoverHTML(edition) : textCoverHTML(edition, idx);
-      var hasPdf = !!edition.pdf_file;
-
-      var cls = 'edition-card' + (isFeatured ? ' edition-featured-card' : '') + (hasPdf ? ' edition-has-pdf' : '');
-      var pdfAttr = hasPdf ? ' data-pdf="' + edition.pdf_file + '"' : '';
-      var titleAttr = ' data-title="' + edition.title + (edition.theme ? ' \u2014 ' + edition.theme : '') + '"';
+      var hasPdf     = !!edition.pdf_file;
+      var cls        = 'edition-card'
+        + (isFeatured ? ' edition-featured-card' : '')
+        + (hasPdf    ? ' edition-has-pdf' : '');
+      var pdfAttr    = hasPdf ? ' data-pdf="' + edition.pdf_file + '"' : '';
+      var titleAttr  = ' data-title="' + edition.title
+        + (edition.theme ? ' \u2014 ' + edition.theme : '') + '"';
       var hint = hasPdf
         ? '<span class="edition-view-hint">Click to read</span>'
         : '<span class="edition-view-hint edition-view-hint--unavailable">PDF coming soon</span>';
-
-      var metaParts = [];
-      if (edition.season) metaParts.push(edition.season);
+      var metaParts  = [];
+      if (edition.season)     metaParts.push(edition.season);
       if (edition.page_count) metaParts.push(edition.page_count + ' pages');
 
       return '<div class="' + cls + '"' + pdfAttr + titleAttr + '>'
-        + cover
+        + coverHTML(edition, idx)
         + hint
         + '<div class="edition-card-body">'
-        + '<h3 class="edition-card-title">' + edition.title + (edition.theme ? ' <em>\u2014 ' + edition.theme + '</em>' : '') + '</h3>'
+        + '<h3 class="edition-card-title">' + edition.title
+          + (edition.theme ? ' <em>\u2014 ' + edition.theme + '</em>' : '') + '</h3>'
         + (metaParts.length ? '<p class="edition-meta">' + metaParts.join(' \u00b7 ') + '</p>' : '')
         + (edition.description ? '<p class="edition-card-desc">' + edition.description + '</p>' : '')
-        + (edition.contents ? '<p class="edition-contents">' + edition.contents + '</p>' : '')
+        + (edition.contents   ? '<p class="edition-contents">'  + edition.contents   + '</p>' : '')
         + '</div></div>';
     }
 
-    /* ----------------------------------------------------------
-       Render all editions into the container
-    ---------------------------------------------------------- */
     function renderEditions(editions) {
       var container = document.getElementById('editions-container');
       if (!editions.length) {
@@ -240,13 +324,10 @@
       }
 
       var html = '';
-
-      // Featured (most recent) edition
       html += '<div class="editions-featured-wrap">';
       html += editionCardHTML(editions[0], 0, true);
       html += '</div>';
 
-      // Previous editions grid
       if (editions.length > 1) {
         html += '<div class="editions-archive">';
         html += '<h2 class="editions-archive-heading">Previous Editions</h2>';
@@ -259,100 +340,88 @@
 
       container.innerHTML = html;
 
-      // Attach click handlers
+      // Click handlers for flipbook
       container.querySelectorAll('.edition-has-pdf').forEach(function (card) {
         card.addEventListener('click', function () {
           openFlipbook(this.dataset.pdf, this.dataset.title);
         });
       });
+
+      // Kick off lazy cover preview extraction
+      initCoverPreviews();
     }
 
     /* ----------------------------------------------------------
-       Flipbook viewer (PDF.js)
+       Flipbook viewer — uses the shared ensurePdfJs loader
     ---------------------------------------------------------- */
-    var pdfDoc     = null;
+    var pdfDoc      = null;
     var currentPage = 1;
-    var rendering  = false;
+    var rendering   = false;
 
     function openFlipbook(pdfUrl, title) {
       var modal = document.getElementById('flipbook-modal');
-      document.getElementById('flipbook-title').textContent = title || '';
+      document.getElementById('flipbook-title').textContent     = title || '';
       document.getElementById('flipbook-loading').style.display = '';
-      document.getElementById('flipbook-error').style.display = 'none';
-      document.getElementById('flipbook-canvas').style.display = 'none';
+      document.getElementById('flipbook-error').style.display   = 'none';
+      document.getElementById('flipbook-canvas').style.display  = 'none';
       document.getElementById('flipbook-controls').style.visibility = 'hidden';
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
 
       if (!pdfUrl) {
         document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-error').style.display = '';
+        document.getElementById('flipbook-error').style.display   = '';
         return;
       }
 
-      // Lazy-load PDF.js
-      if (typeof pdfjsLib === 'undefined') {
-        var script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-        script.onload = function () {
-          pdfjsLib.GlobalWorkerOptions.workerSrc =
-            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-          loadPdf(pdfUrl);
-        };
-        script.onerror = function () {
+      ensurePdfJs(
+        function () { loadPdf(pdfUrl); },
+        function () {
           document.getElementById('flipbook-loading').style.display = 'none';
-          document.getElementById('flipbook-error').style.display = '';
-        };
-        document.head.appendChild(script);
-      } else {
-        loadPdf(pdfUrl);
-      }
+          document.getElementById('flipbook-error').style.display   = '';
+        }
+      );
     }
 
     function loadPdf(url) {
       pdfjsLib.getDocument(url).promise.then(function (pdf) {
         pdfDoc = pdf;
         currentPage = 1;
-        document.getElementById('flipbook-total').textContent = pdf.numPages;
-        document.getElementById('flipbook-prev').disabled = true;
-        document.getElementById('flipbook-next').disabled = pdf.numPages <= 1;
+        document.getElementById('flipbook-total').textContent    = pdf.numPages;
+        document.getElementById('flipbook-prev').disabled        = true;
+        document.getElementById('flipbook-next').disabled        = pdf.numPages <= 1;
         renderPage(1);
       }).catch(function () {
         document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-error').style.display = '';
+        document.getElementById('flipbook-error').style.display   = '';
       });
     }
 
     function renderPage(num) {
       if (rendering || !pdfDoc) return;
       rendering = true;
-
       pdfDoc.getPage(num).then(function (page) {
-        var canvas  = document.getElementById('flipbook-canvas');
-        var ctx     = canvas.getContext('2d');
-
-        // Scale to fit the viewer width
-        var maxW    = Math.min(window.innerWidth * 0.88, 820);
-        var maxH    = window.innerHeight - 180;
-        var baseVp  = page.getViewport({ scale: 1 });
-        var scale   = Math.min(maxW / baseVp.width, maxH / baseVp.height);
-        var vp      = page.getViewport({ scale: scale });
-
+        var canvas = document.getElementById('flipbook-canvas');
+        var ctx    = canvas.getContext('2d');
+        var maxW   = Math.min(window.innerWidth * 0.88, 820);
+        var maxH   = window.innerHeight - 180;
+        var base   = page.getViewport({ scale: 1 });
+        var scale  = Math.min(maxW / base.width, maxH / base.height);
+        var vp     = page.getViewport({ scale: scale });
         canvas.width  = vp.width;
         canvas.height = vp.height;
-
         return page.render({ canvasContext: ctx, viewport: vp }).promise;
       }).then(function () {
         document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-canvas').style.display = 'block';
+        document.getElementById('flipbook-canvas').style.display  = 'block';
         document.getElementById('flipbook-controls').style.visibility = '';
-        document.getElementById('flipbook-current').textContent = num;
+        document.getElementById('flipbook-current').textContent   = num;
         document.getElementById('flipbook-prev').disabled = num <= 1;
         document.getElementById('flipbook-next').disabled = num >= pdfDoc.numPages;
         rendering = false;
       }).catch(function () {
         document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-error').style.display = '';
+        document.getElementById('flipbook-error').style.display   = '';
         rendering = false;
       });
     }
@@ -360,26 +429,20 @@
     function closeFlipbook() {
       document.getElementById('flipbook-modal').classList.remove('is-open');
       document.body.style.overflow = '';
-      pdfDoc = null;
+      pdfDoc    = null;
       rendering = false;
     }
 
-    // Controls
     document.getElementById('flipbook-close').addEventListener('click', closeFlipbook);
-
     document.getElementById('flipbook-prev').addEventListener('click', function () {
       if (currentPage > 1) { currentPage--; renderPage(currentPage); }
     });
-
     document.getElementById('flipbook-next').addEventListener('click', function () {
       if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
     });
-
-    // Keyboard navigation
     document.addEventListener('keydown', function (e) {
-      var modal = document.getElementById('flipbook-modal');
-      if (!modal.classList.contains('is-open')) return;
-      if (e.key === 'Escape') closeFlipbook();
+      if (!document.getElementById('flipbook-modal').classList.contains('is-open')) return;
+      if (e.key === 'Escape') { closeFlipbook(); return; }
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
       }
@@ -387,13 +450,11 @@
         if (currentPage > 1) { currentPage--; renderPage(currentPage); }
       }
     });
-
-    // Click outside canvas to close
     document.getElementById('flipbook-modal').addEventListener('click', function (e) {
       if (e.target === this) closeFlipbook();
     });
 
-    // Load editions
+    // Load editions data
     fetch('data/editions.json')
       .then(function (r) { return r.json(); })
       .then(renderEditions)

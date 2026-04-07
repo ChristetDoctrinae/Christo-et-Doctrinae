@@ -358,12 +358,6 @@ collections:
         value_type: "int"
         hint: "Used to sort editions — higher number = more recent"
 
-      - label: "Cover Image"
-        name: "cover_image"
-        widget: "image"
-        required: false
-        hint: "Upload a cover photo or scan. If not provided, a styled typographic cover will be shown."
-
       - label: "Page Count"
         name: "page_count"
         widget: "number"

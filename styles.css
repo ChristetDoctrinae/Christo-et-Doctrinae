@@ -1797,6 +1797,24 @@ h4 { font-size: 1.2rem; }
   background: rgba(255,255,255,0.1);
 }
 
+/* Cover rendered from PDF first page */
+.edition-cover-from-pdf {
+  width: 100%;
+  margin-bottom: 1.25rem;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 8px 12px 36px rgba(0,0,0,0.3), 2px 4px 10px rgba(0,0,0,0.15);
+  transition: box-shadow 0.35s ease;
+  background: none;
+  aspect-ratio: unset; /* let canvas determine height */
+}
+
+.edition-cover-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Hover effect on clickable editions */
 .edition-has-pdf {
   cursor: pointer;

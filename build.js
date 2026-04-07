@@ -171,7 +171,6 @@ if (fs.existsSync(editionsDir)) {
       theme:         data.theme         || '',
       season:        data.season        || '',
       volume_number: parseInt(data.volume_number, 10) || 0,
-      cover_image:   data.cover_image   || '',
       page_count:    parseInt(data.page_count, 10) || 0,
       contents:      data.contents      || '',
       description:   data.description   || '',
