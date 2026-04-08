@@ -3,17 +3,12 @@
 # ================================================================
 #
 # Backend:  Netlify Identity + Git Gateway (handles auth + Git commits)
-# Media:    Netlify Large Media (Git LFS) — supports PDFs and large images
-#           without file size errors
 # Setup:
 #   1. Enable Netlify Identity in your Netlify dashboard
 #      (Site Settings → Identity → Enable Identity)
 #   2. Enable Git Gateway in Identity settings
 #      (Identity → Services → Enable Git Gateway)
-#   3. Enable Large Media in Netlify dashboard
-#      (Site Settings → Build & Deploy → Large Media → Enable)
-#      Then run: netlify lm:setup (requires Netlify CLI)
-#   4. Visit /admin to log in and invite your team
+#   3. Visit /admin to log in and invite your team
 # ================================================================
 
 backend:
@@ -22,16 +17,8 @@ backend:
 
 locale: en
 
-# ----------------------------------------------------------------
-# Media Library — Netlify Large Media (Git LFS)
-# Enables drag-and-drop upload of images and PDFs through the CMS
-# without hitting Git file size limits.
-# ----------------------------------------------------------------
-media_library:
-  name: netlify
-
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 # ================================================================
 # COLLECTIONS
@@ -108,9 +95,6 @@ collections:
         widget: "image"
         required: false
         hint: "Upload a cover image (JPG, PNG, WEBP). Appears as the thumbnail on article cards and the article header."
-        media_library:
-          config:
-            multiple: false
 
       - name: "focal_point"
         label: "Cover Image Focal Point"
@@ -224,12 +208,8 @@ collections:
         widget: "file"
         required: false
         hint: >
-          Upload the PDF of this edition via Netlify Large Media.
+          Upload the PDF of this edition.
           When set, clicking the edition card opens the flipbook viewer.
-          PDFs are stored via Git LFS — no file size errors.
-        media_library:
-          config:
-            multiple: false
 
   # --------------------------------------------------------------
   # TAGS — create and delete tags; articles reference them by name
