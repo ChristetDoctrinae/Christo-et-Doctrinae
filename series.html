@@ -1,205 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Series — Christo et Doctrinae</title>
-  <meta name="description" content="Explore the ongoing series of Christo et Doctrinae — sustained reflection on theology, culture, the saints, and more." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "Series — Christo et Doctrinae"
+description: "Explore the ongoing series of Christo et Doctrinae — sustained reflection on theology, culture, the saints, and more."
+permalink: /series/
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html" class="active">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
-          </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
-    </div>
-  </nav>
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+{% assign published = "" | split: "" %}
+{% for a in site.articles %}
+  {% if a.publish_date %}
+    {% assign pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% unless pub_str > now_str %}
+      {% assign published = published | push: a %}
+    {% endunless %}
+  {% else %}
+    {% assign published = published | push: a %}
+  {% endif %}
+{% endfor %}
 
-  <!-- ============================================================
-       PAGE HEADER
-       ============================================================ -->
-  <header class="page-header">
-    <span class="eyebrow">Read Our Work</span>
-    <h1>Series</h1>
-    <p class="lead">Sustained reflection on questions that do not admit of easy answers.</p>
-  </header>
+{% assign romans = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," %}
 
-  <!-- ============================================================
-       SUB-NAVIGATION
-       ============================================================ -->
-  <div class="read-subnav">
-    <div class="read-subnav-inner">
-      <a href="articles.html" class="subnav-link">Articles</a>
-      <a href="series.html" class="subnav-link active">Series</a>
-      <a href="print-editions.html" class="subnav-link">Print Editions</a>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<header class="page-header">
+  <span class="eyebrow">Read Our Work</span>
+  <h1>Series</h1>
+  <p class="lead">Sustained reflection on questions that do not admit of easy answers.</p>
+</header>
+
+<!-- ============================================================
+     SUB-NAVIGATION
+     ============================================================ -->
+<div class="read-subnav">
+  <div class="read-subnav-inner">
+    <a href="{{ '/articles/' | relative_url }}" class="subnav-link">Articles</a>
+    <a href="{{ '/series/' | relative_url }}" class="subnav-link active">Series</a>
+    <a href="{{ '/print-editions/' | relative_url }}" class="subnav-link">Print Editions</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     SERIES INTRO
+     ============================================================ -->
+<div class="page-subtitle-bar">
+  <p class="page-subtitle">
+    What we call a series in <em>Christo et Doctrinae</em> is not a special issue. It is a gathering of voices and perspectives around a shared theme — perhaps one of our annual holiday series, or something more occasional, like our exploration of the saints — woven together across authors, issues, and years.
+  </p>
+</div>
+
+<!-- ============================================================
+     SERIES GRID — only series with published articles
+     ============================================================ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="series-grid">
+
+      {% assign roman_index = 0 %}
+      {% for s in site.series %}
+        {% assign series_articles = published | where: "series", s.name %}
+        {% if series_articles.size > 0 %}
+
+          {% if s.is_yearly %}
+            {% assign year_set = "" | split: "" %}
+            {% for a in series_articles %}
+              {% unless year_set contains a.series_year %}
+                {% assign year_set = year_set | push: a.series_year %}
+              {% endunless %}
+            {% endfor %}
+            {% assign count_label = year_set.size | append: " year" %}
+            {% if year_set.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
+          {% else %}
+            {% assign count_label = series_articles.size | append: " article" %}
+            {% if series_articles.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
+          {% endif %}
+
+          <div class="series-card">
+            <div class="series-number">{{ romans[roman_index] }}</div>
+            <div>
+              <h3>{{ s.name }}</h3>
+              <p class="series-count">{{ count_label }}</p>
+              {% if s.description %}<p>{{ s.description }}</p>{% endif %}
+              <a href="{{ s.url | relative_url }}" class="btn btn-outline btn-sm">Explore the Series</a>
+            </div>
+          </div>
+
+          {% assign roman_index = roman_index | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      {% if roman_index == 0 %}
+        <p style="color:var(--text-muted); font-style:italic;">No series with published articles yet.</p>
+      {% endif %}
+
     </div>
   </div>
-
-  <!-- ============================================================
-       SERIES INTRO
-       ============================================================ -->
-  <div class="page-subtitle-bar">
-    <p class="page-subtitle">
-      What we call a series in <em>Christo et Doctrinae</em> is not a special issue. It is a gathering of voices and perspectives around a shared theme — perhaps one of our annual holiday series, or something more occasional, like our exploration of the saints — woven together across authors, issues, and years.
-    </p>
-  </div>
-
-  <!-- ============================================================
-       SERIES GRID — populated by JS from data/series.json
-       Only series with published articles are shown.
-       ============================================================ -->
-  <section class="section section-alt">
-    <div class="container">
-      <div class="series-grid" id="series-grid">
-        <p style="color:var(--text-muted); font-style:italic;">Loading series…</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       SERIES GRID RENDERING
-       Loads data/series.json + data/articles.json.
-       Only shows series that have at least one published article.
-       Yearly series show "X years"; others show "X articles".
-       ============================================================ -->
-  <script>
-  (function () {
-
-    function toRoman(n) {
-      var vals = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
-      var syms = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
-      var result = '';
-      for (var i = 0; i < vals.length; i++) {
-        while (n >= vals[i]) { result += syms[i]; n -= vals[i]; }
-      }
-      return result;
-    }
-
-    function renderGrid(seriesList, articles) {
-      // Index articles by series name
-      var byName = {};
-      articles.forEach(function (a) {
-        if (a.series) {
-          if (!byName[a.series]) byName[a.series] = [];
-          byName[a.series].push(a);
-        }
-      });
-
-      // Filter to series with at least one article
-      var active = seriesList.filter(function (s) {
-        return byName[s.name] && byName[s.name].length > 0;
-      });
-
-      var grid = document.getElementById('series-grid');
-
-      if (active.length === 0) {
-        grid.innerHTML = '<p style="color:var(--text-muted); font-style:italic;">No series with published articles yet.</p>';
-        return;
-      }
-
-      var html = '';
-      active.forEach(function (s, i) {
-        var arts = byName[s.name] || [];
-
-        var countLabel;
-        if (s.is_yearly) {
-          var yearSet = {};
-          arts.forEach(function (a) { if (a.series_year) yearSet[a.series_year] = true; });
-          var yc = Object.keys(yearSet).length;
-          countLabel = yc + ' year' + (yc !== 1 ? 's' : '');
-        } else {
-          countLabel = arts.length + ' article' + (arts.length !== 1 ? 's' : '');
-        }
-
-        html += '<div class="series-card">';
-        html += '<div class="series-number">' + toRoman(i + 1) + '</div>';
-        html += '<div>';
-        html += '<h3>' + s.name + '</h3>';
-        html += '<p class="series-count">' + countLabel + '</p>';
-        if (s.description) {
-          html += '<p>' + s.description + '</p>';
-        }
-        html += '<a href="series-detail.html?series=' + encodeURIComponent(s.slug) + '" class="btn btn-outline btn-sm">Explore the Series</a>';
-        html += '</div></div>';
-      });
-
-      grid.innerHTML = html;
-    }
-
-    Promise.all([
-      fetch('data/series.json').then(function (r) { return r.json(); }),
-      fetch('data/articles.json').then(function (r) { return r.json(); })
-    ]).then(function (results) {
-      renderGrid(results[0], results[1]);
-    }).catch(function () {
-      document.getElementById('series-grid').innerHTML =
-        '<p style="color:var(--text-muted); font-style:italic;">Could not load series. Please try again later.</p>';
-    });
-
-  })();
-  </script>
-
-</body>
-</html>
+</section>

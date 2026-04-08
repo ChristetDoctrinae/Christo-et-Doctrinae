@@ -1,0 +1,95 @@
+{
+  "editor_in_chief": {
+    "name": "Luke Constantineau",
+    "title": "Editor in Chief",
+    "major": "Philosophy and Politics & International Affair",
+    "year": "Class of 2028",
+    "hometown": "Bluffton, SC"
+  },
+  "managing_editor": {
+    "name": "James Garland",
+    "title": "Managing Editor",
+    "major": "Politics & International Affairs",
+    "year": "Class of 2029",
+    "hometown": "Mauldin, SC"
+  },
+  "chief_of_design": {
+    "name": "Sarah Gilbert",
+    "title": "Chief of Design",
+    "major": "Art History & Business",
+    "year": "Class of 2028",
+    "hometown": "Wheaton, IL"
+  },
+  "contributors": [
+    {
+      "name": "James Calloway",
+      "title": "Senior Editor",
+      "major": "Theology",
+      "year": "Class of 2025",
+      "hometown": "Atlanta, GA"
+    },
+    {
+      "name": "Priya Nair",
+      "title": "Arts & Letters Editor",
+      "major": "English & Religion",
+      "year": "Class of 2026",
+      "hometown": "Houston, TX"
+    },
+    {
+      "name": "Liam Okafor",
+      "title": "Digital Editor",
+      "major": "Computer Science & Philosophy",
+      "year": "Class of 2026",
+      "hometown": "Charlotte, NC"
+    },
+    {
+      "name": "Catherine Voss",
+      "title": "Copy Editor",
+      "major": "English",
+      "year": "Class of 2027",
+      "hometown": "Raleigh, NC"
+    },
+    {
+      "name": "David Park",
+      "title": "Development & Outreach",
+      "major": "Economics & Religion",
+      "year": "Class of 2026",
+      "hometown": "Columbia, SC"
+    },
+    {
+      "name": "Anne Merritt",
+      "title": "Contributing Editor",
+      "major": "History & Theology",
+      "year": "Class of 2026",
+      "hometown": "Greenville, SC"
+    },
+    {
+      "name": "Samuel Brooks",
+      "title": "Contributing Editor",
+      "major": "Philosophy",
+      "year": "Class of 2027",
+      "hometown": "Memphis, TN"
+    },
+    {
+      "name": "Grace Whitfield",
+      "title": "Contributing Editor",
+      "major": "Literature & Religion",
+      "year": "Class of 2027",
+      "hometown": "Savannah, GA"
+    },
+    {
+      "name": "Isaiah Turner",
+      "title": "Contributing Editor",
+      "major": "Biblical Studies",
+      "year": "Class of 2025",
+      "hometown": "Durham, NC"
+    },
+    {
+      "name": "Rachel Kim",
+      "title": "Contributing Editor",
+      "major": "Art History",
+      "year": "Class of 2027",
+      "hometown": "Charlotte, NC"
+    }
+  ]
+}

@@ -1,2 +1,345 @@
-# This file is no longer used.
-# CMS configuration has moved to tina/config.ts (Tina CMS).
+# ================================================================
+# Netlify CMS Configuration — Christo et Doctrinae
+# ================================================================
+#
+# Backend:  Netlify Identity + Git Gateway (handles auth + Git commits)
+# Media:    Netlify Large Media (Git LFS) — supports PDFs and large images
+#           without file size errors
+# Setup:
+#   1. Enable Netlify Identity in your Netlify dashboard
+#      (Site Settings → Identity → Enable Identity)
+#   2. Enable Git Gateway in Identity settings
+#      (Identity → Services → Enable Git Gateway)
+#   3. Enable Large Media in Netlify dashboard
+#      (Site Settings → Build & Deploy → Large Media → Enable)
+#      Then run: netlify lm:setup (requires Netlify CLI)
+#   4. Visit /admin to log in and invite your team
+# ================================================================
+
+backend:
+  name: git-gateway
+  branch: main
+
+locale: en
+
+# ----------------------------------------------------------------
+# Media Library — Netlify Large Media (Git LFS)
+# Enables drag-and-drop upload of images and PDFs through the CMS
+# without hitting Git file size limits.
+# ----------------------------------------------------------------
+media_library:
+  name: netlify
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# ================================================================
+# COLLECTIONS
+# ================================================================
+
+collections:
+
+  # --------------------------------------------------------------
+  # ARTICLES — create, edit, and publish articles
+  # --------------------------------------------------------------
+  - name: "articles"
+    label: "Articles"
+    folder: "_articles"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - name: "title"
+        label: "Title"
+        widget: "string"
+        hint: "The article's main title"
+
+      - name: "subtitle"
+        label: "Subtitle"
+        widget: "string"
+        required: false
+        hint: "A short description shown beneath the title on cards and the article page"
+
+      - name: "author"
+        label: "Author"
+        widget: "string"
+        hint: "Author's full name"
+
+      - name: "date"
+        label: "Publication Date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        hint: "Display date for the article"
+
+      - name: "publish_date"
+        label: "Scheduled Publish Date"
+        widget: "datetime"
+        required: false
+        hint: "Leave blank to publish immediately on next deploy. Set a future date/time to hold the article until then."
+
+      - name: "series"
+        label: "Series"
+        widget: "string"
+        required: false
+        hint: "Enter the series name exactly, e.g. 'Holy Week Series'. Leave blank for standalone articles."
+
+      - name: "series_year"
+        label: "Series Year"
+        widget: "string"
+        required: false
+        hint: "For yearly series only (Holy Week, Advent): enter the 4-digit year, e.g. 2026"
+
+      - name: "print_edition"
+        label: "Print Edition"
+        widget: "string"
+        required: false
+        hint: "e.g. Spring 2025 — leave blank for digital/online-only articles"
+
+      - name: "tags"
+        label: "Tags"
+        widget: "list"
+        required: false
+        hint: "Up to 3 tags. Enter each tag name exactly (e.g. theology, art, poetry)"
+
+      - name: "cover_image"
+        label: "Cover Image"
+        widget: "image"
+        required: false
+        hint: "Upload a cover image (JPG, PNG, WEBP). Appears as the thumbnail on article cards and the article header."
+        media_library:
+          config:
+            multiple: false
+
+      - name: "focal_point"
+        label: "Cover Image Focal Point"
+        widget: "select"
+        required: false
+        default: "center"
+        options:
+          - { label: "Center (default)", value: "center" }
+          - { label: "Top",             value: "top" }
+          - { label: "Bottom",          value: "bottom" }
+          - { label: "Left",            value: "left" }
+          - { label: "Right",           value: "right" }
+          - { label: "Top Left",        value: "top-left" }
+          - { label: "Top Right",       value: "top-right" }
+          - { label: "Bottom Left",     value: "bottom-left" }
+          - { label: "Bottom Right",    value: "bottom-right" }
+        hint: "Which part of the cover image stays in frame when cropped to a card thumbnail?"
+
+      - name: "body"
+        label: "Article Content"
+        widget: "markdown"
+        hint: >
+          Write or paste the full article here. To position an inline image,
+          set its alt text to: left|caption, right|caption, full|caption, or center|caption
+
+  # --------------------------------------------------------------
+  # SERIES — create and manage series
+  # --------------------------------------------------------------
+  - name: "series"
+    label: "Series"
+    folder: "_series"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - name: "name"
+        label: "Series Name"
+        widget: "string"
+        hint: "The full series name, e.g. 'Holy Week Series' or 'The Saints'"
+
+      - name: "is_yearly"
+        label: "Is Yearly Series?"
+        widget: "boolean"
+        default: false
+        hint: "Yearly series (e.g. Holy Week, Advent) group articles by year. Non-yearly show a flat list."
+
+      - name: "description"
+        label: "Description"
+        widget: "text"
+        required: false
+        hint: "Brief description shown on the Series page (1–3 sentences)"
+
+      - name: "tile_color"
+        label: "Homepage Tile Background Color"
+        widget: "string"
+        required: false
+        default: "#1A1220"
+        hint: "Hex color for the series tile on the homepage, e.g. #1A1220"
+
+  # --------------------------------------------------------------
+  # PRINT EDITIONS — manage each print edition
+  # --------------------------------------------------------------
+  - name: "editions"
+    label: "Print Editions"
+    folder: "_editions"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - name: "title"
+        label: "Title"
+        widget: "string"
+        hint: "e.g. Volume III"
+
+      - name: "theme"
+        label: "Theme"
+        widget: "string"
+        required: false
+        hint: "The edition's thematic title, e.g. Love & Justice"
+
+      - name: "season"
+        label: "Season / Date"
+        widget: "string"
+        required: false
+        hint: "e.g. Spring 2025"
+
+      - name: "volume_number"
+        label: "Volume Number"
+        widget: "number"
+        hint: "Used to sort editions — higher number = more recent"
+
+      - name: "page_count"
+        label: "Page Count"
+        widget: "number"
+        required: false
+
+      - name: "contents"
+        label: "Contents"
+        widget: "string"
+        required: false
+        hint: "Short summary, e.g. 9 essays · 5 poems · 1 short story · Perfect bound"
+
+      - name: "description"
+        label: "Description"
+        widget: "text"
+        required: false
+        hint: "1–3 sentence description shown on the Print Editions page"
+
+      - name: "pdf_file"
+        label: "PDF File"
+        widget: "file"
+        required: false
+        hint: >
+          Upload the PDF of this edition via Netlify Large Media.
+          When set, clicking the edition card opens the flipbook viewer.
+          PDFs are stored via Git LFS — no file size errors.
+        media_library:
+          config:
+            multiple: false
+
+  # --------------------------------------------------------------
+  # TAGS — create and delete tags; articles reference them by name
+  # --------------------------------------------------------------
+  - name: "tags"
+    label: "Tags"
+    folder: "_tags"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - name: "name"
+        label: "Tag Name"
+        widget: "string"
+        hint: "Use lowercase, e.g. theology, art, culture, poetry"
+
+  # --------------------------------------------------------------
+  # SETTINGS — site-wide data files
+  # --------------------------------------------------------------
+  - name: "settings"
+    label: "Settings"
+    files:
+
+      - name: "featured"
+        label: "Featured Articles"
+        file: "_data/featured.json"
+        fields:
+          - name: "featured_articles"
+            label: "Featured Article Slugs (max 2)"
+            widget: "list"
+            hint: >
+              Enter the filename (without .md) of each article to feature on
+              the homepage. Maximum 2 — remove one before adding another.
+              e.g. good-friday-linger-in-the-dark
+
+      - name: "team"
+        label: "Team Members"
+        file: "_data/team.json"
+        fields:
+          - name: "editor_in_chief"
+            label: "Editor in Chief"
+            widget: "object"
+            fields:
+              - { name: "name",     label: "Name",             widget: "string" }
+              - { name: "title",    label: "Title",            widget: "string" }
+              - { name: "major",    label: "Major of Study",   widget: "string" }
+              - { name: "year",     label: "Year at School",   widget: "string", hint: "e.g. Class of 2025" }
+              - { name: "hometown", label: "Hometown & State", widget: "string", hint: "e.g. Nashville, TN" }
+
+          - name: "managing_editor"
+            label: "Managing Editor"
+            widget: "object"
+            fields:
+              - { name: "name",     label: "Name",             widget: "string" }
+              - { name: "title",    label: "Title",            widget: "string" }
+              - { name: "major",    label: "Major of Study",   widget: "string" }
+              - { name: "year",     label: "Year at School",   widget: "string" }
+              - { name: "hometown", label: "Hometown & State", widget: "string" }
+
+          - name: "chief_of_design"
+            label: "Chief of Design"
+            widget: "object"
+            fields:
+              - { name: "name",     label: "Name",             widget: "string" }
+              - { name: "title",    label: "Title",            widget: "string" }
+              - { name: "major",    label: "Major of Study",   widget: "string" }
+              - { name: "year",     label: "Year at School",   widget: "string" }
+              - { name: "hometown", label: "Hometown & State", widget: "string" }
+
+          - name: "contributors"
+            label: "Contributors"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.title}}"
+            fields:
+              - { name: "name",     label: "Name",             widget: "string" }
+              - { name: "title",    label: "Title",            widget: "string" }
+              - { name: "major",    label: "Major of Study",   widget: "string" }
+              - { name: "year",     label: "Year at School",   widget: "string" }
+              - { name: "hometown", label: "Hometown & State", widget: "string" }
+
+      - name: "submissions"
+        label: "Submissions Page"
+        file: "_data/submissions.json"
+        fields:
+          - name: "deadline_text"
+            label: "Current Deadline Text"
+            widget: "text"
+            hint: "Appears in the info box at the top of the Submissions page"
+
+          - name: "scholarly_guidelines"
+            label: "Scholarly & Critical Writing Guidelines"
+            widget: "list"
+
+          - name: "creative_guidelines"
+            label: "Creative Writing & Poetry Guidelines"
+            widget: "list"
+
+          - name: "visual_guidelines"
+            label: "Visual Art & Photography Guidelines"
+            widget: "list"
+
+          - name: "eligibility_guidelines"
+            label: "Eligibility & Process Guidelines"
+            widget: "list"
+
+      - name: "site_settings"
+        label: "Site Settings"
+        file: "_data/settings.json"
+        fields:
+          - name: "editor_email"
+            label: "Editor in Chief Email"
+            widget: "string"
+            hint: "Displayed in the Contact section of the About page"

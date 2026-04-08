@@ -1,0 +1,77 @@
+# ================================================================
+# Jekyll Configuration — Christo et Doctrinae
+# ================================================================
+
+title: "Christo et Doctrinae"
+description: "A journal of Christian thought dedicated to theological and artistic exploration of the Christian life."
+baseurl: ""
+url: "https://christoetdoctrinae.org"
+
+# ----------------------------------------------------------------
+# Collections
+# ----------------------------------------------------------------
+collections:
+  articles:
+    output: true
+    permalink: /articles/:name/
+  series:
+    output: true
+    permalink: /series/:name/
+  editions:
+    output: false
+  tags:
+    output: false
+
+# ----------------------------------------------------------------
+# Front matter defaults
+# ----------------------------------------------------------------
+defaults:
+  - scope:
+      path: ""
+      type: articles
+    values:
+      layout: article
+  - scope:
+      path: ""
+      type: series
+    values:
+      layout: series-detail
+
+# ----------------------------------------------------------------
+# Build settings
+# ----------------------------------------------------------------
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+
+# Posts with future dates are excluded from the build
+future: false
+
+# ----------------------------------------------------------------
+# Plugins
+# ----------------------------------------------------------------
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+
+# ----------------------------------------------------------------
+# Exclude from build output
+# ----------------------------------------------------------------
+exclude:
+  - node_modules/
+  - tina/
+  - netlify/
+  - build.js
+  - package.json
+  - package-lock.json
+  - .npmrc
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - content/
+  - data/
+  - "*.sh"

@@ -1,0 +1,23 @@
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <a href="{{ '/' | relative_url }}">
+        <span class="logo-title">Christo et Doctrinae</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a></li>
+      <li class="nav-hide-sm"><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a></li>
+      <li class="nav-has-dropdown">
+        <a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles' or page.url contains '/series' or page.url contains '/print-editions' %} class="active"{% endif %}>Read Our Work</a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ '/articles/' | relative_url }}">Articles</a></li>
+          <li><a href="{{ '/series/' | relative_url }}">Series</a></li>
+          <li><a href="{{ '/print-editions/' | relative_url }}">Print Editions</a></li>
+        </ul>
+      </li>
+      <li class="nav-hide-sm"><a href="{{ '/submissions/' | relative_url }}"{% if page.url contains '/submissions' %} class="active"{% endif %}>Submissions</a></li>
+      <li><a href="{{ '/donate/' | relative_url }}" class="nav-donate-btn">Donate</a></li>
+    </ul>
+  </div>
+</nav>

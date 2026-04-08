@@ -3,41 +3,45 @@
 # ================================================================
 
 [build]
-  # 1. tinacms build  → compiles the Tina admin app into ./admin/
-  # 2. node build.js  → converts markdown content → data/*.json
-  command = "npm run build"
-  publish = "."
+  command   = "bundle exec jekyll build"
+  publish   = "_site"
 
 [build.environment]
-  NODE_VERSION = "18"
+  JEKYLL_ENV = "production"
+  RUBY_VERSION = "3.2"
 
 # ----------------------------------------------------------------
-# Cloudinary media proxy
-# Routes /api/cloudinary[/*] to the Netlify Function that handles
-# Cloudinary list / upload / delete for the Tina media library.
+# Redirects — preserve old query-param URLs
 # ----------------------------------------------------------------
+
+# article.html?slug=X  →  /articles/X/
 [[redirects]]
-  from   = "/api/cloudinary"
-  to     = "/.netlify/functions/cloudinary"
-  status = 200
+  from   = "/article.html"
+  to     = "/articles/:slug"
+  status = 301
   force  = true
 
+# series-detail.html?series=X  →  /series/X/
 [[redirects]]
-  from   = "/api/cloudinary/*"
-  to     = "/.netlify/functions/cloudinary"
-  status = 200
+  from   = "/series-detail.html"
+  to     = "/series/:series"
+  status = 301
   force  = true
 
-# Security headers for the admin panel
+# ----------------------------------------------------------------
+# Security headers for admin panel
+# ----------------------------------------------------------------
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    X-Frame-Options      = "SAMEORIGIN"
-    X-XSS-Protection     = "1; mode=block"
+    X-Frame-Options        = "SAMEORIGIN"
+    X-XSS-Protection       = "1; mode=block"
     X-Content-Type-Options = "nosniff"
 
-# Cache-control for data files so the browser always fetches fresh content
+# ----------------------------------------------------------------
+# Cache control — never cache CMS data
+# ----------------------------------------------------------------
 [[headers]]
-  for = "/data/*"
+  for = "/_data/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"

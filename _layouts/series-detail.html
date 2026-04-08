@@ -1,0 +1,133 @@
+---
+layout: default
+---
+{% assign series_articles = site.articles | where: "series", page.name | sort: "date" | reverse %}
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+
+{% assign published_articles = "" | split: "" %}
+{% for a in series_articles %}
+  {% if a.publish_date %}
+    {% assign pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% unless pub_str > now_str %}
+      {% assign published_articles = published_articles | push: a %}
+    {% endunless %}
+  {% else %}
+    {% assign published_articles = published_articles | push: a %}
+  {% endif %}
+{% endfor %}
+
+<!-- Series page header -->
+<header class="page-header">
+  <span class="eyebrow">Series</span>
+  <h1>{{ page.name }}</h1>
+  {% if page.description %}
+    <p class="lead">{{ page.description }}</p>
+  {% endif %}
+</header>
+
+<!-- Articles section -->
+<section class="section" aria-labelledby="series-articles-heading">
+  <div class="container">
+
+    {% if published_articles.size == 0 %}
+      <p style="color:var(--text-muted); font-style:italic; text-align:center; padding:3rem 0;">No articles published in this series yet.</p>
+
+    {% elsif page.is_yearly %}
+      <!-- Yearly series: accordion grouped by series_year -->
+      <div class="section-header">
+        <h2 id="series-articles-heading">Articles by Year</h2>
+        <div class="section-divider"></div>
+        <p class="lead">Click a year to expand and read each article from that season.</p>
+      </div>
+
+      {% assign all_years = published_articles | map: "series_year" | uniq | sort | reverse %}
+
+      <div class="series-year-list">
+        {% for yr in all_years %}
+          {% assign year_articles = published_articles | where: "series_year", yr %}
+          {% assign panel_id = "year-" | append: yr %}
+          {% assign short_name = page.name | remove: " Series" | remove: " series" %}
+          {% if yr == "" or yr == nil %}
+            {% assign label = short_name | append: " — Other" %}
+          {% else %}
+            {% assign label = short_name | append: " " | append: yr %}
+          {% endif %}
+          {% assign is_first = forloop.first %}
+
+          <div class="series-year-item">
+            <button class="series-year-toggle" aria-expanded="{{ is_first }}" aria-controls="{{ panel_id }}">
+              <h3>{{ label }}</h3><span class="toggle-icon">+</span>
+            </button>
+            <div class="series-year-articles{% if is_first %} open{% endif %}" id="{{ panel_id }}">
+              {% for article in year_articles %}
+                <div class="series-article-entry">
+                  <span class="series-article-number">{{ forloop.index }}</span>
+                  <div class="series-article-info">
+                    <h4><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h4>
+                    <p class="series-article-meta">
+                      <strong>{{ article.author }}</strong>
+                      {% if article.date %}&nbsp;&middot;&nbsp; {{ article.date | date: "%B %Y" }}{% endif %}
+                    </p>
+                    {% if article.subtitle or article.excerpt %}
+                      <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.65;">{{ article.subtitle | default: article.excerpt }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      <!-- Non-yearly series: flat card grid -->
+      <div class="section-header">
+        <h2 id="series-articles-heading">All Articles</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      {% assign gradients = "linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%),linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%),linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%),linear-gradient(150deg,#1A0D1A 0%,#2A102A 50%,#5A1A5A 100%),linear-gradient(150deg,#0A1A12 0%,#0F2A1A 50%,#1A4A30 100%),linear-gradient(150deg,#1A1408 0%,#2A200C 50%,#4A3A14 100%)" | split: "," %}
+
+      <div class="cards-grid">
+        {% for article in published_articles %}
+          {% assign grad_index = forloop.index0 | modulo: 6 %}
+          <article class="card">
+            {% if article.cover_image %}
+              {% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
+              {% assign focal_pos = "center center" %}
+              {% for pair in focal_map %}
+                {% assign kv = pair | split: ":" %}
+                {% if kv[0] == article.focal_point %}{% assign focal_pos = kv[1] %}{% endif %}
+              {% endfor %}
+              <img class="card-thumb" src="{{ article.cover_image }}" alt="{{ article.title }}" loading="lazy" style="object-position:{{ focal_pos }};" />
+            {% else %}
+              <div class="card-thumb-placeholder" style="background:{{ gradients[grad_index] }};"></div>
+            {% endif %}
+            <div class="card-body">
+              <h3 class="card-title"><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h3>
+              {% if article.subtitle %}<p class="card-subtitle">{{ article.subtitle }}</p>{% endif %}
+              <div class="card-meta">
+                <strong>{{ article.author }}</strong>
+                {% if article.date %}&nbsp;&middot;&nbsp; {{ article.date | date: "%B %Y" }}{% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- Accordion toggle script -->
+<script>
+document.querySelectorAll('.series-year-toggle').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var expanded = this.getAttribute('aria-expanded') === 'true';
+    var panelId  = this.getAttribute('aria-controls');
+    var panel    = document.getElementById(panelId);
+    this.setAttribute('aria-expanded', String(!expanded));
+    if (panel) panel.classList.toggle('open', !expanded);
+  });
+});
+</script>

@@ -1,264 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Articles — Christo et Doctrinae</title>
-  <meta name="description" content="Read theological essays, philosophical reflections, cultural criticism, and creative writing from the pages of Christo et Doctrinae." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "Articles — Christo et Doctrinae"
+description: "Read theological essays, philosophical reflections, cultural criticism, and creative writing from the pages of Christo et Doctrinae."
+permalink: /articles/
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html" class="active">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
-          </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
-    </div>
-  </nav>
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+{% assign published = "" | split: "" %}
+{% for a in site.articles %}
+  {% if a.publish_date %}
+    {% assign pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% unless pub_str > now_str %}
+      {% assign published = published | push: a %}
+    {% endunless %}
+  {% else %}
+    {% assign published = published | push: a %}
+  {% endif %}
+{% endfor %}
+{% assign published = published | sort: "date" | reverse %}
 
-  <!-- ============================================================
-       PAGE HEADER
-       ============================================================ -->
-  <header class="page-header">
-    <span class="eyebrow">Read Our Work</span>
-    <h1>Articles</h1>
-    <p class="lead">Online essays, reflections, and creative writing — theology, art, and letters in the service of the Christian life.</p>
-  </header>
+<!-- Online-only articles: no series, no print_edition -->
+{% assign online_articles = "" | split: "" %}
+{% for a in published %}
+  {% unless a.series or a.print_edition %}
+    {% assign online_articles = online_articles | push: a %}
+  {% endunless %}
+{% endfor %}
 
-  <!-- ============================================================
-       SUB-NAVIGATION
-       ============================================================ -->
-  <div class="read-subnav">
-    <div class="read-subnav-inner">
-      <a href="articles.html" class="subnav-link active">Articles</a>
-      <a href="series.html" class="subnav-link">Series</a>
-      <a href="print-editions.html" class="subnav-link">Print Editions</a>
+<!-- Collect all unique tags from online articles -->
+{% assign all_tags = "" | split: "" %}
+{% for a in online_articles %}
+  {% for tag in a.tags %}
+    {% unless all_tags contains tag %}
+      {% assign all_tags = all_tags | push: tag %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+{% assign all_tags = all_tags | sort %}
+
+{% assign gradients = "linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%),linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%),linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%),linear-gradient(150deg,#1A0D1A 0%,#2A102A 50%,#5A1A5A 100%),linear-gradient(150deg,#0A1A12 0%,#0F2A1A 50%,#1A4A30 100%),linear-gradient(150deg,#1A1408 0%,#2A200C 50%,#4A3A14 100%)" | split: "," %}
+{% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
+
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<header class="page-header">
+  <span class="eyebrow">Read Our Work</span>
+  <h1>Articles</h1>
+  <p class="lead">Online essays, reflections, and creative writing — theology, art, and letters in the service of the Christian life.</p>
+</header>
+
+<!-- ============================================================
+     SUB-NAVIGATION
+     ============================================================ -->
+<div class="read-subnav">
+  <div class="read-subnav-inner">
+    <a href="{{ '/articles/' | relative_url }}" class="subnav-link active">Articles</a>
+    <a href="{{ '/series/' | relative_url }}" class="subnav-link">Series</a>
+    <a href="{{ '/print-editions/' | relative_url }}" class="subnav-link">Print Editions</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     TAG FILTER BAR
+     ============================================================ -->
+{% if all_tags.size > 0 %}
+<div class="tag-filter-bar">
+  <div class="tag-filter-inner">
+    <span class="tag-filter-label">Filter:</span>
+    <div class="tag-filter-btns" id="tag-filter-btns">
+      <button class="tag-btn active" data-tag="all">All</button>
+      {% for tag in all_tags %}
+        <button class="tag-btn" data-tag="{{ tag }}">{{ tag }}</button>
+      {% endfor %}
     </div>
   </div>
+</div>
+{% endif %}
 
-  <!-- ============================================================
-       TAG FILTER BAR — built dynamically from article data
-       ============================================================ -->
-  <div class="tag-filter-bar" id="filter-bar" style="display:none;">
-    <div class="tag-filter-inner">
-      <span class="tag-filter-label">Filter:</span>
-      <div class="tag-filter-btns" id="tag-filter-btns"></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       ARTICLES GRID — loaded dynamically from data/articles.json
-       Shows only online articles (no series, no print edition)
-       ============================================================ -->
-  <section class="section" id="articles-section">
-    <div class="container">
+<!-- ============================================================
+     ARTICLES GRID
+     ============================================================ -->
+<section class="section" id="articles-section">
+  <div class="container">
+    {% if online_articles.size == 0 %}
+      <p class="articles-empty" style="grid-column:1/-1;">No articles published yet.</p>
+    {% else %}
       <div class="cards-grid" id="articles-grid">
-        <!-- Loading state -->
-        <p class="articles-empty" style="grid-column:1/-1;">Loading articles…</p>
+        {% for article in online_articles %}
+          {% assign grad_index = forloop.index0 | modulo: 6 %}
+          {% assign focal_pos = "center center" %}
+          {% if article.cover_image %}
+            {% for pair in focal_map %}
+              {% assign kv = pair | split: ":" %}
+              {% if kv[0] == article.focal_point %}{% assign focal_pos = kv[1] %}{% endif %}
+            {% endfor %}
+          {% endif %}
+          {% assign tags_str = article.tags | join: "," %}
+          <article class="card" data-tags="{{ tags_str }}">
+            {% if article.cover_image %}
+              <img class="card-thumb" src="{{ article.cover_image }}" alt="{{ article.title }}" loading="lazy" style="object-position:{{ focal_pos }};" />
+            {% else %}
+              <div class="card-thumb-placeholder" style="background:{{ gradients[grad_index] }};"></div>
+            {% endif %}
+            <div class="card-body">
+              {% if article.tags and article.tags.size > 0 %}
+                <span class="card-series-tag">{{ article.tags[0] }}</span>
+              {% endif %}
+              <h3 class="card-title"><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h3>
+              {% if article.subtitle %}<p class="card-subtitle">{{ article.subtitle }}</p>{% endif %}
+              <div class="card-meta">
+                <strong>{{ article.author }}</strong>
+                {% if article.date %}&nbsp;&middot;&nbsp; {{ article.date | date: "%B %Y" }}{% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
       </div>
-    </div>
-  </section>
+    {% endif %}
+  </div>
+</section>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-          <li><a href="series-detail.html?series=holy-week-series">Holy Week Series</a></li>
-          <li><a href="series-detail.html?series=advent-series">Advent Series</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
+<!-- Tag filter script -->
+{% if all_tags.size > 0 %}
+<script>
+(function () {
+  var btns    = document.getElementById('tag-filter-btns');
+  var grid    = document.getElementById('articles-grid');
+  if (!btns || !grid) return;
 
-  <!-- ============================================================
-       ARTICLES RENDERING + FILTERING
-       ============================================================ -->
-  <script>
-  (function () {
+  var activeTag = 'all';
 
-    var GRADIENTS = [
-      'linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%)',
-      'linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%)',
-      'linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%)',
-      'linear-gradient(150deg,#1A0D1A 0%,#2A102A 50%,#5A1A5A 100%)',
-      'linear-gradient(150deg,#0A1A12 0%,#0F2A1A 50%,#1A4A30 100%)',
-      'linear-gradient(150deg,#1A1408 0%,#2A200C 50%,#4A3A14 100%)'
-    ];
-
-    var FOCAL_POSITIONS = {
-      'center':       'center center',
-      'top':          'center top',
-      'bottom':       'center bottom',
-      'left':         'left center',
-      'right':        'right center',
-      'top-left':     'left top',
-      'top-right':    'right top',
-      'bottom-left':  'left bottom',
-      'bottom-right': 'right bottom'
-    };
-
-    function formatDate(str) {
-      if (!str) return '';
-      var d = new Date(str);
-      return isNaN(d) ? str : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    }
-
-    function cardHTML(article, idx) {
-      var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
-      var thumb = article.cover_image
-        ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
-        : '<div class="card-thumb-placeholder" style="background:' + GRADIENTS[idx % GRADIENTS.length] + ';"></div>';
-
-      var tagHTML = '';
-      if (Array.isArray(article.tags) && article.tags.length > 0) {
-        tagHTML = '<span class="card-series-tag">' + article.tags[0] + '</span>';
-      }
-
-      return '<article class="card" data-tags="' + (Array.isArray(article.tags) ? article.tags.join(',') : '') + '">'
-        + thumb
-        + '<div class="card-body">'
-        + tagHTML
-        + '<h3 class="card-title"><a href="article.html?slug=' + article.slug + '">' + article.title + '</a></h3>'
-        + '<p class="card-subtitle">' + (article.subtitle || article.excerpt || '') + '</p>'
-        + '<div class="card-meta"><strong>' + article.author + '</strong>'
-        + (article.date ? ' &nbsp;&middot;&nbsp; ' + formatDate(article.date) : '')
-        + '</div></div></article>';
-    }
-
-    var allOnline  = [];
-    var activeTag  = 'all';
-
-    function renderGrid() {
-      var grid = document.getElementById('articles-grid');
-      var filtered = activeTag === 'all'
-        ? allOnline
-        : allOnline.filter(function (a) {
-            return Array.isArray(a.tags) && a.tags.indexOf(activeTag) !== -1;
-          });
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<p class="articles-empty" style="grid-column:1/-1;">No articles found'
-          + (activeTag !== 'all' ? ' for tag <em>' + activeTag + '</em>' : '')
-          + '.</p>';
+  function applyFilter() {
+    grid.querySelectorAll('.card').forEach(function (card) {
+      if (activeTag === 'all') {
+        card.style.display = '';
         return;
       }
+      var tags = (card.dataset.tags || '').split(',').map(function (t) { return t.trim(); });
+      card.style.display = tags.indexOf(activeTag) !== -1 ? '' : 'none';
+    });
+  }
 
-      grid.innerHTML = filtered.map(cardHTML).join('');
-    }
-
-    function buildTagFilters() {
-      // Collect only tags that appear in at least one online article
-      var tagSet = {};
-      allOnline.forEach(function (a) {
-        if (Array.isArray(a.tags)) {
-          a.tags.forEach(function (t) { tagSet[t] = true; });
-        }
-      });
-
-      var tags = Object.keys(tagSet).sort();
-      if (tags.length === 0) return; // no tags — hide filter bar
-
-      var bar  = document.getElementById('filter-bar');
-      var btns = document.getElementById('tag-filter-btns');
-
-      // "All" button
-      var allBtn = document.createElement('button');
-      allBtn.className    = 'tag-btn active';
-      allBtn.textContent  = 'All';
-      allBtn.dataset.tag  = 'all';
-      btns.appendChild(allBtn);
-
-      tags.forEach(function (tag) {
-        var btn = document.createElement('button');
-        btn.className   = 'tag-btn';
-        btn.textContent = tag;
-        btn.dataset.tag = tag;
-        btns.appendChild(btn);
-      });
-
-      bar.style.display = '';
-
-      btns.addEventListener('click', function (e) {
-        var btn = e.target.closest('.tag-btn');
-        if (!btn) return;
-
-        btns.querySelectorAll('.tag-btn').forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        activeTag = btn.dataset.tag;
-        renderGrid();
-      });
-    }
-
-    fetch('data/articles.json')
-      .then(function (r) { return r.json(); })
-      .then(function (articles) {
-        // Online articles only: no series, no print edition
-        allOnline = articles.filter(function (a) {
-          return !a.series && !a.print_edition;
-        });
-
-        buildTagFilters();
-        renderGrid();
-      })
-      .catch(function () {
-        document.getElementById('articles-grid').innerHTML =
-          '<p class="articles-empty" style="grid-column:1/-1;">Could not load articles. Please try again later.</p>';
-      });
-
-  })();
-  </script>
-
-</body>
-</html>
+  btns.addEventListener('click', function (e) {
+    var btn = e.target.closest('.tag-btn');
+    if (!btn) return;
+    btns.querySelectorAll('.tag-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeTag = btn.dataset.tag;
+    applyFilter();
+  });
+})();
+</script>
+{% endif %}

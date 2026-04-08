@@ -1,383 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — Christo et Doctrinae</title>
-  <meta name="description" content="Learn about Christo et Doctrinae, its mission, editorial board, and the community of scholars and students who make it possible." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "About — Christo et Doctrinae"
+description: "Learn about Christo et Doctrinae, its mission, editorial board, and the community of scholars and students who make it possible."
+permalink: /about/
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html" class="active">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
-          </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
+{% assign team = site.data.team %}
+{% assign settings = site.data.settings %}
+
+{% assign avatar_colors = "linear-gradient(135deg,#7A1C2E,#5E1522),linear-gradient(135deg,#1C1C2E,#2A1A24),linear-gradient(135deg,#B8976A,#8A6A40),linear-gradient(135deg,#1A3A4A,#0D2030),linear-gradient(135deg,#3A1A4A,#200D30),linear-gradient(135deg,#1A3A1A,#0D200D),linear-gradient(135deg,#2A2A1A,#18180A),linear-gradient(135deg,#3A1A1A,#200D0D),linear-gradient(135deg,#2A1A3A,#180A20),linear-gradient(135deg,#1A2A3A,#0A1820),linear-gradient(135deg,#1A3A2A,#0A2018),linear-gradient(135deg,#3A2A1A,#201A0A),linear-gradient(135deg,#1A2A3A,#100A20)" | split: "," %}
+
+<!-- ============================================================
+     TOP HERO PANEL
+     ============================================================ -->
+<header class="page-hero" aria-label="About page header">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <span class="eyebrow">Who We Are</span>
+    <h1>Christo et Doctrinae</h1>
+    <p class="lead">ABOUT PAGE TOP TEXT PLACEHOLDER</p>
+  </div>
+</header>
+
+<!-- ============================================================
+     OUR MISSION
+     ============================================================ -->
+<section class="section" aria-labelledby="mission-heading">
+  <div class="container-narrow prose">
+    <span class="eyebrow">Editorial Statement</span>
+    <h2 id="mission-heading">Our Mission</h2>
+    <div class="section-divider left" style="margin-left: 0;"></div>
+
+    <p style="margin-top: 1.5rem; font-size: 1.05rem;">
+      OUR MISSION STATEMENT PLACEHOLDER
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     OUR TEAM
+     ============================================================ -->
+<section class="section section-alt" id="team" aria-labelledby="team-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">The People Behind the Work</span>
+      <h2 id="team-heading">Our Team</h2>
+      <div class="section-divider"></div>
+      <p class="lead">Our editors and contributors bring together theology, philosophy, the arts, and letters.</p>
     </div>
-  </nav>
 
-  <!-- ============================================================
-       TOP HERO PANEL
-       ============================================================ -->
-  <header class="page-hero" aria-label="About page header">
-    <div class="page-hero-overlay"></div>
-    <div class="page-hero-content">
-      <span class="eyebrow">Who We Are</span>
-      <h1>Christo et Doctrinae</h1>
-      <p class="lead">ABOUT PAGE TOP TEXT PLACEHOLDER</p>
+    <!-- Leadership row (3 across) -->
+    <div class="team-grid-leaders">
+      {% assign leaders = "" | split: "" %}
+      {% if team.editor_in_chief %}{% assign leaders = leaders | push: team.editor_in_chief %}{% endif %}
+      {% if team.managing_editor %}{% assign leaders = leaders | push: team.managing_editor %}{% endif %}
+      {% if team.chief_of_design %}{% assign leaders = leaders | push: team.chief_of_design %}{% endif %}
+
+      {% for member in leaders %}
+        {% assign color = avatar_colors[forloop.index0] %}
+        <div class="team-card">
+          <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          <h4>{{ member.name }}</h4>
+          <span class="role">{{ member.title }}</span>
+          <span class="dept">{{ member.major }}</span>
+          <span class="team-year">{{ member.year }}</span>
+          <span class="team-hometown">{{ member.hometown }}</span>
+        </div>
+      {% endfor %}
     </div>
-  </header>
 
-  <!-- ============================================================
-       OUR MISSION
-       ============================================================ -->
-  <section class="section" aria-labelledby="mission-heading">
-    <div class="container-narrow prose">
-      <span class="eyebrow">Editorial Statement</span>
-      <h2 id="mission-heading">Our Mission</h2>
-      <div class="section-divider left" style="margin-left: 0;"></div>
-
-      <p style="margin-top: 1.5rem; font-size: 1.05rem;">
-        OUR MISSION STATEMENT PLACEHOLDER
-      </p>
+    <!-- Contributors grid -->
+    <div class="team-grid">
+      {% for member in team.contributors %}
+        {% assign color_index = forloop.index0 | plus: 3 | modulo: 13 %}
+        {% assign color = avatar_colors[color_index] %}
+        <div class="team-card">
+          <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          <h4>{{ member.name }}</h4>
+          <span class="role">{{ member.title }}</span>
+          <span class="dept">{{ member.major }}</span>
+          <span class="team-year">{{ member.year }}</span>
+          <span class="team-hometown">{{ member.hometown }}</span>
+        </div>
+      {% endfor %}
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       OUR TEAM
-       ============================================================ -->
-  <section class="section section-alt" id="team" aria-labelledby="team-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">The People Behind the Work</span>
-        <h2 id="team-heading">Our Team</h2>
-        <div class="section-divider"></div>
-        <p class="lead">Our editors and contributors bring together theology, philosophy, the arts, and letters.</p>
-      </div>
-
-      <!-- Leadership row (3 across) -->
-      <div class="team-grid-leaders" id="team-leaders">
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #7A1C2E, #5E1522);">E</div>
-          <h4>Eleanor Ashworth</h4>
-          <span class="role">Editor in Chief</span>
-          <span class="dept">Theology &amp; Religious Studies</span>
-          <span class="team-year">Class of 2025</span>
-          <span class="team-hometown">Nashville, TN</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1C1C2E, #2A1A24);">M</div>
-          <h4>Marcus Thorne</h4>
-          <span class="role">Managing Editor</span>
-          <span class="dept">Philosophy</span>
-          <span class="team-year">Class of 2025</span>
-          <span class="team-hometown">Richmond, VA</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #B8976A, #8A6A40);">S</div>
-          <h4>Sophia Reinholt</h4>
-          <span class="role">Chief of Design</span>
-          <span class="dept">Studio Art &amp; Theology</span>
-          <span class="team-year">Class of 2026</span>
-          <span class="team-hometown">Charleston, SC</span>
-        </div>
-      </div>
-
-      <!-- Contributors grid -->
-      <div class="team-grid" id="team-contributors">
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1A3A4A, #0D2030);">J</div>
-          <h4>James Calloway</h4>
-          <span class="role">Senior Editor</span>
-          <span class="dept">Theology</span>
-          <span class="team-year">Class of 2025</span>
-          <span class="team-hometown">Atlanta, GA</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #3A1A4A, #200D30);">P</div>
-          <h4>Priya Nair</h4>
-          <span class="role">Arts &amp; Letters Editor</span>
-          <span class="dept">English &amp; Religion</span>
-          <span class="team-year">Class of 2026</span>
-          <span class="team-hometown">Houston, TX</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1A3A1A, #0D200D);">L</div>
-          <h4>Liam Okafor</h4>
-          <span class="role">Digital Editor</span>
-          <span class="dept">Computer Science &amp; Philosophy</span>
-          <span class="team-year">Class of 2026</span>
-          <span class="team-hometown">Charlotte, NC</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #2A2A1A, #18180A);">C</div>
-          <h4>Catherine Voss</h4>
-          <span class="role">Copy Editor</span>
-          <span class="dept">English</span>
-          <span class="team-year">Class of 2027</span>
-          <span class="team-hometown">Raleigh, NC</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #3A1A1A, #200D0D);">D</div>
-          <h4>David Park</h4>
-          <span class="role">Development &amp; Outreach</span>
-          <span class="dept">Economics &amp; Religion</span>
-          <span class="team-year">Class of 2026</span>
-          <span class="team-hometown">Columbia, SC</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #2A1A3A, #180A20);">A</div>
-          <h4>Anne Merritt</h4>
-          <span class="role">Contributing Editor</span>
-          <span class="dept">History &amp; Theology</span>
-          <span class="team-year">Class of 2026</span>
-          <span class="team-hometown">Greenville, SC</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1A2A3A, #0A1820);">S</div>
-          <h4>Samuel Brooks</h4>
-          <span class="role">Contributing Editor</span>
-          <span class="dept">Philosophy</span>
-          <span class="team-year">Class of 2027</span>
-          <span class="team-hometown">Memphis, TN</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1A3A2A, #0A2018);">G</div>
-          <h4>Grace Whitfield</h4>
-          <span class="role">Contributing Editor</span>
-          <span class="dept">Literature &amp; Religion</span>
-          <span class="team-year">Class of 2027</span>
-          <span class="team-hometown">Savannah, GA</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #3A2A1A, #201A0A);">I</div>
-          <h4>Isaiah Turner</h4>
-          <span class="role">Contributing Editor</span>
-          <span class="dept">Biblical Studies</span>
-          <span class="team-year">Class of 2025</span>
-          <span class="team-hometown">Durham, NC</span>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar" style="background: linear-gradient(135deg, #1A2A3A, #100A20);">R</div>
-          <h4>Rachel Kim</h4>
-          <span class="role">Contributing Editor</span>
-          <span class="dept">Art History</span>
-          <span class="team-year">Class of 2027</span>
-          <span class="team-hometown">Charlotte, NC</span>
-        </div>
-      </div>
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section" id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Get in Touch</span>
+      <h2 id="contact-heading">Contact Us</h2>
+      <div class="section-divider"></div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       CONTACT
-       ============================================================ -->
-  <section class="section" id="contact" aria-labelledby="contact-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Get in Touch</span>
-        <h2 id="contact-heading">Contact Us</h2>
-        <div class="section-divider"></div>
+    <div class="contact-grid" style="max-width: 1000px; margin: 0 auto 4rem;">
+      <div class="contact-info">
+        <h4>Editor in Chief</h4>
+        <p>For editorial correspondence and article inquiries, contact our Editor in Chief directly:</p>
+        <p><a href="mailto:{{ settings.editor_email }}">{{ settings.editor_email }}</a></p>
+
+        <h4 style="margin-top: 1.75rem;">Journal Email</h4>
+        <p>For general inquiries, submissions, and correspondence:</p>
+        <p><a href="mailto:christoetdoctrinaefurman@gmail.com">christoetdoctrinaefurman@gmail.com</a></p>
       </div>
 
-      <div class="contact-grid" style="max-width: 1000px; margin: 0 auto 4rem;">
-        <div class="contact-info">
-          <h4>Editor in Chief</h4>
-          <p>For editorial correspondence and article inquiries, contact our Editor in Chief directly:</p>
-          <p><a href="mailto:editor@christoetdoctrinae.org" id="editor-email-link">editor@christoetdoctrinae.org</a></p>
+      <div>
+        <h4 style="margin-bottom: 1.25rem; font-size: 1rem;">Stay Connected</h4>
 
-          <h4 style="margin-top: 1.75rem;">Journal Email</h4>
-          <p>For general inquiries, submissions, and correspondence:</p>
-          <p><a href="mailto:christoetdoctrinaefurman@gmail.com">christoetdoctrinaefurman@gmail.com</a></p>
-        </div>
+        <form
+          action="https://christoetdoctrinae.us11.list-manage.com/subscribe/post?u=3bc3e9d5b8d4546b0de919934&amp;id=5fdbdbb188&amp;f_id=00d520e0f0"
+          method="post"
+          target="_blank"
+          novalidate
+          style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 2rem;"
+        >
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; font-style: italic;">Subscribe to receive new articles and announcements.</p>
 
-        <div>
-          <h4 style="margin-bottom: 1.25rem; font-size: 1rem;">Stay Connected</h4>
-
-          <form
-            action="https://christoetdoctrinae.us11.list-manage.com/subscribe/post?u=3bc3e9d5b8d4546b0de919934&amp;id=5fdbdbb188&amp;f_id=00d520e0f0"
-            method="post"
-            target="_blank"
-            novalidate
-            style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 2rem;"
-          >
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; font-style: italic;">Subscribe to receive new articles and announcements.</p>
-
-            <div class="form-grid" style="gap: 1rem; margin-bottom: 1rem;">
-              <div class="form-group">
-                <label for="c-fname">First Name</label>
-                <input type="text" id="c-fname" name="FNAME" placeholder="First name" />
-              </div>
-              <div class="form-group">
-                <label for="c-lname">Last Name</label>
-                <input type="text" id="c-lname" name="LNAME" placeholder="Last name" />
-              </div>
+          <div class="form-grid" style="gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label for="c-fname">First Name</label>
+              <input type="text" id="c-fname" name="FNAME" placeholder="First name" />
             </div>
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-              <label for="c-email">Email Address <span style="color: var(--accent);">*</span></label>
-              <input type="email" id="c-email" name="EMAIL" placeholder="your@email.com" required />
+            <div class="form-group">
+              <label for="c-lname">Last Name</label>
+              <input type="text" id="c-lname" name="LNAME" placeholder="Last name" />
             </div>
-            <!-- Mailchimp anti-spam hidden field -->
-            <div style="position: absolute; left: -5000px;" aria-hidden="true">
-              <input type="text" name="b_3bc3e9d5b8d4546b0de919934_5fdbdbb188" tabindex="-1" value="" />
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 0.8rem; letter-spacing: 0.14em;">Subscribe</button>
-          </form>
-        </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label for="c-email">Email Address <span style="color: var(--accent);">*</span></label>
+            <input type="email" id="c-email" name="EMAIL" placeholder="your@email.com" required />
+          </div>
+          <!-- Mailchimp anti-spam hidden field -->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_3bc3e9d5b8d4546b0de919934_5fdbdbb188" tabindex="-1" value="" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 0.8rem; letter-spacing: 0.14em;">Subscribe</button>
+        </form>
       </div>
     </div>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-          <li><a href="holy-week.html">Holy Week Series</a></li>
-          <li><a href="advent.html">Advent Series</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       DYNAMIC TEAM & SETTINGS
-       Fetches data/team.json and data/settings.json from CMS.
-       Falls back to static HTML above if fetch fails.
-       ============================================================ -->
-  <script>
-    (function () {
-      var AVATAR_COLORS = [
-        'linear-gradient(135deg,#7A1C2E,#5E1522)',
-        'linear-gradient(135deg,#1C1C2E,#2A1A24)',
-        'linear-gradient(135deg,#B8976A,#8A6A40)',
-        'linear-gradient(135deg,#1A3A4A,#0D2030)',
-        'linear-gradient(135deg,#3A1A4A,#200D30)',
-        'linear-gradient(135deg,#1A3A1A,#0D200D)',
-        'linear-gradient(135deg,#2A2A1A,#18180A)',
-        'linear-gradient(135deg,#3A1A1A,#200D0D)',
-        'linear-gradient(135deg,#2A1A3A,#180A20)',
-        'linear-gradient(135deg,#1A2A3A,#0A1820)',
-        'linear-gradient(135deg,#1A3A2A,#0A2018)',
-        'linear-gradient(135deg,#3A2A1A,#201A0A)',
-        'linear-gradient(135deg,#1A2A3A,#100A20)'
-      ];
-
-      function initial(name) {
-        return name ? name.charAt(0).toUpperCase() : '?';
-      }
-
-      function teamCard(member, colorIndex) {
-        var bg = AVATAR_COLORS[colorIndex % AVATAR_COLORS.length];
-        return '<div class="team-card">'
-          + '<div class="team-avatar" style="background:' + bg + ';">' + initial(member.name) + '</div>'
-          + '<h4>' + (member.name || '') + '</h4>'
-          + '<span class="role">' + (member.title || '') + '</span>'
-          + '<span class="dept">' + (member.major || '') + '</span>'
-          + '<span class="team-year">' + (member.year || '') + '</span>'
-          + '<span class="team-hometown">' + (member.hometown || '') + '</span>'
-          + '</div>';
-      }
-
-      fetch('data/team.json')
-        .then(function (r) { return r.json(); })
-        .then(function (team) {
-          var leaders  = document.getElementById('team-leaders');
-          var contribs = document.getElementById('team-contributors');
-
-          if (leaders) {
-            var lhtml = '';
-            if (team.editor_in_chief)  lhtml += teamCard(team.editor_in_chief, 0);
-            if (team.managing_editor)  lhtml += teamCard(team.managing_editor, 1);
-            if (team.chief_of_design)  lhtml += teamCard(team.chief_of_design, 2);
-            if (lhtml) leaders.innerHTML = lhtml;
-          }
-
-          if (contribs && Array.isArray(team.contributors)) {
-            contribs.innerHTML = team.contributors.map(function (m, i) {
-              return teamCard(m, i + 3);
-            }).join('');
-          }
-        })
-        .catch(function () { /* keep static HTML */ });
-
-      // Load editor email from settings
-      fetch('data/settings.json')
-        .then(function (r) { return r.json(); })
-        .then(function (settings) {
-          if (settings.editor_email) {
-            var link = document.getElementById('editor-email-link');
-            if (link) {
-              link.href = 'mailto:' + settings.editor_email;
-              link.textContent = settings.editor_email;
-            }
-          }
-        })
-        .catch(function () { /* keep static default */ });
-    })();
-  </script>
-
-</body>
-</html>
+  </div>
+</section>

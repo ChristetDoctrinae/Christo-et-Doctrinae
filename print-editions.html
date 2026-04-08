@@ -1,469 +1,385 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Print Editions — Christo et Doctrinae</title>
-  <meta name="description" content="Browse print editions of Christo et Doctrinae — beautifully designed annual volumes of Christian thought, theology, and art." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "Print Editions — Christo et Doctrinae"
+description: "Browse print editions of Christo et Doctrinae — beautifully designed annual volumes of Christian thought, theology, and art."
+permalink: /print-editions/
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html" class="active">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
-          </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
-    </div>
-  </nav>
+{% assign sorted_editions = site.editions | sort: "volume_number" | reverse %}
 
-  <!-- ============================================================
-       PAGE HEADER
-       ============================================================ -->
-  <header class="page-header">
-    <span class="eyebrow">Read Our Work</span>
-    <h1>Print Editions</h1>
-    <p class="lead">Each spring, a beautifully designed volume — for the shelf, for the desk, for the long read.</p>
-  </header>
+{% assign cover_gradients = "linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%),linear-gradient(145deg, #14131F 0%, #1C1C2E 50%, #2A1A3A 100%),linear-gradient(145deg, #0F1A14 0%, #182818 50%, #2A4028 100%),linear-gradient(145deg, #1A1408 0%, #2A2010 50%, #5A4820 100%)" | split: "," %}
 
-  <!-- ============================================================
-       SUB-NAVIGATION
-       ============================================================ -->
-  <div class="read-subnav">
-    <div class="read-subnav-inner">
-      <a href="articles.html" class="subnav-link">Articles</a>
-      <a href="series.html" class="subnav-link">Series</a>
-      <a href="print-editions.html" class="subnav-link active">Print Editions</a>
-    </div>
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<header class="page-header">
+  <span class="eyebrow">Read Our Work</span>
+  <h1>Print Editions</h1>
+  <p class="lead">Each spring, a beautifully designed volume — for the shelf, for the desk, for the long read.</p>
+</header>
+
+<!-- ============================================================
+     SUB-NAVIGATION
+     ============================================================ -->
+<div class="read-subnav">
+  <div class="read-subnav-inner">
+    <a href="{{ '/articles/' | relative_url }}" class="subnav-link">Articles</a>
+    <a href="{{ '/series/' | relative_url }}" class="subnav-link">Series</a>
+    <a href="{{ '/print-editions/' | relative_url }}" class="subnav-link active">Print Editions</a>
   </div>
+</div>
 
-  <!-- ============================================================
-       PAGE DESCRIPTION — small subtitle, not a panel of focus
-       ============================================================ -->
-  <div class="page-subtitle-bar">
-    <p class="page-subtitle">
-      Our print edition is designed by student editors and printed in a limited annual run. It is the form of the journal we care most about — a physical object that rewards slow reading, that can be lent and borrowed and left on a shelf. Each volume has a theme that gathers its contents without reducing them.
+<!-- ============================================================
+     PAGE DESCRIPTION
+     ============================================================ -->
+<div class="page-subtitle-bar">
+  <p class="page-subtitle">
+    Our print edition is designed by student editors and printed in a limited annual run. It is the form of the journal we care most about — a physical object that rewards slow reading, that can be lent and borrowed and left on a shelf. Each volume has a theme that gathers its contents without reducing them.
+  </p>
+</div>
+
+<!-- ============================================================
+     EDITIONS
+     ============================================================ -->
+<section class="section section-alt" id="editions-section">
+  <div class="container" id="editions-container">
+
+    {% if sorted_editions.size == 0 %}
+      <p style="color:var(--text-muted); font-style:italic;">No editions published yet.</p>
+    {% else %}
+
+      <!-- Featured (most recent) edition -->
+      {% assign featured_ed = sorted_editions[0] %}
+      {% assign feat_grad = cover_gradients[0] %}
+      <div class="editions-featured-wrap">
+        <div class="edition-card edition-featured-card{% if featured_ed.pdf_file and featured_ed.pdf_file != '' %} edition-has-pdf{% endif %}"
+          {% if featured_ed.pdf_file and featured_ed.pdf_file != '' %}data-pdf="{{ featured_ed.pdf_file }}" data-title="{{ featured_ed.title }}{% if featured_ed.theme %} — {{ featured_ed.theme }}{% endif %}"{% endif %}>
+
+          <div class="edition-cover edition-cover-styled"
+            {% if featured_ed.pdf_file and featured_ed.pdf_file != '' %}data-pdf-cover="{{ featured_ed.pdf_file }}"{% endif %}
+            style="background:{{ feat_grad }};">
+            <div class="edition-cover-text">
+              <span class="vol-label">{{ featured_ed.title }}</span>
+              <span class="journal-name">Christo et Doctrinae</span>
+              <div class="divider-line"></div>
+              <span class="issue-title">{{ featured_ed.theme }}</span>
+              <div class="divider-line"></div>
+              <span class="year">{{ featured_ed.season }}</span>
+            </div>
+          </div>
+
+          {% if featured_ed.pdf_file and featured_ed.pdf_file != '' %}
+            <span class="edition-view-hint">Click to read</span>
+          {% else %}
+            <span class="edition-view-hint edition-view-hint--unavailable">PDF coming soon</span>
+          {% endif %}
+
+          <div class="edition-card-body">
+            <h3 class="edition-card-title">{{ featured_ed.title }}{% if featured_ed.theme %} <em>&mdash; {{ featured_ed.theme }}</em>{% endif %}</h3>
+            {% assign meta_parts = "" | split: "" %}
+            {% if featured_ed.season %}{% assign meta_parts = meta_parts | push: featured_ed.season %}{% endif %}
+            {% if featured_ed.page_count and featured_ed.page_count > 0 %}{% assign meta_parts = meta_parts | push: featured_ed.page_count | append: " pages" %}{% endif %}
+            {% if meta_parts.size > 0 %}<p class="edition-meta">{{ meta_parts | join: " · " }}</p>{% endif %}
+            {% if featured_ed.description %}<p class="edition-card-desc">{{ featured_ed.description }}</p>{% endif %}
+            {% if featured_ed.contents %}<p class="edition-contents">{{ featured_ed.contents }}</p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Previous editions -->
+      {% if sorted_editions.size > 1 %}
+        <div class="editions-archive">
+          <h2 class="editions-archive-heading">Previous Editions</h2>
+          <div class="editions-grid">
+            {% for edition in sorted_editions offset: 1 %}
+              {% assign grad_index = forloop.index | modulo: 4 %}
+              {% assign grad = cover_gradients[grad_index] %}
+              <div class="edition-card{% if edition.pdf_file and edition.pdf_file != '' %} edition-has-pdf{% endif %}"
+                {% if edition.pdf_file and edition.pdf_file != '' %}data-pdf="{{ edition.pdf_file }}" data-title="{{ edition.title }}{% if edition.theme %} — {{ edition.theme }}{% endif %}"{% endif %}>
+
+                <div class="edition-cover edition-cover-styled"
+                  {% if edition.pdf_file and edition.pdf_file != '' %}data-pdf-cover="{{ edition.pdf_file }}"{% endif %}
+                  style="background:{{ grad }};">
+                  <div class="edition-cover-text">
+                    <span class="vol-label">{{ edition.title }}</span>
+                    <span class="journal-name">Christo et Doctrinae</span>
+                    <div class="divider-line"></div>
+                    <span class="issue-title">{{ edition.theme }}</span>
+                    <div class="divider-line"></div>
+                    <span class="year">{{ edition.season }}</span>
+                  </div>
+                </div>
+
+                {% if edition.pdf_file and edition.pdf_file != '' %}
+                  <span class="edition-view-hint">Click to read</span>
+                {% else %}
+                  <span class="edition-view-hint edition-view-hint--unavailable">PDF coming soon</span>
+                {% endif %}
+
+                <div class="edition-card-body">
+                  <h3 class="edition-card-title">{{ edition.title }}{% if edition.theme %} <em>&mdash; {{ edition.theme }}</em>{% endif %}</h3>
+                  {% if edition.season or edition.page_count > 0 %}
+                    <p class="edition-meta">
+                      {{ edition.season }}{% if edition.season and edition.page_count > 0 %} &middot; {% endif %}{% if edition.page_count > 0 %}{{ edition.page_count }} pages{% endif %}
+                    </p>
+                  {% endif %}
+                  {% if edition.description %}<p class="edition-card-desc">{{ edition.description }}</p>{% endif %}
+                  {% if edition.contents %}<p class="edition-contents">{{ edition.contents }}</p>{% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+    {% endif %}
+  </div>
+</section>
+
+<!-- ============================================================
+     BULK / LIBRARY ORDERS
+     ============================================================ -->
+<section class="section">
+  <div class="container-narrow" style="text-align: center;">
+    <span class="eyebrow">Libraries &amp; Institutions</span>
+    <h2>Bulk &amp; Library Orders</h2>
+    <div class="section-divider"></div>
+    <p style="font-size: 1rem; color: var(--text-muted); max-width: 560px; margin: 0 auto 1.75rem; line-height: 1.8;">
+      We offer discounted pricing for orders of 10 or more copies, and we are pleased to supply copies to university and church libraries at no charge when budget is a constraint. For bulk or library orders, please contact us directly.
     </p>
+    <a href="{{ '/about/#contact' | relative_url }}" class="btn btn-outline">Contact the Editors</a>
   </div>
+</section>
 
-  <!-- ============================================================
-       EDITIONS — loaded dynamically from data/editions.json
-       Click any edition to open the flipbook viewer.
-       ============================================================ -->
-  <section class="section section-alt" id="editions-section">
-    <div class="container" id="editions-container">
-      <p style="color:var(--text-muted); font-style:italic;">Loading editions…</p>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       BULK / LIBRARY ORDERS
-       ============================================================ -->
-  <section class="section">
-    <div class="container-narrow" style="text-align: center;">
-      <span class="eyebrow">Libraries &amp; Institutions</span>
-      <h2>Bulk &amp; Library Orders</h2>
-      <div class="section-divider"></div>
-      <p style="font-size: 1rem; color: var(--text-muted); max-width: 560px; margin: 0 auto 1.75rem; line-height: 1.8;">
-        We offer discounted pricing for orders of 10 or more copies, and we are pleased to supply copies to university and church libraries at no charge when budget is a constraint. For bulk or library orders, please contact us directly.
-      </p>
-      <a href="about.html#contact" class="btn btn-outline">Contact the Editors</a>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       FLIPBOOK MODAL
-       ============================================================ -->
-  <div id="flipbook-modal" class="flipbook-modal" role="dialog" aria-modal="true" aria-label="Edition flipbook viewer">
-
-    <div class="flipbook-topbar">
-      <span id="flipbook-title" class="flipbook-title"></span>
-      <button id="flipbook-close" class="flipbook-close" aria-label="Close viewer">&#10005;</button>
-    </div>
-
-    <div class="flipbook-viewer">
-      <div id="flipbook-loading" class="flipbook-loading">Loading edition…</div>
-      <div id="flipbook-error" class="flipbook-error" style="display:none;">
-        <p>This edition's PDF is not yet available for online viewing.</p>
-        <p style="font-size:0.8rem; margin-top:0.5rem;">Check back after the next site update.</p>
-      </div>
-      <canvas id="flipbook-canvas" style="display:none;"></canvas>
-    </div>
-
-    <div class="flipbook-controls" id="flipbook-controls" style="visibility:hidden;">
-      <button class="flipbook-btn" id="flipbook-prev" disabled>&#8592; Previous</button>
-      <span class="flipbook-page-info">
-        Page <strong id="flipbook-current">1</strong> of <span id="flipbook-total">—</span>
-      </span>
-      <button class="flipbook-btn" id="flipbook-next" disabled>Next &#8594;</button>
-    </div>
-
+<!-- ============================================================
+     FLIPBOOK MODAL
+     ============================================================ -->
+<div id="flipbook-modal" class="flipbook-modal" role="dialog" aria-modal="true" aria-label="Edition flipbook viewer">
+  <div class="flipbook-topbar">
+    <span id="flipbook-title" class="flipbook-title"></span>
+    <button id="flipbook-close" class="flipbook-close" aria-label="Close viewer">&#10005;</button>
   </div>
+  <div class="flipbook-viewer">
+    <div id="flipbook-loading" class="flipbook-loading">Loading edition…</div>
+    <div id="flipbook-error" class="flipbook-error" style="display:none;">
+      <p>This edition's PDF is not yet available for online viewing.</p>
+      <p style="font-size:0.8rem; margin-top:0.5rem;">Check back after the next site update.</p>
+    </div>
+    <canvas id="flipbook-canvas" style="display:none;"></canvas>
+  </div>
+  <div class="flipbook-controls" id="flipbook-controls" style="visibility:hidden;">
+    <button class="flipbook-btn" id="flipbook-prev" disabled>&#8592; Previous</button>
+    <span class="flipbook-page-info">
+      Page <strong id="flipbook-current">1</strong> of <span id="flipbook-total">—</span>
+    </span>
+    <button class="flipbook-btn" id="flipbook-next" disabled>Next &#8594;</button>
+  </div>
+</div>
 
-  <!-- ============================================================
-       EDITIONS SCRIPT
-       ============================================================ -->
-  <script>
-  (function () {
+<!-- ============================================================
+     PRINT EDITIONS SCRIPT — cover previews + flipbook
+     ============================================================ -->
+<script>
+(function () {
 
-    // Fallback cover gradients (shown before PDF cover loads, or if no PDF)
-    var COVER_GRADIENTS = [
-      'linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%)',
-      'linear-gradient(145deg, #14131F 0%, #1C1C2E 50%, #2A1A3A 100%)',
-      'linear-gradient(145deg, #0F1A14 0%, #182818 50%, #2A4028 100%)',
-      'linear-gradient(145deg, #1A1408 0%, #2A2010 50%, #5A4820 100%)'
-    ];
+  /* ----------------------------------------------------------
+     Shared PDF.js loader
+  ---------------------------------------------------------- */
+  var pdfJsReady     = false;
+  var pdfJsFailed    = false;
+  var pdfJsCallbacks = [];
 
-    /* ----------------------------------------------------------
-       Shared PDF.js loader — loads the script once; both the
-       cover preview extractor and the flipbook viewer use it.
-    ---------------------------------------------------------- */
-    var pdfJsReady     = false;
-    var pdfJsFailed    = false;
-    var pdfJsCallbacks = [];
+  function ensurePdfJs(onReady, onFail) {
+    if (pdfJsReady)  { onReady(); return; }
+    if (pdfJsFailed) { if (onFail) onFail(); return; }
+    if (onReady) pdfJsCallbacks.push({ ok: onReady, fail: onFail || null });
+    if (pdfJsCallbacks.length > 1) return;
 
-    function ensurePdfJs(onReady, onFail) {
-      if (pdfJsReady)  { onReady(); return; }
-      if (pdfJsFailed) { if (onFail) onFail(); return; }
-      if (onReady) pdfJsCallbacks.push({ ok: onReady, fail: onFail || null });
-      if (pdfJsCallbacks.length > 1) return; // already loading
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = function () {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      pdfJsReady = true;
+      pdfJsCallbacks.forEach(function (cb) { cb.ok(); });
+      pdfJsCallbacks = [];
+    };
+    s.onerror = function () {
+      pdfJsFailed = true;
+      pdfJsCallbacks.forEach(function (cb) { if (cb.fail) cb.fail(); });
+      pdfJsCallbacks = [];
+    };
+    document.head.appendChild(s);
+  }
 
-      var s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-      s.onload = function () {
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        pdfJsReady = true;
-        pdfJsCallbacks.forEach(function (cb) { cb.ok(); });
-        pdfJsCallbacks = [];
-      };
-      s.onerror = function () {
-        pdfJsFailed = true;
-        pdfJsCallbacks.forEach(function (cb) { if (cb.fail) cb.fail(); });
-        pdfJsCallbacks = [];
-      };
-      document.head.appendChild(s);
-    }
+  /* ----------------------------------------------------------
+     Cover preview — renders PDF first page into cover element
+  ---------------------------------------------------------- */
+  function renderPdfCover(pdfUrl, coverEl) {
+    ensurePdfJs(function () {
+      pdfjsLib.getDocument({ url: pdfUrl, disableAutoFetch: true, disableStream: false })
+        .promise
+        .then(function (pdf) { return pdf.getPage(1); })
+        .then(function (page) {
+          var vp0   = page.getViewport({ scale: 1 });
+          var scale = 480 / vp0.width;
+          var vp    = page.getViewport({ scale: scale });
+          var cvs   = document.createElement('canvas');
+          var ctx   = cvs.getContext('2d');
+          cvs.width  = vp.width;
+          cvs.height = vp.height;
+          cvs.className = 'edition-cover-canvas';
+          return page.render({ canvasContext: ctx, viewport: vp })
+            .promise
+            .then(function () {
+              coverEl.innerHTML = '';
+              coverEl.appendChild(cvs);
+              coverEl.classList.remove('edition-cover-styled');
+              coverEl.classList.add('edition-cover-from-pdf');
+            });
+        })
+        .catch(function () {});
+    });
+  }
 
-    /* ----------------------------------------------------------
-       Cover preview — renders the first page of a PDF into the
-       edition's cover element, replacing the gradient placeholder.
-       Uses disableAutoFetch so only the needed bytes are fetched.
-    ---------------------------------------------------------- */
-    function renderPdfCover(pdfUrl, coverEl) {
-      ensurePdfJs(function () {
-        pdfjsLib.getDocument({ url: pdfUrl, disableAutoFetch: true, disableStream: false })
-          .promise
-          .then(function (pdf) { return pdf.getPage(1); })
-          .then(function (page) {
-            var vp0   = page.getViewport({ scale: 1 });
-            var scale = 480 / vp0.width;          // render at 480px wide
-            var vp    = page.getViewport({ scale: scale });
-            var cvs   = document.createElement('canvas');
-            var ctx   = cvs.getContext('2d');
-            cvs.width  = vp.width;
-            cvs.height = vp.height;
-            cvs.className = 'edition-cover-canvas';
-            return page.render({ canvasContext: ctx, viewport: vp })
-              .promise
-              .then(function () {
-                coverEl.innerHTML = '';
-                coverEl.appendChild(cvs);
-                coverEl.classList.remove('edition-cover-styled');
-                coverEl.classList.add('edition-cover-from-pdf');
-              });
-          })
-          .catch(function () { /* keep gradient placeholder on error */ });
-      });
-    }
+  /* ----------------------------------------------------------
+     Lazy-load cover previews via IntersectionObserver
+  ---------------------------------------------------------- */
+  function initCoverPreviews() {
+    var covers = Array.prototype.slice.call(document.querySelectorAll('[data-pdf-cover]'));
+    if (!covers.length) return;
 
-    /* ----------------------------------------------------------
-       Lazy-load cover previews using IntersectionObserver.
-       Covers with data-pdf-cover are observed; PDF.js is only
-       loaded when the first cover element scrolls into view.
-    ---------------------------------------------------------- */
-    function initCoverPreviews() {
-      var covers = Array.prototype.slice.call(
-        document.querySelectorAll('[data-pdf-cover]')
-      );
-      if (!covers.length) return;
-
-      if ('IntersectionObserver' in window) {
-        var obs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              obs.unobserve(entry.target);
-              renderPdfCover(entry.target.dataset.pdfCover, entry.target);
-            }
-          });
-        }, { rootMargin: '300px' }); // pre-load slightly before visible
-        covers.forEach(function (el) { obs.observe(el); });
-      } else {
-        // Fallback for older browsers: load all immediately
-        covers.forEach(function (el) {
-          renderPdfCover(el.dataset.pdfCover, el);
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            obs.unobserve(entry.target);
+            renderPdfCover(entry.target.dataset.pdfCover, entry.target);
+          }
         });
-      }
+      }, { rootMargin: '300px' });
+      covers.forEach(function (el) { obs.observe(el); });
+    } else {
+      covers.forEach(function (el) { renderPdfCover(el.dataset.pdfCover, el); });
+    }
+  }
+
+  /* ----------------------------------------------------------
+     Flipbook viewer
+  ---------------------------------------------------------- */
+  var pdfDoc      = null;
+  var currentPage = 1;
+  var rendering   = false;
+
+  function openFlipbook(pdfUrl, title) {
+    var modal = document.getElementById('flipbook-modal');
+    document.getElementById('flipbook-title').textContent     = title || '';
+    document.getElementById('flipbook-loading').style.display = '';
+    document.getElementById('flipbook-error').style.display   = 'none';
+    document.getElementById('flipbook-canvas').style.display  = 'none';
+    document.getElementById('flipbook-controls').style.visibility = 'hidden';
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+
+    if (!pdfUrl) {
+      document.getElementById('flipbook-loading').style.display = 'none';
+      document.getElementById('flipbook-error').style.display   = '';
+      return;
     }
 
-    /* ----------------------------------------------------------
-       Edition card rendering — cover is always the gradient
-       placeholder initially; if a PDF exists it will be replaced
-       with the first-page preview after the element is visible.
-    ---------------------------------------------------------- */
-    function coverHTML(edition, idx) {
-      var grad     = COVER_GRADIENTS[idx % COVER_GRADIENTS.length];
-      var pdfAttr  = edition.pdf_file
-        ? ' data-pdf-cover="' + edition.pdf_file + '"'
-        : '';
-      return '<div class="edition-cover edition-cover-styled"' + pdfAttr
-        + ' style="background:' + grad + ';">'
-        + '<div class="edition-cover-text">'
-        + '<span class="vol-label">' + edition.title + '</span>'
-        + '<span class="journal-name">Christo et Doctrinae</span>'
-        + '<div class="divider-line"></div>'
-        + '<span class="issue-title">' + edition.theme + '</span>'
-        + '<div class="divider-line"></div>'
-        + '<span class="year">' + edition.season + '</span>'
-        + '</div></div>';
-    }
-
-    function editionCardHTML(edition, idx, isFeatured) {
-      var hasPdf     = !!edition.pdf_file;
-      var cls        = 'edition-card'
-        + (isFeatured ? ' edition-featured-card' : '')
-        + (hasPdf    ? ' edition-has-pdf' : '');
-      var pdfAttr    = hasPdf ? ' data-pdf="' + edition.pdf_file + '"' : '';
-      var titleAttr  = ' data-title="' + edition.title
-        + (edition.theme ? ' \u2014 ' + edition.theme : '') + '"';
-      var hint = hasPdf
-        ? '<span class="edition-view-hint">Click to read</span>'
-        : '<span class="edition-view-hint edition-view-hint--unavailable">PDF coming soon</span>';
-      var metaParts  = [];
-      if (edition.season)     metaParts.push(edition.season);
-      if (edition.page_count) metaParts.push(edition.page_count + ' pages');
-
-      return '<div class="' + cls + '"' + pdfAttr + titleAttr + '>'
-        + coverHTML(edition, idx)
-        + hint
-        + '<div class="edition-card-body">'
-        + '<h3 class="edition-card-title">' + edition.title
-          + (edition.theme ? ' <em>\u2014 ' + edition.theme + '</em>' : '') + '</h3>'
-        + (metaParts.length ? '<p class="edition-meta">' + metaParts.join(' \u00b7 ') + '</p>' : '')
-        + (edition.description ? '<p class="edition-card-desc">' + edition.description + '</p>' : '')
-        + (edition.contents   ? '<p class="edition-contents">'  + edition.contents   + '</p>' : '')
-        + '</div></div>';
-    }
-
-    function renderEditions(editions) {
-      var container = document.getElementById('editions-container');
-      if (!editions.length) {
-        container.innerHTML = '<p style="color:var(--text-muted);font-style:italic;">No editions published yet.</p>';
-        return;
-      }
-
-      var html = '';
-      html += '<div class="editions-featured-wrap">';
-      html += editionCardHTML(editions[0], 0, true);
-      html += '</div>';
-
-      if (editions.length > 1) {
-        html += '<div class="editions-archive">';
-        html += '<h2 class="editions-archive-heading">Previous Editions</h2>';
-        html += '<div class="editions-grid">';
-        editions.slice(1).forEach(function (ed, i) {
-          html += editionCardHTML(ed, i + 1, false);
-        });
-        html += '</div></div>';
-      }
-
-      container.innerHTML = html;
-
-      // Click handlers for flipbook
-      container.querySelectorAll('.edition-has-pdf').forEach(function (card) {
-        card.addEventListener('click', function () {
-          openFlipbook(this.dataset.pdf, this.dataset.title);
-        });
-      });
-
-      // Kick off lazy cover preview extraction
-      initCoverPreviews();
-    }
-
-    /* ----------------------------------------------------------
-       Flipbook viewer — uses the shared ensurePdfJs loader
-    ---------------------------------------------------------- */
-    var pdfDoc      = null;
-    var currentPage = 1;
-    var rendering   = false;
-
-    function openFlipbook(pdfUrl, title) {
-      var modal = document.getElementById('flipbook-modal');
-      document.getElementById('flipbook-title').textContent     = title || '';
-      document.getElementById('flipbook-loading').style.display = '';
-      document.getElementById('flipbook-error').style.display   = 'none';
-      document.getElementById('flipbook-canvas').style.display  = 'none';
-      document.getElementById('flipbook-controls').style.visibility = 'hidden';
-      modal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-
-      if (!pdfUrl) {
+    ensurePdfJs(
+      function () { loadPdf(pdfUrl); },
+      function () {
         document.getElementById('flipbook-loading').style.display = 'none';
         document.getElementById('flipbook-error').style.display   = '';
-        return;
       }
+    );
+  }
 
-      ensurePdfJs(
-        function () { loadPdf(pdfUrl); },
-        function () {
-          document.getElementById('flipbook-loading').style.display = 'none';
-          document.getElementById('flipbook-error').style.display   = '';
-        }
-      );
-    }
+  function loadPdf(url) {
+    pdfjsLib.getDocument(url).promise.then(function (pdf) {
+      pdfDoc = pdf;
+      currentPage = 1;
+      document.getElementById('flipbook-total').textContent = pdf.numPages;
+      document.getElementById('flipbook-prev').disabled     = true;
+      document.getElementById('flipbook-next').disabled     = pdf.numPages <= 1;
+      renderPage(1);
+    }).catch(function () {
+      document.getElementById('flipbook-loading').style.display = 'none';
+      document.getElementById('flipbook-error').style.display   = '';
+    });
+  }
 
-    function loadPdf(url) {
-      pdfjsLib.getDocument(url).promise.then(function (pdf) {
-        pdfDoc = pdf;
-        currentPage = 1;
-        document.getElementById('flipbook-total').textContent    = pdf.numPages;
-        document.getElementById('flipbook-prev').disabled        = true;
-        document.getElementById('flipbook-next').disabled        = pdf.numPages <= 1;
-        renderPage(1);
-      }).catch(function () {
-        document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-error').style.display   = '';
-      });
-    }
-
-    function renderPage(num) {
-      if (rendering || !pdfDoc) return;
-      rendering = true;
-      pdfDoc.getPage(num).then(function (page) {
-        var canvas = document.getElementById('flipbook-canvas');
-        var ctx    = canvas.getContext('2d');
-        var maxW   = Math.min(window.innerWidth * 0.88, 820);
-        var maxH   = window.innerHeight - 180;
-        var base   = page.getViewport({ scale: 1 });
-        var scale  = Math.min(maxW / base.width, maxH / base.height);
-        var vp     = page.getViewport({ scale: scale });
-        canvas.width  = vp.width;
-        canvas.height = vp.height;
-        return page.render({ canvasContext: ctx, viewport: vp }).promise;
-      }).then(function () {
-        document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-canvas').style.display  = 'block';
-        document.getElementById('flipbook-controls').style.visibility = '';
-        document.getElementById('flipbook-current').textContent   = num;
-        document.getElementById('flipbook-prev').disabled = num <= 1;
-        document.getElementById('flipbook-next').disabled = num >= pdfDoc.numPages;
-        rendering = false;
-      }).catch(function () {
-        document.getElementById('flipbook-loading').style.display = 'none';
-        document.getElementById('flipbook-error').style.display   = '';
-        rendering = false;
-      });
-    }
-
-    function closeFlipbook() {
-      document.getElementById('flipbook-modal').classList.remove('is-open');
-      document.body.style.overflow = '';
-      pdfDoc    = null;
+  function renderPage(num) {
+    if (rendering || !pdfDoc) return;
+    rendering = true;
+    pdfDoc.getPage(num).then(function (page) {
+      var canvas = document.getElementById('flipbook-canvas');
+      var ctx    = canvas.getContext('2d');
+      var maxW   = Math.min(window.innerWidth * 0.88, 820);
+      var maxH   = window.innerHeight - 180;
+      var base   = page.getViewport({ scale: 1 });
+      var scale  = Math.min(maxW / base.width, maxH / base.height);
+      var vp     = page.getViewport({ scale: scale });
+      canvas.width  = vp.width;
+      canvas.height = vp.height;
+      return page.render({ canvasContext: ctx, viewport: vp }).promise;
+    }).then(function () {
+      document.getElementById('flipbook-loading').style.display = 'none';
+      document.getElementById('flipbook-canvas').style.display  = 'block';
+      document.getElementById('flipbook-controls').style.visibility = '';
+      document.getElementById('flipbook-current').textContent   = num;
+      document.getElementById('flipbook-prev').disabled = num <= 1;
+      document.getElementById('flipbook-next').disabled = num >= pdfDoc.numPages;
       rendering = false;
-    }
-
-    document.getElementById('flipbook-close').addEventListener('click', closeFlipbook);
-    document.getElementById('flipbook-prev').addEventListener('click', function () {
-      if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+    }).catch(function () {
+      document.getElementById('flipbook-loading').style.display = 'none';
+      document.getElementById('flipbook-error').style.display   = '';
+      rendering = false;
     });
-    document.getElementById('flipbook-next').addEventListener('click', function () {
+  }
+
+  function closeFlipbook() {
+    document.getElementById('flipbook-modal').classList.remove('is-open');
+    document.body.style.overflow = '';
+    pdfDoc    = null;
+    rendering = false;
+  }
+
+  document.getElementById('flipbook-close').addEventListener('click', closeFlipbook);
+  document.getElementById('flipbook-prev').addEventListener('click', function () {
+    if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+  });
+  document.getElementById('flipbook-next').addEventListener('click', function () {
+    if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!document.getElementById('flipbook-modal').classList.contains('is-open')) return;
+    if (e.key === 'Escape') { closeFlipbook(); return; }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
-    });
-    document.addEventListener('keydown', function (e) {
-      if (!document.getElementById('flipbook-modal').classList.contains('is-open')) return;
-      if (e.key === 'Escape') { closeFlipbook(); return; }
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        if (pdfDoc && currentPage < pdfDoc.numPages) { currentPage++; renderPage(currentPage); }
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        if (currentPage > 1) { currentPage--; renderPage(currentPage); }
-      }
-    });
-    document.getElementById('flipbook-modal').addEventListener('click', function (e) {
-      if (e.target === this) closeFlipbook();
-    });
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+    }
+  });
+  document.getElementById('flipbook-modal').addEventListener('click', function (e) {
+    if (e.target === this) closeFlipbook();
+  });
 
-    // Load editions data
-    fetch('data/editions.json')
-      .then(function (r) { return r.json(); })
-      .then(renderEditions)
-      .catch(function () {
-        document.getElementById('editions-container').innerHTML =
-          '<p style="color:var(--text-muted);font-style:italic;">Could not load editions. Please try again later.</p>';
-      });
+  /* ----------------------------------------------------------
+     Wire up click handlers on edition cards
+  ---------------------------------------------------------- */
+  document.querySelectorAll('.edition-has-pdf').forEach(function (card) {
+    card.addEventListener('click', function () {
+      openFlipbook(this.dataset.pdf, this.dataset.title);
+    });
+  });
 
-  })();
-  </script>
+  /* ----------------------------------------------------------
+     Kick off lazy cover previews
+  ---------------------------------------------------------- */
+  initCoverPreviews();
 
-</body>
-</html>
+})();
+</script>

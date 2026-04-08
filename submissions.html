@@ -1,278 +1,180 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Submissions — Christo et Doctrinae</title>
-  <meta name="description" content="Submit your theological essays, creative writing, poetry, or visual art to Christo et Doctrinae." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "Submissions — Christo et Doctrinae"
+description: "Submit your theological essays, creative writing, poetry, or visual art to Christo et Doctrinae."
+permalink: /submissions/
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
+{% assign sub = site.data.submissions %}
+
+<!-- ============================================================
+     PAGE HEADER
+     ============================================================ -->
+<header class="page-header">
+  <span class="eyebrow">Write for the Journal</span>
+  <h1>Submissions</h1>
+  <p class="lead">We welcome theological essays, creative writing, poetry, and visual art from students, scholars, and artists.</p>
+</header>
+
+<!-- ============================================================
+     INTRO & DEADLINE
+     ============================================================ -->
+<section class="section">
+  <div class="container-narrow prose">
+    <p style="font-size:1.05rem;">
+      <em>Christo et Doctrinae</em> is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.
+    </p>
+    <p>
+      We accept work in two broad categories: <strong>scholarly and critical writing</strong> (theology, philosophy, church history, ethics, cultural criticism) and <strong>creative work</strong> (poetry, personal essays, short fiction, and visual art). Both categories are equally important to us. We believe the distinction between them is often less clear than we pretend.
+    </p>
+    <p>
+      Submissions are reviewed on a rolling basis. We aim to respond within eight weeks. If your work is accepted for our print edition, you will be contacted separately regarding layout and formatting.
+    </p>
+
+    {% if sub.deadline_text %}
+    <div class="info-box">
+      <p><strong>Current Deadlines:</strong> {{ sub.deadline_text }}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ============================================================
+     GUIDELINES
+     ============================================================ -->
+<section class="section section-alt" id="guidelines">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Before You Submit</span>
+      <h2>Submission Guidelines</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="guidelines-grid">
+      <div class="guidelines-box">
+        <h3>Scholarly &amp; Critical Writing</h3>
+        {% if sub.scholarly_guidelines and sub.scholarly_guidelines.size > 0 %}
+          <ul>
+            {% for item in sub.scholarly_guidelines %}<li>{{ item }}</li>{% endfor %}
           </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html" class="active">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
-    </div>
-  </nav>
+        {% endif %}
+      </div>
 
-  <!-- ============================================================
-       PAGE HEADER
-       ============================================================ -->
-  <header class="page-header">
-    <span class="eyebrow">Write for the Journal</span>
-    <h1>Submissions</h1>
-    <p class="lead">We welcome theological essays, creative writing, poetry, and visual art from students, scholars, and artists.</p>
-  </header>
+      <div class="guidelines-box">
+        <h3>Creative Writing &amp; Poetry</h3>
+        {% if sub.creative_guidelines and sub.creative_guidelines.size > 0 %}
+          <ul>
+            {% for item in sub.creative_guidelines %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
 
-  <!-- ============================================================
-       INTRO & DEADLINE — loaded from data/submissions.json
-       ============================================================ -->
-  <section class="section">
-    <div class="container-narrow prose">
-      <p style="font-size:1.05rem;">
-        <em>Christo et Doctrinae</em> is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.
-      </p>
-      <p>
-        We accept work in two broad categories: <strong>scholarly and critical writing</strong> (theology, philosophy, church history, ethics, cultural criticism) and <strong>creative work</strong> (poetry, personal essays, short fiction, and visual art). Both categories are equally important to us. We believe the distinction between them is often less clear than we pretend.
-      </p>
-      <p>
-        Submissions are reviewed on a rolling basis. We aim to respond within eight weeks. If your work is accepted for our print edition, you will be contacted separately regarding layout and formatting.
-      </p>
+      <div class="guidelines-box" id="art">
+        <h3>Visual Art &amp; Photography</h3>
+        {% if sub.visual_guidelines and sub.visual_guidelines.size > 0 %}
+          <ul>
+            {% for item in sub.visual_guidelines %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
 
-      <div class="info-box" id="deadline-box">
-        <p><strong>Current Deadlines:</strong> <span id="deadline-text">Loading…</span></p>
+      <div class="guidelines-box">
+        <h3>Eligibility &amp; Process</h3>
+        {% if sub.eligibility_guidelines and sub.eligibility_guidelines.size > 0 %}
+          <ul>
+            {% for item in sub.eligibility_guidelines %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        {% endif %}
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       GUIDELINES — loaded from data/submissions.json
-       ============================================================ -->
-  <section class="section section-alt" id="guidelines">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Before You Submit</span>
-        <h2>Submission Guidelines</h2>
-        <div class="section-divider"></div>
-      </div>
-
-      <div class="guidelines-grid" id="guidelines-grid">
-        <!-- Populated by JS -->
-        <div class="guidelines-box">
-          <h3>Scholarly &amp; Critical Writing</h3>
-          <ul id="gl-scholarly"></ul>
-        </div>
-        <div class="guidelines-box">
-          <h3>Creative Writing &amp; Poetry</h3>
-          <ul id="gl-creative"></ul>
-        </div>
-        <div class="guidelines-box" id="art">
-          <h3>Visual Art &amp; Photography</h3>
-          <ul id="gl-visual"></ul>
-        </div>
-        <div class="guidelines-box">
-          <h3>Eligibility &amp; Process</h3>
-          <ul id="gl-eligibility"></ul>
-        </div>
-      </div>
+<!-- ============================================================
+     SUBMISSION FORM
+     ============================================================ -->
+<section class="section">
+  <div class="container-narrow">
+    <div class="section-header" style="text-align:left;">
+      <span class="eyebrow">Submit Your Work</span>
+      <h2>Submission Form</h2>
+      <div class="section-divider left" style="margin-left:0;"></div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       SUBMISSION FORM
-       ============================================================ -->
-  <section class="section">
-    <div class="container-narrow">
-      <div class="section-header" style="text-align:left;">
-        <span class="eyebrow">Submit Your Work</span>
-        <h2>Submission Form</h2>
-        <div class="section-divider left" style="margin-left:0;"></div>
-      </div>
-
-      <form action="#" method="POST" enctype="multipart/form-data" novalidate>
-
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="first_name" autocomplete="given-name" required />
-          </div>
-
-          <div class="form-group">
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last_name" autocomplete="family-name" required />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" autocomplete="email" required />
-          </div>
-
-          <div class="form-group">
-            <label for="affiliation">Affiliation / Institution</label>
-            <select id="affiliation" name="affiliation" required>
-              <option value="" disabled selected>Select one…</option>
-              <option value="undergrad">Undergraduate Student</option>
-              <option value="grad">Graduate Student</option>
-              <option value="faculty">Faculty / Staff</option>
-              <option value="alumni">Alumni</option>
-              <option value="other">Other (please specify)</option>
-            </select>
-          </div>
-
-          <div class="form-group form-full">
-            <label for="title">Title of Submission</label>
-            <input type="text" id="title" name="title" required />
-          </div>
-
-          <div class="form-group">
-            <label for="category">Submission Category</label>
-            <select id="category" name="category" required>
-              <option value="" disabled selected>Select category…</option>
-              <option value="theology">Theological / Scholarly Essay</option>
-              <option value="philosophy">Philosophy of Religion</option>
-              <option value="ethics">Christian Ethics</option>
-              <option value="history">Church History</option>
-              <option value="cultural">Cultural Criticism</option>
-              <option value="poetry">Poetry</option>
-              <option value="fiction">Short Fiction</option>
-              <option value="nonfiction">Creative Nonfiction / Memoir</option>
-              <option value="visual">Visual Art / Photography</option>
-              <option value="notes">Notes &amp; Reflections (short)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="wordcount">Word Count (or medium, for art)</label>
-            <input type="text" id="wordcount" name="wordcount" placeholder="e.g. 3,200 words / oil on canvas" />
-          </div>
-
-          <div class="form-group form-full">
-            <label for="abstract">Abstract or Artist Statement <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(150–250 words)</span></label>
-            <textarea id="abstract" name="abstract" placeholder="Provide a brief summary of your argument or, for creative work, a short statement about the piece…"></textarea>
-          </div>
-
-          <div class="form-group form-full">
-            <label for="bio">Author / Artist Biography <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(50–100 words)</span></label>
-            <textarea id="bio" name="bio" style="min-height:100px;" placeholder="A brief third-person biography for publication purposes…"></textarea>
-          </div>
-
-          <div class="form-group form-full">
-            <label for="file">Upload Manuscript or File</label>
-            <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.tiff" style="padding:0.5rem 0.95rem; cursor:pointer;" />
-          </div>
-
-          <div class="form-group form-full">
-            <label for="notes">Additional Notes <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(optional)</span></label>
-            <textarea id="notes" name="notes" style="min-height:80px;" placeholder="Any other information for the editorial board…"></textarea>
-          </div>
-
+    <form action="#" method="POST" enctype="multipart/form-data" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="first_name" autocomplete="given-name" required />
         </div>
-
-        <div style="margin-top:2rem;">
-          <label style="display:flex; gap:0.6rem; align-items:flex-start; font-family:'Libre Baskerville',serif; font-size:0.88rem; color:var(--text-muted); letter-spacing:0; text-transform:none; cursor:pointer; margin-bottom:1.5rem;">
-            <input type="checkbox" name="rights" required style="width:auto; margin-top:0.3rem; flex-shrink:0;" />
-            I confirm that this is my original work, that I hold rights to it, and that it has not been previously published in substantially this form. I grant <em>Christo et Doctrinae</em> first publication rights.
-          </label>
-          <button type="submit" class="btn btn-primary">Submit for Review</button>
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="last_name" autocomplete="family-name" required />
         </div>
-
-      </form>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label for="affiliation">Affiliation / Institution</label>
+          <select id="affiliation" name="affiliation" required>
+            <option value="" disabled selected>Select one…</option>
+            <option value="undergrad">Undergraduate Student</option>
+            <option value="grad">Graduate Student</option>
+            <option value="faculty">Faculty / Staff</option>
+            <option value="alumni">Alumni</option>
+            <option value="other">Other (please specify)</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label for="title">Title of Submission</label>
+          <input type="text" id="title" name="title" required />
+        </div>
+        <div class="form-group">
+          <label for="category">Submission Category</label>
+          <select id="category" name="category" required>
+            <option value="" disabled selected>Select category…</option>
+            <option value="theology">Theological / Scholarly Essay</option>
+            <option value="philosophy">Philosophy of Religion</option>
+            <option value="ethics">Christian Ethics</option>
+            <option value="history">Church History</option>
+            <option value="cultural">Cultural Criticism</option>
+            <option value="poetry">Poetry</option>
+            <option value="fiction">Short Fiction</option>
+            <option value="nonfiction">Creative Nonfiction / Memoir</option>
+            <option value="visual">Visual Art / Photography</option>
+            <option value="notes">Notes &amp; Reflections (short)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="wordcount">Word Count (or medium, for art)</label>
+          <input type="text" id="wordcount" name="wordcount" placeholder="e.g. 3,200 words / oil on canvas" />
+        </div>
+        <div class="form-group form-full">
+          <label for="abstract">Abstract or Artist Statement <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(150–250 words)</span></label>
+          <textarea id="abstract" name="abstract" placeholder="Provide a brief summary of your argument or, for creative work, a short statement about the piece…"></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label for="bio">Author / Artist Biography <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(50–100 words)</span></label>
+          <textarea id="bio" name="bio" style="min-height:100px;" placeholder="A brief third-person biography for publication purposes…"></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label for="file">Upload Manuscript or File</label>
+          <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.tiff" style="padding:0.5rem 0.95rem; cursor:pointer;" />
+        </div>
+        <div class="form-group form-full">
+          <label for="notes">Additional Notes <span style="font-style:italic; letter-spacing:normal; text-transform:none;">(optional)</span></label>
+          <textarea id="notes" name="notes" style="min-height:80px;" placeholder="Any other information for the editorial board…"></textarea>
+        </div>
       </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
+
+      <div style="margin-top:2rem;">
+        <label style="display:flex; gap:0.6rem; align-items:flex-start; font-family:'Libre Baskerville',serif; font-size:0.88rem; color:var(--text-muted); letter-spacing:0; text-transform:none; cursor:pointer; margin-bottom:1.5rem;">
+          <input type="checkbox" name="rights" required style="width:auto; margin-top:0.3rem; flex-shrink:0;" />
+          I confirm that this is my original work, that I hold rights to it, and that it has not been previously published in substantially this form. I grant <em>Christo et Doctrinae</em> first publication rights.
+        </label>
+        <button type="submit" class="btn btn-primary">Submit for Review</button>
       </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       LOAD SUBMISSIONS CONTENT FROM CMS DATA
-       ============================================================ -->
-  <script>
-  (function () {
-    function listItems(arr, ulId) {
-      var ul = document.getElementById(ulId);
-      if (!ul || !Array.isArray(arr)) return;
-      ul.innerHTML = arr.map(function (item) {
-        return '<li>' + item + '</li>';
-      }).join('');
-    }
-
-    fetch('data/submissions.json')
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        var deadlineEl = document.getElementById('deadline-text');
-        if (deadlineEl && d.deadline_text) deadlineEl.textContent = d.deadline_text;
-
-        listItems(d.scholarly_guidelines,   'gl-scholarly');
-        listItems(d.creative_guidelines,    'gl-creative');
-        listItems(d.visual_guidelines,      'gl-visual');
-        listItems(d.eligibility_guidelines, 'gl-eligibility');
-      })
-      .catch(function () {
-        var deadlineEl = document.getElementById('deadline-text');
-        if (deadlineEl) deadlineEl.textContent = 'Check back soon for updated deadlines.';
-      });
-  })();
-  </script>
-
-</body>
-</html>
+    </form>
+  </div>
+</section>

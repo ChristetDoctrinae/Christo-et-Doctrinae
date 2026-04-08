@@ -1,0 +1,144 @@
+---
+layout: default
+---
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+{% if page.publish_date %}
+  {% assign pub_str = page.publish_date | date: "%Y-%m-%d" %}
+  {% if pub_str > now_str %}
+    {% assign unpublished = true %}
+  {% endif %}
+{% endif %}
+
+{% if unpublished %}
+<div style="min-height:60vh; text-align:center; padding:6rem 2rem;">
+  <span class="eyebrow">Not Available</span>
+  <h1 style="font-size:2.5rem; margin-bottom:1rem;">Article Not Yet Published</h1>
+  <p style="color:var(--text-muted); margin-bottom:2rem;">This article is scheduled for a future date.</p>
+  <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">Browse All Articles</a>
+</div>
+{% else %}
+
+<!-- Article header -->
+<header class="article-header">
+
+  {% if page.cover_image %}
+    {% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
+    {% assign focal_pos = "center center" %}
+    {% for pair in focal_map %}
+      {% assign kv = pair | split: ":" %}
+      {% if kv[0] == page.focal_point %}
+        {% assign focal_pos = kv[1] %}
+      {% endif %}
+    {% endfor %}
+    <div class="article-cover" style="background-image:url('{{ page.cover_image }}'); background-position:{{ focal_pos }};"></div>
+  {% else %}
+    <div class="article-cover article-cover-placeholder" style="background:linear-gradient(135deg,#14131F,#2A1520,#7A1C2E);"></div>
+  {% endif %}
+
+  <div class="article-header-inner">
+    <div class="container-narrow">
+
+      {% if page.series %}
+        {% assign series_slug = page.series | downcase | replace: " ", "-" | replace: "'", "" | replace: "'", "" %}
+        <a href="{{ '/series/' | append: series_slug | append: '/' | relative_url }}" class="article-series-tag">{{ page.series }}</a>
+      {% endif %}
+
+      <h1 class="article-title">{{ page.title }}</h1>
+
+      {% if page.subtitle %}
+        <p class="article-subtitle">{{ page.subtitle }}</p>
+      {% endif %}
+
+      <div class="article-meta-line">
+        {% if page.author %}<span class="article-author">{{ page.author }}</span>{% endif %}
+        {% if page.author and page.date %}<span class="article-meta-sep">&nbsp;&middot;&nbsp;</span>{% endif %}
+        {% if page.date %}<time class="article-date" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %-d, %Y" }}</time>{% endif %}
+      </div>
+
+      {% if page.tags and page.tags.size > 0 %}
+        <div class="article-tags">
+          {% for tag in page.tags %}
+            <span class="article-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</header>
+
+<!-- Article body -->
+<main class="section">
+  <div class="container-narrow">
+    <div class="article-body prose clearfix" id="article-body">
+      {{ content }}
+    </div>
+
+    <!-- Back link -->
+    <div class="article-back" style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+      {% if page.series %}
+        {% assign back_slug = page.series | downcase | replace: " ", "-" | replace: "'", "" | replace: "'", "" %}
+        <a href="{{ '/series/' | append: back_slug | append: '/' | relative_url }}" class="btn btn-outline btn-sm">&larr; {{ page.series }}</a>
+      {% elsif page.print_edition %}
+        <a href="{{ '/print-editions/' | relative_url }}" class="btn btn-outline btn-sm">&larr; Print Editions</a>
+      {% else %}
+        <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline btn-sm">&larr; Back to Articles</a>
+      {% endif %}
+    </div>
+  </div>
+</main>
+
+{% endif %}
+
+<!-- Image positioning post-processor -->
+<script>
+(function () {
+  var body = document.getElementById('article-body');
+  if (!body) return;
+
+  body.querySelectorAll('p > img, img').forEach(function (img) {
+    var alt = img.getAttribute('alt') || '';
+    var pipe = alt.indexOf('|');
+    var position = 'center';
+    var caption = '';
+
+    if (pipe !== -1) {
+      var prefix = alt.slice(0, pipe).toLowerCase().trim();
+      if (prefix === 'left' || prefix === 'right' || prefix === 'full' || prefix === 'center') {
+        position = prefix;
+        caption = alt.slice(pipe + 1).trim();
+      } else {
+        caption = alt;
+      }
+    } else {
+      caption = alt;
+    }
+
+    var classes = {
+      left:   'img-wrap img-wrap-left',
+      right:  'img-wrap img-wrap-right',
+      full:   'img-wrap img-full',
+      center: 'img-wrap img-center'
+    };
+
+    var figure = document.createElement('figure');
+    figure.className = classes[position] || 'img-wrap img-center';
+    img.alt = caption;
+
+    var parent = img.parentNode;
+    parent.insertBefore(figure, img);
+    figure.appendChild(img);
+
+    if (caption) {
+      var fc = document.createElement('figcaption');
+      fc.textContent = caption;
+      figure.appendChild(fc);
+    }
+
+    // Remove empty <p> wrapper left behind
+    if (parent.tagName === 'P' && parent.textContent.trim() === '') {
+      parent.remove();
+    }
+  });
+})();
+</script>

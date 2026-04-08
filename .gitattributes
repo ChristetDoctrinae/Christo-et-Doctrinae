@@ -1,5 +1,22 @@
-# Git LFS — track PDF files uploaded through the CMS
-# Netlify Large Media uses LFS to store files outside the git repo.
+# Git LFS — Netlify Large Media
+# Tracks binary assets uploaded through the CMS so they are stored
+# outside the git repo (no file size errors for PDFs or large images).
 # Enable at: Netlify Dashboard → Site Settings → Build & Deploy → Large Media
-*.pdf filter=lfs diff=lfs merge=lfs -text
-*.PDF filter=lfs diff=lfs merge=lfs -text
+# Then run: netlify lm:setup  (requires Netlify CLI)
+
+# PDF files
+*.pdf  filter=lfs diff=lfs merge=lfs -text
+*.PDF  filter=lfs diff=lfs merge=lfs -text
+
+# Images uploaded through the CMS
+*.jpg  filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.JPG  filter=lfs diff=lfs merge=lfs -text
+*.JPEG filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.PNG  filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+*.WEBP filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.tif  filter=lfs diff=lfs merge=lfs -text
+*.gif  filter=lfs diff=lfs merge=lfs -text

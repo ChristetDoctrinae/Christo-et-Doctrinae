@@ -1,124 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Christo et Doctrinae — A Journal of Christian Thought</title>
-  <meta name="description" content="Christo et Doctrinae is a journal of Christian thought dedicated to theological and artistic exploration of the Christian life." />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+---
+layout: default
+title: "Christo et Doctrinae — A Journal of Christian Thought"
+description: "Christo et Doctrinae is a journal of Christian thought dedicated to theological and artistic exploration of the Christian life."
+permalink: /
+---
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="site-nav" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <a href="index.html">
-          <span class="logo-title">Christo et Doctrinae</span>
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li class="nav-hide-sm"><a href="about.html">About</a></li>
-        <li class="nav-has-dropdown">
-          <a href="articles.html">Read Our Work</a>
-          <ul class="dropdown-menu">
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="print-editions.html">Print Editions</a></li>
-          </ul>
-        </li>
-        <li class="nav-hide-sm"><a href="submissions.html">Submissions</a></li>
-        <li><a href="donate.html" class="nav-donate-btn">Donate</a></li>
-      </ul>
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+{% assign published = "" | split: "" %}
+{% for a in site.articles %}
+  {% if a.publish_date %}
+    {% assign pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% unless pub_str > now_str %}
+      {% assign published = published | push: a %}
+    {% endunless %}
+  {% else %}
+    {% assign published = published | push: a %}
+  {% endif %}
+{% endfor %}
+{% assign published = published | sort: "date" | reverse %}
+
+{% assign gradients = "linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%),linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%),linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%)" | split: "," %}
+{% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
+
+<!-- ============================================================
+     PANEL 1 — HERO BANNER
+     ============================================================ -->
+<section class="hero" aria-label="Journal banner">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Christo et Doctrinae</h1>
+  </div>
+</section>
+
+<!-- ============================================================
+     PANEL 2 — THREE MOST RECENT ARTICLES
+     ============================================================ -->
+<section class="section" aria-labelledby="recent-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Latest Writing</span>
+      <h2 id="recent-heading">From the Journal</h2>
+      <div class="section-divider"></div>
+      <p class="lead">Essays, meditations, and artistic reflection at the intersection of faith and culture.</p>
     </div>
-  </nav>
 
-  <!-- ============================================================
-       PANEL 1 — HERO BANNER
-       ============================================================ -->
-  <section class="hero" aria-label="Journal banner">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Christo et Doctrinae</h1>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       PANEL 2 — THREE MOST RECENT ARTICLES
-       ============================================================ -->
-  <section class="section" aria-labelledby="recent-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="eyebrow">Latest Writing</span>
-        <h2 id="recent-heading">From the Journal</h2>
-        <div class="section-divider"></div>
-        <p class="lead">Essays, meditations, and artistic reflection at the intersection of faith and culture.</p>
-      </div>
-
-      <div class="cards-grid" id="recent-articles-grid">
-        <!-- Placeholder cards shown while data/articles.json loads -->
+    <div class="cards-grid">
+      {% if published.size == 0 %}
+        <!-- Placeholder cards shown when no articles are published yet -->
         <article class="card">
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #1C1C2E 0%, #2A1A24 60%, #5E1A30 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Holy Week Series</span>
-            <h3 class="card-title"><a href="article.html?slug=on-the-silence-of-holy-saturday">On the Silence of Holy Saturday</a></h3>
+            <h3 class="card-title"><a href="#">On the Silence of Holy Saturday</a></h3>
             <p class="card-subtitle">Between the death of God and the resurrection lies a day the Church has rarely known how to observe. What does it mean to wait in that silence?</p>
-            <div class="card-meta">
-              <strong>Jane Holloway</strong> &nbsp;·&nbsp; March 2025
-            </div>
+            <div class="card-meta"><strong>Jane Holloway</strong> &nbsp;·&nbsp; March 2025</div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #1E1A10 0%, #2A2010 50%, #7A5A1C 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Theology &amp; Culture</span>
-            <h3 class="card-title"><a href="article.html?slug=beauty-and-the-broken-world">Beauty and the Broken World</a></h3>
+            <h3 class="card-title"><a href="#">Beauty and the Broken World</a></h3>
             <p class="card-subtitle">How Christian aesthetics holds together the goodness of creation and the reality of suffering without collapsing either into sentimentality or despair.</p>
-            <div class="card-meta">
-              <strong>Thomas Aurelius Webb</strong> &nbsp;·&nbsp; February 2025
-            </div>
+            <div class="card-meta"><strong>Thomas Aurelius Webb</strong> &nbsp;·&nbsp; February 2025</div>
           </div>
         </article>
-
         <article class="card">
           <div class="card-thumb-placeholder" style="background: linear-gradient(150deg, #0D1A20 0%, #102530 50%, #1A4A5A 100%);"></div>
           <div class="card-body">
             <span class="card-series-tag">Advent Series</span>
-            <h3 class="card-title"><a href="article.html?slug=advent-and-the-discipline-of-waiting">Advent and the Discipline of Waiting</a></h3>
+            <h3 class="card-title"><a href="#">Advent and the Discipline of Waiting</a></h3>
             <p class="card-subtitle">In a culture of immediacy, the season of Advent calls the Church to something countercultural: to wait, and to wait well.</p>
-            <div class="card-meta">
-              <strong>Claire Dunnington</strong> &nbsp;·&nbsp; December 2024
-            </div>
+            <div class="card-meta"><strong>Claire Dunnington</strong> &nbsp;·&nbsp; December 2024</div>
           </div>
         </article>
-      </div>
-
-      <div class="text-center mt-4">
-        <a href="articles.html" class="btn btn-outline">View All Articles</a>
-      </div>
+      {% else %}
+        {% for article in published limit: 3 %}
+          {% assign grad_index = forloop.index0 | modulo: 3 %}
+          {% assign focal_pos = "center center" %}
+          {% if article.cover_image %}
+            {% for pair in focal_map %}
+              {% assign kv = pair | split: ":" %}
+              {% if kv[0] == article.focal_point %}{% assign focal_pos = kv[1] %}{% endif %}
+            {% endfor %}
+          {% endif %}
+          <article class="card">
+            {% if article.cover_image %}
+              <img class="card-thumb" src="{{ article.cover_image }}" alt="{{ article.title }}" loading="lazy" style="object-position:{{ focal_pos }};" />
+            {% else %}
+              <div class="card-thumb-placeholder" style="background:{{ gradients[grad_index] }};"></div>
+            {% endif %}
+            <div class="card-body">
+              <span class="card-series-tag">{{ article.series | default: "Journal" }}</span>
+              <h3 class="card-title"><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h3>
+              {% if article.subtitle %}<p class="card-subtitle">{{ article.subtitle }}</p>{% endif %}
+              <div class="card-meta">
+                <strong>{{ article.author }}</strong>
+                {% if article.date %}&nbsp;&middot;&nbsp; {{ article.date | date: "%B %Y" }}{% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      {% endif %}
     </div>
-  </section>
 
-  <!-- ============================================================
-       PANEL 4 — ABOUT OVERLAY PANEL
-       ============================================================ -->
-  <section class="about-overlay-panel" aria-label="About the journal">
-    <div class="panel-overlay"></div>
-    <div class="panel-content">
-      <p>PLACEHOLDER ABOUT ON COVER</p>
-      <a href="about.html" class="btn btn-outline-ivory">Learn More</a>
+    <div class="text-center mt-4">
+      <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">View All Articles</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       PANEL 5 — FEATURED ARTICLES (CMS-managed, up to 2)
-       Hidden if no featured articles are selected.
-       ============================================================ -->
-  <section class="section section-alt" id="featured-panel" aria-labelledby="featured-heading" style="display:none;">
+<!-- ============================================================
+     PANEL 3 — ABOUT OVERLAY PANEL
+     ============================================================ -->
+<section class="about-overlay-panel" aria-label="About the journal">
+  <div class="panel-overlay"></div>
+  <div class="panel-content">
+    <p>PLACEHOLDER ABOUT ON COVER</p>
+    <a href="{{ '/about/' | relative_url }}" class="btn btn-outline-ivory">Learn More</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     PANEL 4 — FEATURED ARTICLES (up to 2, from _data/featured.json)
+     Hidden if no featured articles are selected.
+     ============================================================ -->
+{% assign feat_slugs = site.data.featured.featured_articles %}
+{% if feat_slugs and feat_slugs.size > 0 %}
+  {% assign featured = "" | split: "" %}
+  {% for slug in feat_slugs limit: 2 %}
+    {% for a in published %}
+      {% assign a_slug = a.path | remove: "_articles/" | remove: ".md" %}
+      {% if a_slug == slug %}
+        {% assign featured = featured | push: a %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+  {% if featured.size > 0 %}
+  <section class="section section-alt" aria-labelledby="featured-heading">
     <div class="container">
       <div class="section-header">
         <span class="eyebrow">Featured</span>
@@ -127,244 +147,62 @@
         <p class="lead">Selected writing chosen by the editorial board.</p>
       </div>
 
-      <div class="print-edition-grid" id="featured-articles-grid"></div>
+      <div class="print-edition-grid"{% if featured.size == 1 %} style="max-width:520px; margin:0 auto;"{% endif %}>
+        {% for article in featured %}
+          {% assign grad_index = forloop.index0 | modulo: 3 %}
+          {% assign focal_pos = "center center" %}
+          {% if article.cover_image %}
+            {% for pair in focal_map %}
+              {% assign kv = pair | split: ":" %}
+              {% if kv[0] == article.focal_point %}{% assign focal_pos = kv[1] %}{% endif %}
+            {% endfor %}
+          {% endif %}
+          <article class="card">
+            {% if article.cover_image %}
+              <img class="card-thumb" src="{{ article.cover_image }}" alt="{{ article.title }}" loading="lazy" style="object-position:{{ focal_pos }};" />
+            {% else %}
+              <div class="card-thumb-placeholder" style="background:{{ gradients[grad_index] }};"></div>
+            {% endif %}
+            <div class="card-body">
+              <span class="featured-label">Featured</span>
+              <h3 class="card-title"><a href="{{ article.url | relative_url }}">{{ article.title }}</a></h3>
+              {% if article.subtitle %}<p class="card-subtitle">{{ article.subtitle }}</p>{% endif %}
+              <div class="card-meta">
+                <strong>{{ article.author }}</strong>
+                {% if article.date %}&nbsp;&middot;&nbsp; {{ article.date | date: "%B %Y" }}{% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
 
       <div class="text-center mt-4">
-        <a href="articles.html" class="btn btn-outline">View All Articles</a>
+        <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">View All Articles</a>
       </div>
     </div>
   </section>
+  {% endif %}
+{% endif %}
 
-  <!-- ============================================================
-       PANEL 6 — SERIES TILES
-       ============================================================ -->
-  <div class="series-tiles" aria-label="Journal series">
-
-    <a href="series-detail.html?series=holy-week-series" class="series-tile">
-      <div class="series-tile-bg" style="background-color: #1A1220;"></div>
+<!-- ============================================================
+     PANEL 5 — SERIES TILES
+     ============================================================ -->
+<div class="series-tiles" aria-label="Journal series">
+  {% for s in site.series %}
+    <a href="{{ s.url | relative_url }}" class="series-tile">
+      <div class="series-tile-bg" style="background-color:{{ s.tile_color | default: '#1A1220' }};"></div>
       <div class="series-tile-overlay"></div>
       <div class="series-tile-content">
         <span class="eyebrow">Series</span>
-        <h3>Holy Week<br />Series</h3>
-        <p>A sustained meditation on the final days of Christ's earthly ministry — from the triumphal entry to the silence of the tomb.</p>
+        <h3>{{ s.name | replace: " Series", "<br />Series" }}</h3>
+        <p>{{ s.description }}</p>
         <span class="series-tile-link">Explore the Series</span>
       </div>
     </a>
+  {% endfor %}
+</div>
 
-    <a href="series-detail.html?series=advent-series" class="series-tile">
-      <div class="series-tile-bg" style="background-color: #0D1520;"></div>
-      <div class="series-tile-overlay"></div>
-      <div class="series-tile-content">
-        <span class="eyebrow">Series</span>
-        <h3>Advent<br />Series</h3>
-        <p>Annual reflections for the season of waiting — on longing, expectation, darkness, and the coming of the Light.</p>
-        <span class="series-tile-link">Explore the Series</span>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- ============================================================
-       PANEL 7 — NEWSLETTER
-       ============================================================ -->
-  <section class="newsletter-panel" aria-labelledby="newsletter-heading">
-    <span class="eyebrow">Stay Connected</span>
-    <h2 id="newsletter-heading">Subscribe to the Journal</h2>
-    <p class="newsletter-lead">Receive new articles, announcements, and reflections delivered to your inbox.</p>
-
-    <form
-      class="newsletter-form"
-      action="https://christoetdoctrinae.us11.list-manage.com/subscribe/post?u=3bc3e9d5b8d4546b0de919934&amp;id=5fdbdbb188&amp;f_id=00d520e0f0"
-      method="post"
-      target="_blank"
-      novalidate
-    >
-      <div class="name-row">
-        <div class="nl-group">
-          <label for="nl-fname">First Name</label>
-          <input type="text" id="nl-fname" name="FNAME" placeholder="First name" />
-        </div>
-        <div class="nl-group">
-          <label for="nl-lname">Last Name</label>
-          <input type="text" id="nl-lname" name="LNAME" placeholder="Last name" />
-        </div>
-      </div>
-      <div class="email-row">
-        <div class="nl-group">
-          <label for="nl-email">Email Address <span style="color: var(--accent);">*</span></label>
-          <input type="email" id="nl-email" name="EMAIL" placeholder="your@email.com" required />
-        </div>
-      </div>
-      <!-- Mailchimp anti-spam hidden field -->
-      <div style="position: absolute; left: -5000px;" aria-hidden="true">
-        <input type="text" name="b_3bc3e9d5b8d4546b0de919934_5fdbdbb188" tabindex="-1" value="" />
-      </div>
-      <div class="submit-row">
-        <button type="submit" class="btn">Subscribe</button>
-      </div>
-    </form>
-  </section>
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-title">Christo et Doctrinae</span>
-        <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Journal</h5>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="articles.html">Articles</a></li>
-          <li><a href="series.html">Series</a></li>
-          <li><a href="print-editions.html">Print Editions</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contribute</h5>
-        <ul>
-          <li><a href="submissions.html">Submit Writing</a></li>
-          <li><a href="submissions.html#art">Submit Art</a></li>
-          <li><a href="submissions.html#guidelines">Guidelines</a></li>
-          <li><a href="donate.html">Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="about.html#contact">Contact Us</a></li>
-          <li><a href="about.html#team">Our Team</a></li>
-          <li><a href="holy-week.html">Holy Week Series</a></li>
-          <li><a href="advent.html">Advent Series</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-      <p><em>Fides quaerens intellectum.</em></p>
-    </div>
-  </footer>
-
-  <!-- ============================================================
-       DYNAMIC RECENT ARTICLES
-       Fetches data/articles.json and replaces placeholder cards
-       with the three most recently published articles from the CMS.
-       ============================================================ -->
-  <script>
-    (function () {
-      function formatDate(dateStr) {
-        if (!dateStr) return '';
-        var d = new Date(dateStr);
-        if (isNaN(d)) return dateStr;
-        return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-      }
-
-      function bgGradient(index) {
-        var gradients = [
-          'linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%)',
-          'linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%)',
-          'linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%)'
-        ];
-        return gradients[index % gradients.length];
-      }
-
-      var FOCAL_POSITIONS = {
-        'center':       'center center',
-        'top':          'center top',
-        'bottom':       'center bottom',
-        'left':         'left center',
-        'right':        'right center',
-        'top-left':     'left top',
-        'top-right':    'right top',
-        'bottom-left':  'left bottom',
-        'bottom-right': 'right bottom'
-      };
-
-      function renderArticle(article, index) {
-        var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
-        var thumb = article.cover_image
-          ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
-          : '<div class="card-thumb-placeholder" style="background:' + bgGradient(index) + ';"></div>';
-
-        var subtitle = article.subtitle || article.excerpt || '';
-        var series   = article.series || 'Journal';
-        var date     = formatDate(article.date);
-
-        return '<article class="card">'
-          + thumb
-          + '<div class="card-body">'
-          + '<span class="card-series-tag">' + series + '</span>'
-          + '<h3 class="card-title"><a href="article.html?slug=' + article.slug + '">' + article.title + '</a></h3>'
-          + '<p class="card-subtitle">' + subtitle + '</p>'
-          + '<div class="card-meta"><strong>' + article.author + '</strong>'
-          + (date ? ' &nbsp;&middot;&nbsp; ' + date : '')
-          + '</div></div></article>';
-      }
-
-      fetch('data/articles.json')
-        .then(function (r) { return r.json(); })
-        .then(function (articles) {
-          if (!Array.isArray(articles) || articles.length === 0) return;
-          var recent = articles.slice(0, 3);
-          var grid = document.getElementById('recent-articles-grid');
-          if (grid) {
-            grid.innerHTML = recent.map(renderArticle).join('');
-          }
-
-          // --- Featured Articles panel ---
-          fetch('data/featured.json')
-            .then(function (r) { return r.json(); })
-            .then(function (featData) {
-              var slugs = featData.featured_articles;
-              if (!Array.isArray(slugs) || slugs.length === 0) return;
-
-              var bySlug = {};
-              articles.forEach(function (a) { bySlug[a.slug] = a; });
-
-              var featured = slugs.slice(0, 2)
-                .map(function (s) { return bySlug[s]; })
-                .filter(Boolean);
-
-              if (featured.length === 0) return;
-
-              var panel = document.getElementById('featured-panel');
-              var featGrid = document.getElementById('featured-articles-grid');
-              if (!panel || !featGrid) return;
-
-              // Single card: center it; two cards: side-by-side (default grid)
-              if (featured.length === 1) {
-                featGrid.style.maxWidth = '520px';
-                featGrid.style.margin = '0 auto';
-              }
-
-              featGrid.innerHTML = featured.map(function (article, i) {
-                var pos   = FOCAL_POSITIONS[article.focal_point] || 'center center';
-                var thumb = article.cover_image
-                  ? '<img class="card-thumb" src="' + article.cover_image + '" alt="' + article.title + '" loading="lazy" style="object-position:' + pos + ';" />'
-                  : '<div class="card-thumb-placeholder" style="background:' + bgGradient(i) + ';"></div>';
-                var subtitle = article.subtitle || article.excerpt || '';
-                var date = formatDate(article.date);
-                return '<article class="card">'
-                  + thumb
-                  + '<div class="card-body">'
-                  + '<span class="featured-label">Featured</span>'
-                  + '<h3 class="card-title"><a href="article.html?slug=' + article.slug + '">' + article.title + '</a></h3>'
-                  + '<p class="card-subtitle">' + subtitle + '</p>'
-                  + '<div class="card-meta"><strong>' + article.author + '</strong>'
-                  + (date ? ' &nbsp;&middot;&nbsp; ' + date : '')
-                  + '</div></div></article>';
-              }).join('');
-
-              panel.style.display = '';
-            })
-            .catch(function () { /* featured panel stays hidden */ });
-        })
-        .catch(function () { /* keep placeholder cards */ });
-    })();
-  </script>
-
-</body>
-</html>
+<!-- ============================================================
+     PANEL 6 — NEWSLETTER
+     ============================================================ -->
+{% include newsletter.html id="home" %}
