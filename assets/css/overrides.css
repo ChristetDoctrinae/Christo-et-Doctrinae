@@ -1,0 +1,213 @@
+/* ================================================================
+   Christo et Doctrinae — Feature Overrides
+   Edition listing, edition ToC, article nav arrows
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Edition Listing Grid  (print-editions.html)
+   ---------------------------------------------------------------- */
+.edition-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.edition-listing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+  color: var(--text, #e8e0d4);
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.edition-listing-card:hover {
+  transform: translateY(-4px);
+  opacity: 0.88;
+}
+
+.edition-listing-cover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  display: block;
+}
+
+.edition-listing-cover-placeholder {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: linear-gradient(145deg, #1C1C2E 0%, #2A1820 40%, #7A1C2E 100%);
+  border-radius: 2px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.edition-listing-label {
+  font-size: 0.78rem;
+  font-family: 'Libre Baskerville', serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted, #a09080);
+  text-align: center;
+}
+
+/* ----------------------------------------------------------------
+   Edition Table of Contents  (_layouts/edition.html)
+   ---------------------------------------------------------------- */
+.edition-toc {
+  margin-top: 2rem;
+}
+
+.edition-toc-heading {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted, #a09080);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.1));
+}
+
+.edition-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: toc-counter;
+}
+
+.edition-toc-item {
+  counter-increment: toc-counter;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.07));
+}
+
+.edition-toc-link {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 1.1rem 0;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.edition-toc-link::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  font-size: 0.72rem;
+  color: var(--accent, #C0392B);
+  font-family: 'Libre Baskerville', serif;
+  flex-shrink: 0;
+  width: 1.6rem;
+  letter-spacing: 0.05em;
+}
+
+.edition-toc-link:hover .toc-title {
+  color: var(--accent, #C0392B);
+}
+
+.toc-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  flex: 1;
+  transition: color 0.15s ease;
+}
+
+.toc-author {
+  font-size: 0.8rem;
+  color: var(--text-muted, #a09080);
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+@media (max-width: 560px) {
+  .edition-toc-link {
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+  .toc-author {
+    width: 100%;
+    padding-left: calc(1.6rem + 1.25rem);
+    white-space: normal;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Article Navigation Arrows  (_layouts/article.html)
+   ---------------------------------------------------------------- */
+.article-nav-arrows {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border, rgba(255,255,255,0.1));
+}
+
+.article-nav-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-decoration: none;
+  color: var(--text, #e8e0d4);
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border, rgba(255,255,255,0.12));
+  border-radius: 2px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  max-width: 45%;
+  min-width: 0;
+}
+
+.article-nav-btn:hover {
+  border-color: var(--accent, #C0392B);
+  background: rgba(255,255,255,0.03);
+}
+
+.nav-prev {
+  margin-right: auto;
+  align-items: flex-start;
+}
+
+.nav-next {
+  margin-left: auto;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.article-nav-direction {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted, #a09080);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.article-nav-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--text, #e8e0d4);
+}
+
+@media (max-width: 560px) {
+  .article-nav-arrows {
+    flex-direction: column;
+  }
+  .article-nav-btn {
+    max-width: 100%;
+  }
+  .nav-next {
+    margin-left: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .nav-next .article-nav-direction {
+    flex-direction: row-reverse;
+  }
+}

@@ -18,7 +18,8 @@ collections:
     output: true
     permalink: /series/:name/
   editions:
-    output: false
+    output: true
+    permalink: /editions/:name/
   tags:
     output: false
 
@@ -36,6 +37,11 @@ defaults:
       type: series
     values:
       layout: series-detail
+  - scope:
+      path: ""
+      type: editions
+    values:
+      layout: edition
 
 # ----------------------------------------------------------------
 # Build settings

@@ -19,6 +19,7 @@ permalink: /series/
 {% endfor %}
 
 {% assign romans = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," %}
+{% assign sp = site.data.series_page %}
 
 <!-- ============================================================
      PAGE HEADER
@@ -26,7 +27,7 @@ permalink: /series/
 <header class="page-header">
   <span class="eyebrow">Read Our Work</span>
   <h1>Series</h1>
-  <p class="lead">Sustained reflection on questions that do not admit of easy answers.</p>
+  <p class="lead">{{ sp.page_lead | default: "Sustained reflection on questions that do not admit of easy answers." }}</p>
 </header>
 
 <!-- ============================================================
@@ -44,9 +45,7 @@ permalink: /series/
      SERIES INTRO
      ============================================================ -->
 <div class="page-subtitle-bar">
-  <p class="page-subtitle">
-    What we call a series in <em>Christo et Doctrinae</em> is not a special issue. It is a gathering of voices and perspectives around a shared theme — perhaps one of our annual holiday series, or something more occasional, like our exploration of the saints — woven together across authors, issues, and years.
-  </p>
+  <p class="page-subtitle">{{ sp.subtitle | default: "What we call a series in <em>Christo et Doctrinae</em> is not a special issue. It is a gathering of voices and perspectives around a shared theme." }}</p>
 </div>
 
 <!-- ============================================================

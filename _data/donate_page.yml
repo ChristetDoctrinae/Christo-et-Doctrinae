@@ -1,0 +1,13 @@
+page_eyebrow: "Support the Journal"
+page_heading: "Make a Gift"
+page_lead: "Your generosity keeps this work alive — in print, online, and in the minds of students who need a place to think."
+
+section_eyebrow: "Why It Matters"
+section_heading: "What Your Gift Supports"
+
+paragraph_1: "DONATE PARAGRAPH ONE PLACEHOLDER. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+paragraph_2: "DONATE PARAGRAPH TWO PLACEHOLDER. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+paragraph_3: "DONATE PARAGRAPH THREE PLACEHOLDER. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis molestie dictum semper, quam quam congue eros, sit amet condimentum odio nisi eget nulla."
+
+donate_btn: "Donate Now"
+donate_url: "https://host.nxt.blackbaud.com/donor-form/?svcid=renxt&formId=0bfd94fc-01af-4986-8898-58d188f298b3&envid=p-kczIMq0240SZxuRYFVAL7A&zone=usa"

@@ -1,7 +1,7 @@
 <section class="newsletter-panel" aria-labelledby="newsletter-heading">
-  <span class="eyebrow">Stay Connected</span>
-  <h2 id="newsletter-heading">Subscribe to the Journal</h2>
-  <p class="newsletter-lead">Receive new articles, announcements, and reflections delivered to your inbox.</p>
+  <span class="eyebrow">{{ site.data.site.newsletter_eyebrow | default: "Stay Connected" }}</span>
+  <h2 id="newsletter-heading">{{ site.data.site.newsletter_heading | default: "Subscribe to the Journal" }}</h2>
+  <p class="newsletter-lead">{{ site.data.site.newsletter_lead | default: "Receive new articles, announcements, and reflections delivered to your inbox." }}</p>
 
   <form
     class="newsletter-form"

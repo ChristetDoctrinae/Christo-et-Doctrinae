@@ -1,0 +1,70 @@
+---
+layout: default
+---
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+
+{% comment %} Collect published articles for this edition {% endcomment %}
+{% assign edition_articles = "" | split: "" %}
+{% for a in site.articles %}
+  {% assign is_pub = true %}
+  {% if a.publish_date %}
+    {% assign pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% if pub_str > now_str %}{% assign is_pub = false %}{% endif %}
+  {% endif %}
+  {% if is_pub %}
+    {% if a.print_edition == page.season or a.print_edition == page.title %}
+      {% assign edition_articles = edition_articles | push: a %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% assign edition_articles = edition_articles | sort: "date" %}
+
+<!-- Edition header (mirrors article-header style) -->
+<header class="article-header">
+
+  {% if page.cover_image and page.cover_image != "" %}
+    <div class="article-cover" style="background-image:url('{{ page.cover_image }}'); background-position:center center;"></div>
+  {% else %}
+    <div class="article-cover article-cover-placeholder" style="background:linear-gradient(135deg,#14131F,#2A1520,#7A1C2E);"></div>
+  {% endif %}
+
+  <div class="article-header-inner">
+    <div class="container-narrow">
+      <span class="eyebrow">Print Edition</span>
+      <h1 class="article-title">{{ page.title }}{% if page.theme %} <em style="font-weight:400;">— {{ page.theme }}</em>{% endif %}</h1>
+      {% if page.season %}
+        <p class="article-subtitle">{{ page.season }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+</header>
+
+<!-- Edition table of contents -->
+<main class="section">
+  <div class="container-narrow">
+
+    {% if edition_articles.size > 0 %}
+      <div class="edition-toc">
+        <h2 class="edition-toc-heading">Table of Contents</h2>
+        <ol class="edition-toc-list">
+          {% for article in edition_articles %}
+            <li class="edition-toc-item">
+              <a href="{{ article.url | relative_url }}" class="edition-toc-link">
+                <span class="toc-title">{{ article.title }}</span>
+                <span class="toc-author">{{ article.author }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    {% else %}
+      <p style="color:var(--text-muted); font-style:italic; margin-top:2rem;">No published articles for this edition yet.</p>
+    {% endif %}
+
+    <div style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+      <a href="{{ '/print-editions/' | relative_url }}" class="btn btn-outline btn-sm">&larr; All Print Editions</a>
+    </div>
+
+  </div>
+</main>

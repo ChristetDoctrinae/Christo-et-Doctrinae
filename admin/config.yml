@@ -203,13 +203,11 @@ collections:
         required: false
         hint: "1–3 sentence description shown on the Print Editions page"
 
-      - name: "pdf_file"
-        label: "PDF File"
-        widget: "file"
+      - name: "cover_image"
+        label: "Cover Image"
+        widget: "image"
         required: false
-        hint: >
-          Upload the PDF of this edition.
-          When set, clicking the edition card opens the flipbook viewer.
+        hint: "Upload the cover image for this edition (JPG, PNG, WEBP). Shown on the editions listing and on the edition's own page."
 
   # --------------------------------------------------------------
   # TAGS — create and delete tags; articles reference them by name
@@ -299,6 +297,24 @@ collections:
             widget: "text"
             hint: "Appears in the info box at the top of the Submissions page"
 
+          - name: "intro_paragraph_1"
+            label: "Intro Paragraph 1"
+            widget: "text"
+            required: false
+            hint: "First intro paragraph (HTML allowed, e.g. <em>italics</em>)"
+
+          - name: "intro_paragraph_2"
+            label: "Intro Paragraph 2"
+            widget: "text"
+            required: false
+            hint: "Second intro paragraph (HTML allowed)"
+
+          - name: "intro_paragraph_3"
+            label: "Intro Paragraph 3"
+            widget: "text"
+            required: false
+            hint: "Third intro paragraph (HTML allowed)"
+
           - name: "scholarly_guidelines"
             label: "Scholarly & Critical Writing Guidelines"
             widget: "list"
@@ -323,3 +339,203 @@ collections:
             label: "Editor in Chief Email"
             widget: "string"
             hint: "Displayed in the Contact section of the About page"
+
+  # --------------------------------------------------------------
+  # PAGE CONTENT — edit all site copy through the CMS
+  # --------------------------------------------------------------
+  - name: "page_content"
+    label: "Page Content"
+    files:
+
+      - name: "site_wide"
+        label: "Site-Wide Content"
+        file: "_data/site.yml"
+        fields:
+          - name: "brand_title"
+            label: "Journal Name"
+            widget: "string"
+            hint: "Shown in the nav logo and footer"
+
+          - name: "brand_motto"
+            label: "Motto / Tagline"
+            widget: "string"
+            hint: "Shown in the footer beneath the copyright line"
+
+          - name: "footer_description"
+            label: "Footer Description"
+            widget: "text"
+            hint: "The short description beneath the journal name in the footer"
+
+          - name: "footer_copyright"
+            label: "Footer Copyright Line"
+            widget: "string"
+            hint: "e.g. 2025 Christo et Doctrinae. All rights reserved."
+
+          - name: "newsletter_eyebrow"
+            label: "Newsletter Eyebrow"
+            widget: "string"
+            hint: "Small label above the newsletter heading"
+
+          - name: "newsletter_heading"
+            label: "Newsletter Heading"
+            widget: "string"
+
+          - name: "newsletter_lead"
+            label: "Newsletter Lead Text"
+            widget: "text"
+
+      - name: "homepage"
+        label: "Homepage"
+        file: "_data/homepage.yml"
+        fields:
+          - name: "hero_heading"
+            label: "Hero Heading"
+            widget: "string"
+            hint: "Large heading on the homepage hero banner"
+
+          - name: "recent_eyebrow"
+            label: "Recent Articles Eyebrow"
+            widget: "string"
+
+          - name: "recent_heading"
+            label: "Recent Articles Heading"
+            widget: "string"
+
+          - name: "recent_lead"
+            label: "Recent Articles Lead Text"
+            widget: "text"
+
+          - name: "about_panel_text"
+            label: "About Panel Text"
+            widget: "text"
+            hint: "Text on the full-width dark about panel"
+
+          - name: "about_panel_btn"
+            label: "About Panel Button Label"
+            widget: "string"
+
+          - name: "featured_eyebrow"
+            label: "Featured Section Eyebrow"
+            widget: "string"
+
+          - name: "featured_heading"
+            label: "Featured Section Heading"
+            widget: "string"
+
+          - name: "featured_lead"
+            label: "Featured Section Lead Text"
+            widget: "text"
+
+      - name: "about_page"
+        label: "About Page"
+        file: "_data/about_page.yml"
+        fields:
+          - name: "hero_eyebrow"
+            label: "Hero Eyebrow"
+            widget: "string"
+
+          - name: "hero_heading"
+            label: "Hero Heading"
+            widget: "string"
+
+          - name: "hero_lead"
+            label: "Hero Lead Text"
+            widget: "text"
+
+          - name: "mission_eyebrow"
+            label: "Mission Section Eyebrow"
+            widget: "string"
+
+          - name: "mission_heading"
+            label: "Mission Section Heading"
+            widget: "string"
+
+          - name: "mission_text"
+            label: "Mission Statement"
+            widget: "text"
+            hint: "The editorial mission statement paragraph"
+
+          - name: "team_eyebrow"
+            label: "Team Section Eyebrow"
+            widget: "string"
+
+          - name: "team_heading"
+            label: "Team Section Heading"
+            widget: "string"
+
+          - name: "team_lead"
+            label: "Team Section Lead Text"
+            widget: "text"
+
+      - name: "donate_page"
+        label: "Donate Page"
+        file: "_data/donate_page.yml"
+        fields:
+          - name: "page_eyebrow"
+            label: "Page Eyebrow"
+            widget: "string"
+
+          - name: "page_heading"
+            label: "Page Heading"
+            widget: "string"
+
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+
+          - name: "section_eyebrow"
+            label: "Section Eyebrow"
+            widget: "string"
+
+          - name: "section_heading"
+            label: "Section Heading"
+            widget: "string"
+
+          - name: "paragraph_1"
+            label: "Body Paragraph 1"
+            widget: "text"
+
+          - name: "paragraph_2"
+            label: "Body Paragraph 2"
+            widget: "text"
+
+          - name: "paragraph_3"
+            label: "Body Paragraph 3"
+            widget: "text"
+
+          - name: "donate_btn"
+            label: "Donate Button Label"
+            widget: "string"
+
+          - name: "donate_url"
+            label: "Donate URL"
+            widget: "string"
+            hint: "The donation platform link"
+
+      - name: "series_page"
+        label: "Series Page"
+        file: "_data/series_page.yml"
+        fields:
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+            hint: "Shown beneath the Series page heading"
+
+          - name: "subtitle"
+            label: "Page Subtitle Bar Text"
+            widget: "text"
+            hint: "Longer paragraph in the subtitle bar. HTML allowed (e.g. <em>italics</em>)."
+
+      - name: "editions_page"
+        label: "Print Editions Page"
+        file: "_data/editions_page.yml"
+        fields:
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+            hint: "Shown beneath the Print Editions page heading"
+
+          - name: "subtitle"
+            label: "Page Subtitle Bar Text"
+            widget: "text"
+            hint: "Longer paragraph in the subtitle bar beneath the sub-navigation"

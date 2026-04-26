@@ -25,10 +25,12 @@ permalink: /
 <!-- ============================================================
      PANEL 1 — HERO BANNER
      ============================================================ -->
+{% assign hp = site.data.homepage %}
+
 <section class="hero" aria-label="Journal banner">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Christo et Doctrinae</h1>
+    <h1>{{ hp.hero_heading | default: "Christo et Doctrinae" }}</h1>
   </div>
 </section>
 
@@ -38,10 +40,10 @@ permalink: /
 <section class="section" aria-labelledby="recent-heading">
   <div class="container">
     <div class="section-header">
-      <span class="eyebrow">Latest Writing</span>
-      <h2 id="recent-heading">From the Journal</h2>
+      <span class="eyebrow">{{ hp.recent_eyebrow | default: "Latest Writing" }}</span>
+      <h2 id="recent-heading">{{ hp.recent_heading | default: "From the Journal" }}</h2>
       <div class="section-divider"></div>
-      <p class="lead">Essays, meditations, and artistic reflection at the intersection of faith and culture.</p>
+      <p class="lead">{{ hp.recent_lead | default: "Essays, meditations, and artistic reflection at the intersection of faith and culture." }}</p>
     </div>
 
     <div class="cards-grid">
@@ -116,8 +118,8 @@ permalink: /
 <section class="about-overlay-panel" aria-label="About the journal">
   <div class="panel-overlay"></div>
   <div class="panel-content">
-    <p>PLACEHOLDER ABOUT ON COVER</p>
-    <a href="{{ '/about/' | relative_url }}" class="btn btn-outline-ivory">Learn More</a>
+    <p>{{ hp.about_panel_text | default: "PLACEHOLDER ABOUT ON COVER" }}</p>
+    <a href="{{ '/about/' | relative_url }}" class="btn btn-outline-ivory">{{ hp.about_panel_btn | default: "Learn More" }}</a>
   </div>
 </section>
 
@@ -141,10 +143,10 @@ permalink: /
   <section class="section section-alt" aria-labelledby="featured-heading">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">Featured</span>
-        <h2 id="featured-heading">From the Editors</h2>
+        <span class="eyebrow">{{ hp.featured_eyebrow | default: "Featured" }}</span>
+        <h2 id="featured-heading">{{ hp.featured_heading | default: "From the Editors" }}</h2>
         <div class="section-divider"></div>
-        <p class="lead">Selected writing chosen by the editorial board.</p>
+        <p class="lead">{{ hp.featured_lead | default: "Selected writing chosen by the editorial board." }}</p>
       </div>
 
       <div class="print-edition-grid"{% if featured.size == 1 %} style="max-width:520px; margin:0 auto;"{% endif %}>

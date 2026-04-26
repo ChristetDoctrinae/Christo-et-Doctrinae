@@ -1,8 +1,8 @@
 <footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <span class="brand-title">Christo et Doctrinae</span>
-      <p>A journal of Christian thought dedicated to theological and artistic exploration of the Christian life.</p>
+      <span class="brand-title">{{ site.data.site.brand_title | default: "Christo et Doctrinae" }}</span>
+      <p>{{ site.data.site.footer_description | default: "A journal of Christian thought dedicated to theological and artistic exploration of the Christian life." }}</p>
     </div>
     <div class="footer-col">
       <h5>Journal</h5>
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2025 Christo et Doctrinae. All rights reserved.</p>
-    <p><em>Fides quaerens intellectum.</em></p>
+    <p>&copy; {{ site.data.site.footer_copyright | default: "2025 Christo et Doctrinae. All rights reserved." }}</p>
+    <p><em>{{ site.data.site.brand_motto | default: "Fides quaerens intellectum." }}</em></p>
   </div>
 </footer>

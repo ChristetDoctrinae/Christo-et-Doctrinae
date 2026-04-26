@@ -5,13 +5,15 @@ description: "Support Christo et Doctrinae with a gift. Your generosity sustains
 permalink: /donate/
 ---
 
+{% assign dp = site.data.donate_page %}
+
 <!-- ============================================================
      PAGE HEADER
      ============================================================ -->
 <header class="page-header">
-  <span class="eyebrow">Support the Journal</span>
-  <h1>Make a Gift</h1>
-  <p class="lead">Your generosity keeps this work alive — in print, online, and in the minds of students who need a place to think.</p>
+  <span class="eyebrow">{{ dp.page_eyebrow | default: "Support the Journal" }}</span>
+  <h1>{{ dp.page_heading | default: "Make a Gift" }}</h1>
+  <p class="lead">{{ dp.page_lead | default: "Your generosity keeps this work alive — in print, online, and in the minds of students who need a place to think." }}</p>
 </header>
 
 <!-- ============================================================
@@ -19,31 +21,31 @@ permalink: /donate/
      ============================================================ -->
 <section class="section">
   <div class="container-narrow prose">
-    <span class="eyebrow">Why It Matters</span>
-    <h2>What Your Gift Supports</h2>
+    <span class="eyebrow">{{ dp.section_eyebrow | default: "Why It Matters" }}</span>
+    <h2>{{ dp.section_heading | default: "What Your Gift Supports" }}</h2>
     <div class="section-divider left" style="margin-left:0; margin-bottom:1.75rem;"></div>
 
-    <p>
-      DONATE PARAGRAPH ONE PLACEHOLDER. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
+    {% if dp.paragraph_1 %}
+    <p>{{ dp.paragraph_1 }}</p>
+    {% endif %}
 
-    <p>
-      DONATE PARAGRAPH TWO PLACEHOLDER. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+    {% if dp.paragraph_2 %}
+    <p>{{ dp.paragraph_2 }}</p>
+    {% endif %}
 
-    <p>
-      DONATE PARAGRAPH THREE PLACEHOLDER. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis molestie dictum semper, quam quam congue eros, sit amet condimentum odio nisi eget nulla.
-    </p>
+    {% if dp.paragraph_3 %}
+    <p>{{ dp.paragraph_3 }}</p>
+    {% endif %}
 
     <div style="margin-top:3rem; text-align:center;">
       <a
-        href="https://host.nxt.blackbaud.com/donor-form/?svcid=renxt&formId=0bfd94fc-01af-4986-8898-58d188f298b3&envid=p-kczIMq0240SZxuRYFVAL7A&zone=usa"
+        href="{{ dp.donate_url | default: 'https://host.nxt.blackbaud.com/donor-form/?svcid=renxt&formId=0bfd94fc-01af-4986-8898-58d188f298b3&envid=p-kczIMq0240SZxuRYFVAL7A&zone=usa' }}"
         class="btn btn-primary"
         target="_blank"
         rel="noopener noreferrer"
         style="font-size:1rem; padding:0.9rem 2.75rem; letter-spacing:0.14em;"
       >
-        Donate Now
+        {{ dp.donate_btn | default: "Donate Now" }}
       </a>
     </div>
   </div>

@@ -2,6 +2,8 @@
 layout: default
 ---
 {% assign now_str = site.time | date: "%Y-%m-%d" %}
+
+{% comment %} ── Scheduled-publish gate ─────────────────────────── {% endcomment %}
 {% if page.publish_date %}
   {% assign pub_str = page.publish_date | date: "%Y-%m-%d" %}
   {% if pub_str > now_str %}
@@ -18,17 +20,87 @@ layout: default
 </div>
 {% else %}
 
-<!-- Article header -->
+{% comment %} ── Build published article list ───────────────────── {% endcomment %}
+{% assign all_pub = "" | split: "" %}
+{% for a in site.articles %}
+  {% assign a_is_pub = true %}
+  {% if a.publish_date %}
+    {% assign a_pub_str = a.publish_date | date: "%Y-%m-%d" %}
+    {% if a_pub_str > now_str %}{% assign a_is_pub = false %}{% endif %}
+  {% endif %}
+  {% if a_is_pub %}{% assign all_pub = all_pub | push: a %}{% endif %}
+{% endfor %}
+
+{% comment %} ── Determine navigation group ─────────────────────── {% endcomment %}
+{% if page.print_edition and page.print_edition != "" %}
+  {% assign nav_group = all_pub | where: "print_edition", page.print_edition | sort: "date" %}
+{% elsif page.series and page.series != "" %}
+  {% if page.series_year and page.series_year != "" %}
+    {% assign series_pool = all_pub | where: "series", page.series %}
+    {% assign nav_group = "" | split: "" %}
+    {% for a in series_pool %}
+      {% assign a_yr = a.series_year | strip %}
+      {% assign p_yr = page.series_year | strip %}
+      {% if a_yr == p_yr %}{% assign nav_group = nav_group | push: a %}{% endif %}
+    {% endfor %}
+    {% assign nav_group = nav_group | sort: "date" %}
+  {% else %}
+    {% assign nav_group = all_pub | where: "series", page.series | sort: "date" %}
+  {% endif %}
+{% else %}
+  {% comment %} Standalone: exclude articles that belong to a series or edition {% endcomment %}
+  {% assign nav_group = "" | split: "" %}
+  {% for a in all_pub %}
+    {% assign has_series  = false %}
+    {% assign has_edition = false %}
+    {% if a.series and a.series != "" %}{% assign has_series = true %}{% endif %}
+    {% if a.print_edition and a.print_edition != "" %}{% assign has_edition = true %}{% endif %}
+    {% unless has_series or has_edition %}
+      {% assign nav_group = nav_group | push: a %}
+    {% endunless %}
+  {% endfor %}
+  {% assign nav_group = nav_group | sort: "date" %}
+{% endif %}
+
+{% comment %} ── Find prev / next in group ─────────────────────── {% endcomment %}
+{% assign prev_art = false %}
+{% assign next_art = false %}
+{% assign found_current = false %}
+{% for a in nav_group %}
+  {% if found_current %}
+    {% unless next_art %}{% assign next_art = a %}{% endunless %}
+  {% elsif a.path == page.path %}
+    {% assign found_current = true %}
+  {% else %}
+    {% assign prev_art = a %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} ── Find matched edition (for edition label link) ─── {% endcomment %}
+{% if page.print_edition and page.print_edition != "" %}
+  {% assign matched_edition = false %}
+  {% for ed in site.editions %}
+    {% unless matched_edition %}
+      {% if page.print_edition == ed.season or page.print_edition == ed.title %}
+        {% assign matched_edition = ed %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+{% endif %}
+
+{% comment %} ── Focal-point helper ────────────────────────────── {% endcomment %}
+{% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
+
+<!-- ============================================================
+     ARTICLE HEADER
+     ============================================================ -->
 <header class="article-header">
 
   {% if page.cover_image %}
-    {% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
     {% assign focal_pos = "center center" %}
     {% for pair in focal_map %}
       {% assign kv = pair | split: ":" %}
-      {% if kv[0] == page.focal_point %}
-        {% assign focal_pos = kv[1] %}
-      {% endif %}
+      {% if kv[0] == page.focal_point %}{% assign focal_pos = kv[1] %}{% endif %}
     {% endfor %}
     <div class="article-cover" style="background-image:url('{{ page.cover_image }}'); background-position:{{ focal_pos }};"></div>
   {% else %}
@@ -38,9 +110,11 @@ layout: default
   <div class="article-header-inner">
     <div class="container-narrow">
 
-      {% if page.series %}
+      {% if page.series and page.series != "" %}
         {% assign series_slug = page.series | downcase | replace: " ", "-" | replace: "'", "" | replace: "'", "" %}
         <a href="{{ '/series/' | append: series_slug | append: '/' | relative_url }}" class="article-series-tag">{{ page.series }}</a>
+      {% elsif matched_edition %}
+        <a href="{{ matched_edition.url | relative_url }}" class="article-series-tag">{{ matched_edition.title }}</a>
       {% endif %}
 
       <h1 class="article-title">{{ page.title }}</h1>
@@ -67,46 +141,57 @@ layout: default
   </div>
 </header>
 
-<!-- Article body -->
+<!-- ============================================================
+     ARTICLE BODY
+     ============================================================ -->
 <main class="section">
   <div class="container-narrow">
     <div class="article-body prose clearfix" id="article-body">
       {{ content }}
     </div>
 
-    <!-- Back link -->
-    <div class="article-back" style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border);">
-      {% if page.series %}
-        {% assign back_slug = page.series | downcase | replace: " ", "-" | replace: "'", "" | replace: "'", "" %}
-        <a href="{{ '/series/' | append: back_slug | append: '/' | relative_url }}" class="btn btn-outline btn-sm">&larr; {{ page.series }}</a>
-      {% elsif page.print_edition %}
-        <a href="{{ '/print-editions/' | relative_url }}" class="btn btn-outline btn-sm">&larr; Print Editions</a>
-      {% else %}
-        <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline btn-sm">&larr; Back to Articles</a>
+    <!-- ── Prev / Next navigation arrows ──────────────────── -->
+    {% if prev_art or next_art %}
+    <nav class="article-nav-arrows" aria-label="Article navigation">
+      {% if prev_art %}
+        <a href="{{ prev_art.url | relative_url }}" class="article-nav-btn nav-prev">
+          <span class="article-nav-direction">&larr; Previous</span>
+          <span class="article-nav-title">{{ prev_art.title }}</span>
+        </a>
       {% endif %}
-    </div>
+      {% if next_art %}
+        <a href="{{ next_art.url | relative_url }}" class="article-nav-btn nav-next">
+          <span class="article-nav-direction">Next &rarr;</span>
+          <span class="article-nav-title">{{ next_art.title }}</span>
+        </a>
+      {% endif %}
+    </nav>
+    {% endif %}
+
   </div>
 </main>
 
 {% endif %}
 
-<!-- Image positioning post-processor -->
+<!-- ============================================================
+     IMAGE POSITIONING POST-PROCESSOR
+     ============================================================ -->
 <script>
 (function () {
   var body = document.getElementById('article-body');
   if (!body) return;
 
   body.querySelectorAll('p > img, img').forEach(function (img) {
-    var alt = img.getAttribute('alt') || '';
-    var pipe = alt.indexOf('|');
+    var alt      = img.getAttribute('alt') || '';
+    var pipe     = alt.indexOf('|');
     var position = 'center';
-    var caption = '';
+    var caption  = '';
 
     if (pipe !== -1) {
       var prefix = alt.slice(0, pipe).toLowerCase().trim();
       if (prefix === 'left' || prefix === 'right' || prefix === 'full' || prefix === 'center') {
         position = prefix;
-        caption = alt.slice(pipe + 1).trim();
+        caption  = alt.slice(pipe + 1).trim();
       } else {
         caption = alt;
       }
@@ -135,7 +220,6 @@ layout: default
       figure.appendChild(fc);
     }
 
-    // Remove empty <p> wrapper left behind
     if (parent.tagName === 'P' && parent.textContent.trim() === '') {
       parent.remove();
     }

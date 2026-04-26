@@ -7,6 +7,7 @@ permalink: /about/
 
 {% assign team = site.data.team %}
 {% assign settings = site.data.settings %}
+{% assign ap = site.data.about_page %}
 
 {% assign avatar_colors = "linear-gradient(135deg,#7A1C2E,#5E1522),linear-gradient(135deg,#1C1C2E,#2A1A24),linear-gradient(135deg,#B8976A,#8A6A40),linear-gradient(135deg,#1A3A4A,#0D2030),linear-gradient(135deg,#3A1A4A,#200D30),linear-gradient(135deg,#1A3A1A,#0D200D),linear-gradient(135deg,#2A2A1A,#18180A),linear-gradient(135deg,#3A1A1A,#200D0D),linear-gradient(135deg,#2A1A3A,#180A20),linear-gradient(135deg,#1A2A3A,#0A1820),linear-gradient(135deg,#1A3A2A,#0A2018),linear-gradient(135deg,#3A2A1A,#201A0A),linear-gradient(135deg,#1A2A3A,#100A20)" | split: "," %}
 
@@ -16,9 +17,9 @@ permalink: /about/
 <header class="page-hero" aria-label="About page header">
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
-    <span class="eyebrow">Who We Are</span>
-    <h1>Christo et Doctrinae</h1>
-    <p class="lead">ABOUT PAGE TOP TEXT PLACEHOLDER</p>
+    <span class="eyebrow">{{ ap.hero_eyebrow | default: "Who We Are" }}</span>
+    <h1>{{ ap.hero_heading | default: "Christo et Doctrinae" }}</h1>
+    <p class="lead">{{ ap.hero_lead | default: "ABOUT PAGE TOP TEXT PLACEHOLDER" }}</p>
   </div>
 </header>
 
@@ -27,12 +28,12 @@ permalink: /about/
      ============================================================ -->
 <section class="section" aria-labelledby="mission-heading">
   <div class="container-narrow prose">
-    <span class="eyebrow">Editorial Statement</span>
-    <h2 id="mission-heading">Our Mission</h2>
+    <span class="eyebrow">{{ ap.mission_eyebrow | default: "Editorial Statement" }}</span>
+    <h2 id="mission-heading">{{ ap.mission_heading | default: "Our Mission" }}</h2>
     <div class="section-divider left" style="margin-left: 0;"></div>
 
     <p style="margin-top: 1.5rem; font-size: 1.05rem;">
-      OUR MISSION STATEMENT PLACEHOLDER
+      {{ ap.mission_text | default: "OUR MISSION STATEMENT PLACEHOLDER" }}
     </p>
   </div>
 </section>
@@ -43,10 +44,10 @@ permalink: /about/
 <section class="section section-alt" id="team" aria-labelledby="team-heading">
   <div class="container">
     <div class="section-header">
-      <span class="eyebrow">The People Behind the Work</span>
-      <h2 id="team-heading">Our Team</h2>
+      <span class="eyebrow">{{ ap.team_eyebrow | default: "The People Behind the Work" }}</span>
+      <h2 id="team-heading">{{ ap.team_heading | default: "Our Team" }}</h2>
       <div class="section-divider"></div>
-      <p class="lead">Our editors and contributors bring together theology, philosophy, the arts, and letters.</p>
+      <p class="lead">{{ ap.team_lead | default: "Our editors and contributors bring together theology, philosophy, the arts, and letters." }}</p>
     </div>
 
     <!-- Leadership row (3 across) -->

@@ -21,15 +21,15 @@ permalink: /submissions/
      ============================================================ -->
 <section class="section">
   <div class="container-narrow prose">
-    <p style="font-size:1.05rem;">
-      <em>Christo et Doctrinae</em> is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.
-    </p>
-    <p>
-      We accept work in two broad categories: <strong>scholarly and critical writing</strong> (theology, philosophy, church history, ethics, cultural criticism) and <strong>creative work</strong> (poetry, personal essays, short fiction, and visual art). Both categories are equally important to us. We believe the distinction between them is often less clear than we pretend.
-    </p>
-    <p>
-      Submissions are reviewed on a rolling basis. We aim to respond within eight weeks. If your work is accepted for our print edition, you will be contacted separately regarding layout and formatting.
-    </p>
+    {% if sub.intro_paragraph_1 %}
+    <p style="font-size:1.05rem;">{{ sub.intro_paragraph_1 }}</p>
+    {% endif %}
+    {% if sub.intro_paragraph_2 %}
+    <p>{{ sub.intro_paragraph_2 }}</p>
+    {% endif %}
+    {% if sub.intro_paragraph_3 %}
+    <p>{{ sub.intro_paragraph_3 }}</p>
+    {% endif %}
 
     {% if sub.deadline_text %}
     <div class="info-box">
