@@ -32,7 +32,7 @@ permalink: /
 <section class="hero" aria-label="Journal banner"{% if img.homepage_hero and img.homepage_hero != "" %} style="background-image:url('{{ img.homepage_hero }}');"{% endif %}>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1{% if sd.hero_title_size and sd.hero_title_size != "" %} style="font-size:{{ sd.hero_title_size }};"{% endif %}>{{ hp.hero_heading | default: "Christo et Doctrinae" }}</h1>
+    <h1{% if hp.hero_title_size and hp.hero_title_size != "" %} style="font-size:{{ hp.hero_title_size }};"{% endif %}>{{ hp.hero_heading | default: "Christo et Doctrinae" }}</h1>
   </div>
 </section>
 
@@ -151,7 +151,7 @@ permalink: /
         <p class="lead">{{ hp.featured_lead | default: "Selected writing chosen by the editorial board." }}</p>
       </div>
 
-      <div class="print-edition-grid"{% if featured.size == 1 %} style="max-width:520px; margin:0 auto;"{% endif %}>
+      <div class="featured-articles-grid{% if featured.size == 1 %} featured-articles-grid--single{% endif %}">
         {% for article in featured %}
           {% assign grad_index = forloop.index0 | modulo: 3 %}
           {% assign focal_pos = "center center" %}
@@ -200,9 +200,17 @@ permalink: /
       {% if s_pub_str > now_str %}{% assign show_tile = false %}{% endif %}
     {% endif %}
     {% if show_tile %}
-      {% comment %} Build tile background style {% endcomment %}
-      {% if s.tile_image and s.tile_image != "" %}
-        {% assign tile_bg_style = "background-image:url('" | append: s.tile_image | append: "');" %}
+      {% comment %} Build tile background style — specific named images take priority {% endcomment %}
+      {% assign tile_img = "" %}
+      {% if s.name == "Holy Week Series" and img.holy_week_tile_image and img.holy_week_tile_image != "" %}
+        {% assign tile_img = img.holy_week_tile_image %}
+      {% elsif s.name == "Advent Series" and img.advent_tile_image and img.advent_tile_image != "" %}
+        {% assign tile_img = img.advent_tile_image %}
+      {% elsif s.tile_image and s.tile_image != "" %}
+        {% assign tile_img = s.tile_image %}
+      {% endif %}
+      {% if tile_img != "" %}
+        {% assign tile_bg_style = "background-image:url('" | append: tile_img | append: "');" %}
       {% else %}
         {% assign tile_bg_style = "background-color:" | append: s.tile_color | default: "#1A1220" | append: ";" %}
       {% endif %}

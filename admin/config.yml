@@ -275,12 +275,306 @@ collections:
         hint: "Use lowercase, e.g. theology, art, culture, poetry"
 
   # --------------------------------------------------------------
-  # SETTINGS — site-wide data files
+  # SETTINGS & CONTENT — site-wide settings and all page copy
   # --------------------------------------------------------------
-  - name: "settings"
-    label: "Settings"
+  - name: "page_content"
+    label: "Settings & Content"
     files:
 
+      # ── Homepage ─────────────────────────────────────────────
+      - name: "homepage"
+        label: "Homepage"
+        file: "_data/homepage.yml"
+        fields:
+          - name: "hero_title_size"
+            label: "Hero Title Font Size"
+            widget: "select"
+            required: false
+            default: ""
+            options:
+              - { label: "Default (stylesheet size)", value: "" }
+              - { label: "12pt — very small",          value: "12pt" }
+              - { label: "14pt — small",                value: "14pt" }
+              - { label: "18pt — body large",           value: "18pt" }
+              - { label: "24pt — subheading",           value: "24pt" }
+              - { label: "30pt — medium heading",       value: "30pt" }
+              - { label: "36pt — large heading",        value: "36pt" }
+              - { label: "48pt — display",              value: "48pt" }
+              - { label: "60pt — hero",                 value: "60pt" }
+              - { label: "72pt — oversized",            value: "72pt" }
+            hint: "Point size for the main hero heading. Leave on 'Default' to use the stylesheet size."
+
+          - name: "hero_heading"
+            label: "Hero Heading"
+            widget: "string"
+            hint: "Large heading on the homepage hero banner"
+
+          - name: "recent_eyebrow"
+            label: "Recent Articles Eyebrow"
+            widget: "string"
+
+          - name: "recent_heading"
+            label: "Recent Articles Heading"
+            widget: "string"
+
+          - name: "recent_lead"
+            label: "Recent Articles Lead Text"
+            widget: "text"
+
+          - name: "about_panel_text"
+            label: "About Panel Text"
+            widget: "text"
+            hint: "Text on the full-width dark about panel"
+
+          - name: "about_panel_btn"
+            label: "About Panel Button Label"
+            widget: "string"
+
+          - name: "featured_eyebrow"
+            label: "Featured Section Eyebrow"
+            widget: "string"
+
+          - name: "featured_heading"
+            label: "Featured Section Heading"
+            widget: "string"
+
+          - name: "featured_lead"
+            label: "Featured Section Lead Text"
+            widget: "text"
+
+      # ── Site-Wide Content ────────────────────────────────────
+      - name: "site_wide"
+        label: "Site-Wide Content"
+        file: "_data/site.yml"
+        fields:
+          - name: "brand_title"
+            label: "Journal Name"
+            widget: "string"
+            hint: "Shown in the nav logo and footer"
+
+          - name: "brand_motto"
+            label: "Motto / Tagline"
+            widget: "string"
+            hint: "Shown in the footer beneath the copyright line"
+
+          - name: "footer_description"
+            label: "Footer Description"
+            widget: "text"
+            hint: "The short description beneath the journal name in the footer"
+
+          - name: "footer_copyright"
+            label: "Footer Copyright Line"
+            widget: "string"
+            hint: "e.g. 2025 Christo et Doctrinae. All rights reserved."
+
+          - name: "newsletter_eyebrow"
+            label: "Newsletter Eyebrow"
+            widget: "string"
+            hint: "Small label above the newsletter heading"
+
+          - name: "newsletter_heading"
+            label: "Newsletter Heading"
+            widget: "string"
+
+          - name: "newsletter_lead"
+            label: "Newsletter Lead Text"
+            widget: "text"
+
+      # ── About Page ───────────────────────────────────────────
+      - name: "about_page"
+        label: "About Page"
+        file: "_data/about_page.yml"
+        fields:
+          - name: "hero_eyebrow"
+            label: "Hero Eyebrow"
+            widget: "string"
+
+          - name: "hero_heading"
+            label: "Hero Heading"
+            widget: "string"
+
+          - name: "hero_lead"
+            label: "Hero Lead Text"
+            widget: "text"
+
+          - name: "mission_eyebrow"
+            label: "Mission Section Eyebrow"
+            widget: "string"
+
+          - name: "mission_heading"
+            label: "Mission Section Heading"
+            widget: "string"
+
+          - name: "mission_text"
+            label: "Mission Statement"
+            widget: "markdown"
+            hint: >
+              The editorial mission statement. Toolbar: Bold, Italic, Strikethrough, Links.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "team_eyebrow"
+            label: "Team Section Eyebrow"
+            widget: "string"
+
+          - name: "team_heading"
+            label: "Team Section Heading"
+            widget: "string"
+
+          - name: "team_lead"
+            label: "Team Section Lead Text"
+            widget: "text"
+
+      # ── Donate Page ──────────────────────────────────────────
+      - name: "donate_page"
+        label: "Donate Page"
+        file: "_data/donate_page.yml"
+        fields:
+          - name: "page_eyebrow"
+            label: "Page Eyebrow"
+            widget: "string"
+
+          - name: "page_heading"
+            label: "Page Heading"
+            widget: "string"
+
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+
+          - name: "section_eyebrow"
+            label: "Section Eyebrow"
+            widget: "string"
+
+          - name: "section_heading"
+            label: "Section Heading"
+            widget: "string"
+
+          - name: "paragraph_1"
+            label: "Body Paragraph 1"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "paragraph_2"
+            label: "Body Paragraph 2"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "paragraph_3"
+            label: "Body Paragraph 3"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "donate_btn"
+            label: "Donate Button Label"
+            widget: "string"
+
+          - name: "donate_url"
+            label: "Donate URL"
+            widget: "string"
+            hint: "The donation platform link"
+
+      # ── Series Page ──────────────────────────────────────────
+      - name: "series_page"
+        label: "Series Page"
+        file: "_data/series_page.yml"
+        fields:
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+            hint: "Shown beneath the Series page heading"
+
+          - name: "subtitle"
+            label: "Page Subtitle Bar Text"
+            widget: "text"
+            hint: "Longer paragraph in the subtitle bar. HTML allowed (e.g. <em>italics</em>)."
+
+      # ── Print Editions Page ──────────────────────────────────
+      - name: "editions_page"
+        label: "Print Editions Page"
+        file: "_data/editions_page.yml"
+        fields:
+          - name: "page_lead"
+            label: "Page Lead Text"
+            widget: "text"
+            hint: "Shown beneath the Print Editions page heading"
+
+          - name: "subtitle"
+            label: "Page Subtitle Bar Text"
+            widget: "text"
+            hint: "Longer paragraph in the subtitle bar beneath the sub-navigation"
+
+      # ── Submissions Page ─────────────────────────────────────
+      - name: "submissions"
+        label: "Submissions Page"
+        file: "_data/submissions.json"
+        fields:
+          - name: "header_eyebrow"
+            label: "Page Header Eyebrow"
+            widget: "string"
+            hint: "Small label above the main heading, e.g. 'Write for the Journal'"
+
+          - name: "header_heading"
+            label: "Page Header Heading"
+            widget: "string"
+            hint: "The main page title, e.g. 'Submissions'"
+
+          - name: "header_lead"
+            label: "Page Header Subtitle"
+            widget: "text"
+            hint: "Sentence beneath the page heading describing who may submit"
+
+          - name: "deadline_text"
+            label: "Current Deadline Text"
+            widget: "text"
+            hint: "Appears in the info box at the top of the Submissions page"
+
+          - name: "intro_paragraph_1"
+            label: "Intro Paragraph 1"
+            widget: "markdown"
+            required: false
+            hint: >
+              First intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "intro_paragraph_2"
+            label: "Intro Paragraph 2"
+            widget: "markdown"
+            required: false
+            hint: >
+              Second intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "intro_paragraph_3"
+            label: "Intro Paragraph 3"
+            widget: "markdown"
+            required: false
+            hint: >
+              Third intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+
+          - name: "scholarly_guidelines"
+            label: "Scholarly & Critical Writing Guidelines"
+            widget: "list"
+
+          - name: "creative_guidelines"
+            label: "Creative Writing & Poetry Guidelines"
+            widget: "list"
+
+          - name: "visual_guidelines"
+            label: "Visual Art & Photography Guidelines"
+            widget: "list"
+
+          - name: "eligibility_guidelines"
+            label: "Eligibility & Process Guidelines"
+            widget: "list"
+
+      # ── Featured Articles ────────────────────────────────────
       - name: "featured"
         label: "Featured Articles"
         file: "_data/featured.json"
@@ -293,6 +587,7 @@ collections:
               the homepage. Maximum 2 — remove one before adding another.
               e.g. good-friday-linger-in-the-dark
 
+      # ── Team Members ─────────────────────────────────────────
       - name: "team"
         label: "Team Members"
         file: "_data/team.json"
@@ -358,70 +653,7 @@ collections:
                 required: false
                 hint: "Upload a headshot (square crop recommended). Displayed in the circular frame on the About page."
 
-      - name: "submissions"
-        label: "Submissions Page"
-        file: "_data/submissions.json"
-        fields:
-          - name: "header_eyebrow"
-            label: "Page Header Eyebrow"
-            widget: "string"
-            hint: "Small label above the main heading, e.g. 'Write for the Journal'"
-
-          - name: "header_heading"
-            label: "Page Header Heading"
-            widget: "string"
-            hint: "The main page title, e.g. 'Submissions'"
-
-          - name: "header_lead"
-            label: "Page Header Subtitle"
-            widget: "text"
-            hint: "Sentence beneath the page heading describing who may submit"
-
-          - name: "deadline_text"
-            label: "Current Deadline Text"
-            widget: "text"
-            hint: "Appears in the info box at the top of the Submissions page"
-
-          - name: "intro_paragraph_1"
-            label: "Intro Paragraph 1"
-            widget: "markdown"
-            required: false
-            hint: >
-              First intro paragraph. Toolbar: Bold, Italic, Strikethrough.
-              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "intro_paragraph_2"
-            label: "Intro Paragraph 2"
-            widget: "markdown"
-            required: false
-            hint: >
-              Second intro paragraph. Toolbar: Bold, Italic, Strikethrough.
-              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "intro_paragraph_3"
-            label: "Intro Paragraph 3"
-            widget: "markdown"
-            required: false
-            hint: >
-              Third intro paragraph. Toolbar: Bold, Italic, Strikethrough.
-              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "scholarly_guidelines"
-            label: "Scholarly & Critical Writing Guidelines"
-            widget: "list"
-
-          - name: "creative_guidelines"
-            label: "Creative Writing & Poetry Guidelines"
-            widget: "list"
-
-          - name: "visual_guidelines"
-            label: "Visual Art & Photography Guidelines"
-            widget: "list"
-
-          - name: "eligibility_guidelines"
-            label: "Eligibility & Process Guidelines"
-            widget: "list"
-
+      # ── Site Settings ────────────────────────────────────────
       - name: "site_settings"
         label: "Site Settings"
         file: "_data/settings.json"
@@ -430,225 +662,6 @@ collections:
             label: "Editor in Chief Email"
             widget: "string"
             hint: "Displayed in the Contact section of the About page"
-
-  # --------------------------------------------------------------
-  # PAGE CONTENT — edit all site copy through the CMS
-  # --------------------------------------------------------------
-  - name: "page_content"
-    label: "Page Content"
-    files:
-
-      - name: "site_wide"
-        label: "Site-Wide Content"
-        file: "_data/site.yml"
-        fields:
-          - name: "brand_title"
-            label: "Journal Name"
-            widget: "string"
-            hint: "Shown in the nav logo and footer"
-
-          - name: "brand_motto"
-            label: "Motto / Tagline"
-            widget: "string"
-            hint: "Shown in the footer beneath the copyright line"
-
-          - name: "footer_description"
-            label: "Footer Description"
-            widget: "text"
-            hint: "The short description beneath the journal name in the footer"
-
-          - name: "footer_copyright"
-            label: "Footer Copyright Line"
-            widget: "string"
-            hint: "e.g. 2025 Christo et Doctrinae. All rights reserved."
-
-          - name: "newsletter_eyebrow"
-            label: "Newsletter Eyebrow"
-            widget: "string"
-            hint: "Small label above the newsletter heading"
-
-          - name: "newsletter_heading"
-            label: "Newsletter Heading"
-            widget: "string"
-
-          - name: "newsletter_lead"
-            label: "Newsletter Lead Text"
-            widget: "text"
-
-          - name: "hero_title_size"
-            label: "Hero Title Font Size"
-            widget: "string"
-            required: false
-            hint: >
-              CSS font-size for the main homepage title (e.g. 4rem, 5rem, 3.5rem, 60px).
-              Leave blank to use the default size from the stylesheet.
-
-      - name: "homepage"
-        label: "Homepage"
-        file: "_data/homepage.yml"
-        fields:
-          - name: "hero_heading"
-            label: "Hero Heading"
-            widget: "string"
-            hint: "Large heading on the homepage hero banner"
-
-          - name: "recent_eyebrow"
-            label: "Recent Articles Eyebrow"
-            widget: "string"
-
-          - name: "recent_heading"
-            label: "Recent Articles Heading"
-            widget: "string"
-
-          - name: "recent_lead"
-            label: "Recent Articles Lead Text"
-            widget: "text"
-
-          - name: "about_panel_text"
-            label: "About Panel Text"
-            widget: "text"
-            hint: "Text on the full-width dark about panel"
-
-          - name: "about_panel_btn"
-            label: "About Panel Button Label"
-            widget: "string"
-
-          - name: "featured_eyebrow"
-            label: "Featured Section Eyebrow"
-            widget: "string"
-
-          - name: "featured_heading"
-            label: "Featured Section Heading"
-            widget: "string"
-
-          - name: "featured_lead"
-            label: "Featured Section Lead Text"
-            widget: "text"
-
-      - name: "about_page"
-        label: "About Page"
-        file: "_data/about_page.yml"
-        fields:
-          - name: "hero_eyebrow"
-            label: "Hero Eyebrow"
-            widget: "string"
-
-          - name: "hero_heading"
-            label: "Hero Heading"
-            widget: "string"
-
-          - name: "hero_lead"
-            label: "Hero Lead Text"
-            widget: "text"
-
-          - name: "mission_eyebrow"
-            label: "Mission Section Eyebrow"
-            widget: "string"
-
-          - name: "mission_heading"
-            label: "Mission Section Heading"
-            widget: "string"
-
-          - name: "mission_text"
-            label: "Mission Statement"
-            widget: "markdown"
-            hint: >
-              The editorial mission statement. Toolbar: Bold, Italic, Strikethrough, Links.
-              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "team_eyebrow"
-            label: "Team Section Eyebrow"
-            widget: "string"
-
-          - name: "team_heading"
-            label: "Team Section Heading"
-            widget: "string"
-
-          - name: "team_lead"
-            label: "Team Section Lead Text"
-            widget: "text"
-
-      - name: "donate_page"
-        label: "Donate Page"
-        file: "_data/donate_page.yml"
-        fields:
-          - name: "page_eyebrow"
-            label: "Page Eyebrow"
-            widget: "string"
-
-          - name: "page_heading"
-            label: "Page Heading"
-            widget: "string"
-
-          - name: "page_lead"
-            label: "Page Lead Text"
-            widget: "text"
-
-          - name: "section_eyebrow"
-            label: "Section Eyebrow"
-            widget: "string"
-
-          - name: "section_heading"
-            label: "Section Heading"
-            widget: "string"
-
-          - name: "paragraph_1"
-            label: "Body Paragraph 1"
-            widget: "markdown"
-            hint: >
-              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
-              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "paragraph_2"
-            label: "Body Paragraph 2"
-            widget: "markdown"
-            hint: >
-              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
-              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "paragraph_3"
-            label: "Body Paragraph 3"
-            widget: "markdown"
-            hint: >
-              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
-              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
-
-          - name: "donate_btn"
-            label: "Donate Button Label"
-            widget: "string"
-
-          - name: "donate_url"
-            label: "Donate URL"
-            widget: "string"
-            hint: "The donation platform link"
-
-      - name: "series_page"
-        label: "Series Page"
-        file: "_data/series_page.yml"
-        fields:
-          - name: "page_lead"
-            label: "Page Lead Text"
-            widget: "text"
-            hint: "Shown beneath the Series page heading"
-
-          - name: "subtitle"
-            label: "Page Subtitle Bar Text"
-            widget: "text"
-            hint: "Longer paragraph in the subtitle bar. HTML allowed (e.g. <em>italics</em>)."
-
-      - name: "editions_page"
-        label: "Print Editions Page"
-        file: "_data/editions_page.yml"
-        fields:
-          - name: "page_lead"
-            label: "Page Lead Text"
-            widget: "text"
-            hint: "Shown beneath the Print Editions page heading"
-
-          - name: "subtitle"
-            label: "Page Subtitle Bar Text"
-            widget: "text"
-            hint: "Longer paragraph in the subtitle bar beneath the sub-navigation"
 
   # --------------------------------------------------------------
   # SITE IMAGES — upload and manage all background images
@@ -672,6 +685,18 @@ collections:
             widget: "image"
             required: false
             hint: "Background for the full-width dark 'About' panel on the homepage. Leave blank to use the default."
+
+          - name: "holy_week_tile_image"
+            label: "Homepage Tile — Holy Week Series"
+            widget: "image"
+            required: false
+            hint: "Background image for the Holy Week Series tile on the homepage. Overrides the tile color when set."
+
+          - name: "advent_tile_image"
+            label: "Homepage Tile — Advent Series"
+            widget: "image"
+            required: false
+            hint: "Background image for the Advent Series tile on the homepage. Overrides the tile color when set."
 
           - name: "about_hero"
             label: "About Page Hero Background"

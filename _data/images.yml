@@ -8,6 +8,10 @@
 homepage_hero: ""
 homepage_about_panel: ""
 
+# Homepage series tile backgrounds (overrides the per-series tile color)
+holy_week_tile_image: ""
+advent_tile_image: ""
+
 # About page
 about_hero: ""
 

@@ -13,6 +13,3 @@ nav_about: About
 nav_read: Read Our Work
 nav_submissions: Submissions
 nav_donate: Donate
-
-# Hero banner title font size (CSS value, e.g. 4rem, 5rem, 3.5rem)
-hero_title_size: ""

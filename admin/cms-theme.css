@@ -1,0 +1,415 @@
+/* ================================================================
+   Christo et Doctrinae — CMS Dark Academic Theme
+   Applied to admin/index.html to style the Netlify CMS v2 UI.
+
+   Strategy: Netlify CMS uses emotion CSS-in-JS which generates
+   unique class names at runtime. We target HTML element types,
+   structural patterns, and class *fragments* with !important to
+   override the generated styles. A companion JS block handles
+   anything CSS alone cannot reach.
+   ================================================================ */
+
+/* --- Custom properties ---------------------------------------- */
+:root {
+  --nc-ivory:      #f5f0e8;
+  --nc-ivory-deep: #ede8dc;
+  --nc-navy:       #14131f;
+  --nc-navy2:      #1a1630;
+  --nc-navy3:      #0d0c18;
+  --nc-burgundy:   #7a1c2e;
+  --nc-burgundy2:  #5e1522;
+  --nc-gold:       #b8976a;
+  --nc-text:       #1a1630;
+  --nc-muted:      #6a5a7a;
+  --nc-border:     rgba(26, 22, 48, 0.18);
+  --nc-serif:      'Cormorant Garamond', 'Libre Baskerville', Georgia, serif;
+  --nc-body:       'Libre Baskerville', Georgia, 'Times New Roman', serif;
+}
+
+/* --- Typography ------------------------------------------------ */
+* {
+  font-family: var(--nc-body) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--nc-serif) !important;
+  letter-spacing: 0.03em !important;
+  font-weight: 500 !important;
+}
+
+/* --- Global background & text --------------------------------- */
+html, body {
+  background-color: var(--nc-ivory) !important;
+  color: var(--nc-text) !important;
+}
+
+/* Outer app wrapper (React root) */
+body > div {
+  background-color: var(--nc-ivory) !important;
+  color: var(--nc-text) !important;
+}
+
+/* --- Sidebar -------------------------------------------------- */
+/* Netlify CMS sidebar has a hardcoded dark background.
+   Target it by its position (first major child of the app). */
+[class*="SidebarContainer"],
+[class*="sidebar"],
+[class*="Sidebar"],
+[class*="CollectionView"] > div:first-child,
+aside {
+  background-color: var(--nc-navy) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+[class*="SidebarContainer"] *,
+[class*="sidebar"] *,
+aside * {
+  color: #e8e0d4 !important;
+}
+
+/* Collection nav links in sidebar */
+[class*="sidebar"] a,
+[class*="Sidebar"] a,
+aside a,
+[class*="NavLink"] {
+  color: #e8e0d4 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+}
+
+[class*="sidebar"] a:hover,
+[class*="Sidebar"] a:hover,
+aside a:hover {
+  color: var(--nc-gold) !important;
+  background-color: rgba(184, 151, 106, 0.08) !important;
+}
+
+/* Active collection link */
+[class*="sidebar"] a[class*="active"],
+[class*="sidebar"] a[class*="Active"],
+aside a[class*="active"] {
+  color: var(--nc-gold) !important;
+  background-color: rgba(184, 151, 106, 0.12) !important;
+  border-left: 2px solid var(--nc-gold) !important;
+}
+
+/* New entry / add button in sidebar */
+[class*="sidebar"] button,
+aside button {
+  background-color: transparent !important;
+  color: #e8e0d4 !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+[class*="sidebar"] button:hover,
+aside button:hover {
+  background-color: rgba(184, 151, 106, 0.12) !important;
+  border-color: var(--nc-gold) !important;
+  color: var(--nc-gold) !important;
+}
+
+/* --- Top header / toolbar ------------------------------------- */
+[class*="AppHeaderContainer"],
+[class*="header"],
+[class*="Header"],
+header {
+  background-color: var(--nc-navy3) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #e8e0d4 !important;
+}
+
+[class*="header"] *,
+[class*="Header"] *,
+header * {
+  color: #e8e0d4 !important;
+}
+
+header button {
+  color: #e8e0d4 !important;
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* --- Main content area ---------------------------------------- */
+main,
+[role="main"],
+[class*="EditorPaneContainer"],
+[class*="ControlPane"],
+[class*="controlPane"] {
+  background-color: var(--nc-ivory) !important;
+  color: var(--nc-text) !important;
+}
+
+/* --- Collection entry list ------------------------------------ */
+[class*="CollectionHeader"],
+[class*="collection-header"] {
+  background-color: var(--nc-ivory-deep) !important;
+  border-bottom: 1px solid var(--nc-border) !important;
+  color: var(--nc-text) !important;
+}
+
+[class*="CollectionHeader"] *,
+[class*="collection-header"] * {
+  color: var(--nc-text) !important;
+}
+
+/* Entry cards */
+[class*="EntryCard"],
+[class*="entryCard"],
+[class*="card"],
+[class*="Card"] {
+  background-color: #fff !important;
+  border: 1px solid var(--nc-border) !important;
+  border-radius: 2px !important;
+  color: var(--nc-text) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+[class*="EntryCard"]:hover,
+[class*="entryCard"]:hover,
+[class*="card"]:hover,
+[class*="Card"]:hover {
+  border-color: var(--nc-gold) !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+[class*="EntryCard"] *,
+[class*="entryCard"] *,
+[class*="card"] *,
+[class*="Card"] * {
+  color: var(--nc-text) !important;
+}
+
+/* --- TAGS COLLECTION: compact list view ----------------------- */
+/* Body class .cms-col-tags is applied by the JS companion script
+   when the tags collection is active in the sidebar. */
+body.cms-col-tags [class*="ListWrapper"],
+body.cms-col-tags [class*="listWrapper"],
+body.cms-col-tags [class*="EntryListing"],
+body.cms-col-tags [class*="Entries"] > div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.3rem !important;
+  padding: 1.5rem !important;
+}
+
+/* Compact each tag entry into a narrow row */
+body.cms-col-tags [class*="EntryCard"],
+body.cms-col-tags [class*="entryCard"],
+body.cms-col-tags [class*="card"],
+body.cms-col-tags [class*="Card"] {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.55rem 1rem !important;
+  min-height: 0 !important;
+  height: auto !important;
+  border-radius: 2px !important;
+}
+
+/* Hide the image/thumbnail area in tag cards (tags have no images) */
+body.cms-col-tags [class*="EntryCard"] > div:first-child,
+body.cms-col-tags [class*="card"] > div:first-child,
+body.cms-col-tags [class*="thumbnail"],
+body.cms-col-tags [class*="Thumbnail"],
+body.cms-col-tags [class*="image-container"],
+body.cms-col-tags [class*="ImageContainer"] {
+  display: none !important;
+}
+
+/* --- Field labels --------------------------------------------- */
+label,
+[class*="FieldLabel"],
+[class*="fieldLabel"],
+[class*="label"],
+[class*="Label"] {
+  color: var(--nc-navy2) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.4rem !important;
+}
+
+/* --- Field hints ---------------------------------------------- */
+[class*="hint"],
+[class*="Hint"],
+[class*="description"],
+p[class*="css"] {
+  color: var(--nc-muted) !important;
+  font-style: italic !important;
+  font-size: 0.8rem !important;
+}
+
+/* --- Form elements -------------------------------------------- */
+input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  background-color: #ffffff !important;
+  border: 1px solid var(--nc-border) !important;
+  color: var(--nc-text) !important;
+  border-radius: 2px !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: var(--nc-burgundy) !important;
+  box-shadow: 0 0 0 2px rgba(122, 28, 46, 0.15) !important;
+}
+
+/* --- Buttons -------------------------------------------------- */
+button {
+  font-family: var(--nc-body) !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+}
+
+/* Primary / publish buttons */
+button[class*="primary"],
+button[class*="Primary"],
+button[class*="success"],
+button[class*="Success"],
+button[class*="Publish"],
+button[class*="publish"] {
+  background-color: var(--nc-burgundy) !important;
+  border-color: var(--nc-burgundy) !important;
+  color: #f5f0e8 !important;
+}
+
+button[class*="primary"]:hover,
+button[class*="Primary"]:hover,
+button[class*="success"]:hover {
+  background-color: var(--nc-burgundy2) !important;
+  border-color: var(--nc-burgundy2) !important;
+}
+
+/* Default / secondary buttons */
+button[class*="default"],
+button[class*="Default"],
+button[class*="secondary"],
+button[class*="Secondary"] {
+  background-color: transparent !important;
+  border: 1px solid var(--nc-border) !important;
+  color: var(--nc-text) !important;
+}
+
+button[class*="default"]:hover,
+button[class*="secondary"]:hover {
+  border-color: var(--nc-burgundy) !important;
+  color: var(--nc-burgundy) !important;
+}
+
+/* --- Markdown editor toolbar ---------------------------------- */
+[class*="Toolbar"],
+[class*="toolbar"] {
+  background-color: var(--nc-ivory-deep) !important;
+  border-color: var(--nc-border) !important;
+}
+
+[class*="Toolbar"] button,
+[class*="toolbar"] button {
+  color: var(--nc-text) !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+[class*="Toolbar"] button:hover,
+[class*="toolbar"] button:hover,
+[class*="Toolbar"] button[class*="active"],
+[class*="toolbar"] button[class*="active"] {
+  background-color: var(--nc-border) !important;
+  color: var(--nc-burgundy) !important;
+}
+
+/* --- Markdown editor body ------------------------------------- */
+[data-slate-editor],
+[class*="EditorControl"],
+[class*="RawEditor"],
+[class*="rawEditor"] {
+  background-color: #ffffff !important;
+  color: var(--nc-text) !important;
+  border: 1px solid var(--nc-border) !important;
+  border-radius: 2px !important;
+}
+
+/* --- Dropdown menus ------------------------------------------ */
+[role="menu"],
+[role="listbox"],
+[class*="dropdown"],
+[class*="Dropdown"],
+[class*="DropdownMenu"],
+[class*="dropdownMenu"] {
+  background-color: #ffffff !important;
+  border: 1px solid var(--nc-border) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12) !important;
+  color: var(--nc-text) !important;
+}
+
+[role="menuitem"],
+[role="option"],
+[class*="DropdownItem"],
+[class*="dropdownItem"] {
+  color: var(--nc-text) !important;
+}
+
+[role="menuitem"]:hover,
+[role="option"]:hover,
+[class*="DropdownItem"]:hover,
+[class*="dropdownItem"]:hover {
+  background-color: var(--nc-ivory-deep) !important;
+  color: var(--nc-burgundy) !important;
+}
+
+/* --- Media / image widget ------------------------------------ */
+[class*="MediaLibrary"],
+[class*="mediaLibrary"],
+[class*="ImageWidget"],
+[class*="imageWidget"] {
+  background-color: var(--nc-ivory-deep) !important;
+  border: 1px solid var(--nc-border) !important;
+  border-radius: 2px !important;
+}
+
+/* --- Toast / notification ------------------------------------ */
+[class*="Toast"],
+[class*="toast"],
+[class*="Notification"] {
+  border-radius: 2px !important;
+}
+
+/* --- Links --------------------------------------------------- */
+a:not([class*="active"]):not([class*="sidebar"]) {
+  color: var(--nc-burgundy) !important;
+}
+
+a:hover {
+  color: var(--nc-burgundy2) !important;
+}
+
+/* --- Preview pane -------------------------------------------- */
+[class*="PreviewPane"],
+[class*="previewPane"] {
+  background-color: #ffffff !important;
+}
+
+/* --- Scrollbars (WebKit) ------------------------------------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--nc-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--nc-gold);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nc-burgundy);
+}

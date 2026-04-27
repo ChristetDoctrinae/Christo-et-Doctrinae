@@ -1,7 +1,46 @@
 /* ================================================================
    Christo et Doctrinae — Feature Overrides
-   Edition listing, edition ToC, article nav arrows, team photos
+   Edition listing, edition ToC, article nav arrows, team photos,
+   featured articles grid
    ================================================================ */
+
+/* ----------------------------------------------------------------
+   Featured Articles Grid  (homepage, index.html)
+   Larger cards than the regular 3-column recent articles grid.
+   ---------------------------------------------------------------- */
+.featured-articles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.featured-articles-grid--single {
+  grid-template-columns: 1fr;
+  max-width: 620px;
+}
+
+/* Taller thumbnail on featured cards */
+.featured-articles-grid .card-thumb,
+.featured-articles-grid .card-thumb-placeholder {
+  height: 360px;
+}
+
+/* Slightly larger body text on featured cards */
+.featured-articles-grid .card-title {
+  font-size: 1.2rem;
+}
+
+.featured-articles-grid .card-subtitle {
+  font-size: 0.92rem;
+}
+
+@media (max-width: 640px) {
+  .featured-articles-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ----------------------------------------------------------------
    Team Member Photos  (about.html)

@@ -4,9 +4,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager — Christo et Doctrinae</title>
+
+  <!-- Dark Academic theme fonts (Cormorant Garamond + Libre Baskerville) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Dark Academic CMS theme -->
+  <link rel="stylesheet" href="/admin/cms-theme.css" />
 </head>
 <body>
   <!-- Netlify CMS -->
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+  <!-- CMS Companion Script
+       Handles dynamic body-class assignment for per-collection CSS targeting.
+       body.cms-col-tags  → compact list view for the Tags collection
+  -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* All collection body classes we manage */
+      var COL_CLASSES = [
+        'cms-col-tags',
+        'cms-col-articles',
+        'cms-col-series',
+        'cms-col-editions',
+        'cms-col-site-images',
+        'cms-col-page-content'
+      ];
+
+      /* Read the current hash and apply the matching body class */
+      function applyCollectionClass() {
+        var hash = window.location.hash || '';
+
+        /* Strip all managed classes first */
+        COL_CLASSES.forEach(function (cls) {
+          document.body.classList.remove(cls);
+        });
+
+        /* Match  #/collections/<name>  (ignore trailing path segments) */
+        var m = hash.match(/#\/collections\/([^\/]+)/);
+        if (m) {
+          document.body.classList.add('cms-col-' + m[1]);
+        }
+      }
+
+      /* Run on every SPA navigation within the CMS */
+      window.addEventListener('hashchange', applyCollectionClass);
+
+      /* Run immediately on page load */
+      applyCollectionClass();
+
+      /* Run again shortly after: Netlify CMS may rewrite the hash during init */
+      setTimeout(applyCollectionClass, 600);
+    }());
+  </script>
 </body>
 </html>
