@@ -1,17 +1,18 @@
-brand_title: "Christo et Doctrinae"
-brand_motto: "Fides quaerens intellectum."
-footer_description: "A journal of Christian thought dedicated to theological and artistic exploration of the Christian life."
-footer_copyright: "2025 Christo et Doctrinae. All rights reserved."
+brand_title: Christo et Doctrinae
+brand_motto: " "
+footer_description: A journal of Christian thought dedicated to theological and
+  artistic exploration of the Christian life.
+footer_copyright: 2026 Christo et Doctrinae. All rights reserved.
 
-newsletter_eyebrow: "Stay Connected"
-newsletter_heading: "Subscribe to the Journal"
-newsletter_lead: "Receive new articles, announcements, and reflections delivered to your inbox."
+newsletter_eyebrow: Stay Connected
+newsletter_heading: Subscribe to the Journal
+newsletter_lead: Receive new articles, announcements, and reflections delivered to your inbox.
 
-nav_home: "Home"
-nav_about: "About"
-nav_read: "Read Our Work"
-nav_submissions: "Submissions"
-nav_donate: "Donate"
+nav_home: Home
+nav_about: About
+nav_read: Read Our Work
+nav_submissions: Submissions
+nav_donate: Donate
 
 # Hero banner title font size (CSS value, e.g. 4rem, 5rem, 3.5rem)
 hero_title_size: ""
