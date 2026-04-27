@@ -2,7 +2,7 @@
   "editor_in_chief": {
     "name": "Luke Constantineau",
     "title": "Editor in Chief",
-    "major": "Philosophy and Politics & International Affair",
+    "major": "Philosophy and Politics & International Affairs",
     "year": "Class of 2028",
     "hometown": "Bluffton, SC",
     "photo": "/assets/uploads/luke-photo-on-city-skyline-zoom.jpg"
@@ -43,42 +43,42 @@
     {
       "name": "Olivia Herrin",
       "title": "Treasurer",
-      "major": "Politics and International Affairs",
+      "major": "Politics & International Affairs",
       "year": "Class of 2029",
       "hometown": "Annapolis, Maryland",
       "photo": ""
     },
     {
-      "name": "Samuel Brooks",
-      "title": "Contributing Editor",
-      "major": "Philosophy",
-      "year": "Class of 2027",
-      "hometown": "Memphis, TN",
-      "photo": ""
+      "name": "Anya Barringer",
+      "title": "Writer",
+      "major": "Computer Science and Violin Performance",
+      "year": "Class of 2028",
+      "hometown": "Duncan, SC",
+      "photo": "/assets/uploads/anya-barringer.webp"
     },
     {
-      "name": "Grace Whitfield",
-      "title": "Contributing Editor",
-      "major": "Literature & Religion",
+      "name": "Nathan Johnson",
+      "title": "Editor",
+      "major": "History and Politics & International Affairs",
       "year": "Class of 2027",
-      "hometown": "Savannah, GA",
-      "photo": ""
+      "hometown": "Atlanta, GA",
+      "photo": "/assets/uploads/nathan-johnson-pic.jpg"
     },
     {
-      "name": "Isaiah Turner",
-      "title": "Contributing Editor",
-      "major": "Biblical Studies",
-      "year": "Class of 2025",
-      "hometown": "Durham, NC",
-      "photo": ""
+      "name": "Makena Wyngaard",
+      "title": "Writer",
+      "major": "Economics and German Studies",
+      "year": "Class of 2028",
+      "hometown": "Jasper, GA",
+      "photo": "/assets/uploads/makena-wyngaard.jpeg"
     },
     {
-      "name": "Rachel Kim",
-      "title": "Contributing Editor",
-      "major": "Art History",
-      "year": "Class of 2027",
-      "hometown": "Charlotte, NC",
-      "photo": ""
+      "name": "Natalie Davis",
+      "title": "Designer",
+      "major": "Studio Art",
+      "year": "Class of 2028",
+      "hometown": "Clover, SC",
+      "photo": "/assets/uploads/natalie-s-photo-for-christo.jpg"
     }
   ]
 }
