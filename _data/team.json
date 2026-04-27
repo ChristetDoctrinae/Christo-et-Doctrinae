@@ -4,21 +4,24 @@
     "title": "Editor in Chief",
     "major": "Philosophy and Politics & International Affair",
     "year": "Class of 2028",
-    "hometown": "Bluffton, SC"
+    "hometown": "Bluffton, SC",
+    "photo": ""
   },
   "managing_editor": {
     "name": "James Garland",
     "title": "Managing Editor",
     "major": "Politics & International Affairs",
     "year": "Class of 2029",
-    "hometown": "Mauldin, SC"
+    "hometown": "Mauldin, SC",
+    "photo": ""
   },
   "chief_of_design": {
     "name": "Sarah Gilbert",
     "title": "Chief of Design",
     "major": "Art History & Business",
     "year": "Class of 2028",
-    "hometown": "Wheaton, IL"
+    "hometown": "Wheaton, IL",
+    "photo": ""
   },
   "contributors": [
     {
@@ -26,70 +29,80 @@
       "title": "Senior Editor",
       "major": "Theology",
       "year": "Class of 2025",
-      "hometown": "Atlanta, GA"
+      "hometown": "Atlanta, GA",
+      "photo": ""
     },
     {
       "name": "Priya Nair",
       "title": "Arts & Letters Editor",
       "major": "English & Religion",
       "year": "Class of 2026",
-      "hometown": "Houston, TX"
+      "hometown": "Houston, TX",
+      "photo": ""
     },
     {
       "name": "Liam Okafor",
       "title": "Digital Editor",
       "major": "Computer Science & Philosophy",
       "year": "Class of 2026",
-      "hometown": "Charlotte, NC"
+      "hometown": "Charlotte, NC",
+      "photo": ""
     },
     {
       "name": "Catherine Voss",
       "title": "Copy Editor",
       "major": "English",
       "year": "Class of 2027",
-      "hometown": "Raleigh, NC"
+      "hometown": "Raleigh, NC",
+      "photo": ""
     },
     {
       "name": "David Park",
       "title": "Development & Outreach",
       "major": "Economics & Religion",
       "year": "Class of 2026",
-      "hometown": "Columbia, SC"
+      "hometown": "Columbia, SC",
+      "photo": ""
     },
     {
       "name": "Anne Merritt",
       "title": "Contributing Editor",
       "major": "History & Theology",
       "year": "Class of 2026",
-      "hometown": "Greenville, SC"
+      "hometown": "Greenville, SC",
+      "photo": ""
     },
     {
       "name": "Samuel Brooks",
       "title": "Contributing Editor",
       "major": "Philosophy",
       "year": "Class of 2027",
-      "hometown": "Memphis, TN"
+      "hometown": "Memphis, TN",
+      "photo": ""
     },
     {
       "name": "Grace Whitfield",
       "title": "Contributing Editor",
       "major": "Literature & Religion",
       "year": "Class of 2027",
-      "hometown": "Savannah, GA"
+      "hometown": "Savannah, GA",
+      "photo": ""
     },
     {
       "name": "Isaiah Turner",
       "title": "Contributing Editor",
       "major": "Biblical Studies",
       "year": "Class of 2025",
-      "hometown": "Durham, NC"
+      "hometown": "Durham, NC",
+      "photo": ""
     },
     {
       "name": "Rachel Kim",
       "title": "Contributing Editor",
       "major": "Art History",
       "year": "Class of 2027",
-      "hometown": "Charlotte, NC"
+      "hometown": "Charlotte, NC",
+      "photo": ""
     }
   ]
 }

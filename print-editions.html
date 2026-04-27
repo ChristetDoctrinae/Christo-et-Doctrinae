@@ -5,13 +5,26 @@ description: "Browse print editions of Christo et Doctrinae — beautifully desi
 permalink: /print-editions/
 ---
 
-{% assign data = site.data.editions_page %}
-{% assign sorted_editions = site.editions | sort: "volume_number" | reverse %}
+{% assign now_str = site.time | date: "%Y-%m-%d" %}
+{% assign data    = site.data.editions_page %}
+{% assign img     = site.data.images %}
+
+{% comment %} Filter editions by publish_date, then sort by volume_number desc {% endcomment %}
+{% assign all_editions    = site.editions | sort: "volume_number" | reverse %}
+{% assign sorted_editions = "" | split: "" %}
+{% for ed in all_editions %}
+  {% assign ed_visible = true %}
+  {% if ed.publish_date and ed.publish_date != "" %}
+    {% assign ed_pub_str = ed.publish_date | date: "%Y-%m-%d" %}
+    {% if ed_pub_str > now_str %}{% assign ed_visible = false %}{% endif %}
+  {% endif %}
+  {% if ed_visible %}{% assign sorted_editions = sorted_editions | push: ed %}{% endif %}
+{% endfor %}
 
 <!-- ============================================================
      PAGE HEADER
      ============================================================ -->
-<header class="page-header">
+<header class="page-header"{% if img.print_editions_hero and img.print_editions_hero != "" %} style="background-image:url('{{ img.print_editions_hero }}');"{% endif %}>
   <span class="eyebrow">Read Our Work</span>
   <h1>Print Editions</h1>
   <p class="lead">{{ data.page_lead | default: "Each spring, a beautifully designed volume — for the shelf, for the desk, for the long read." }}</p>

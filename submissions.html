@@ -6,14 +6,15 @@ permalink: /submissions/
 ---
 
 {% assign sub = site.data.submissions %}
+{% assign img = site.data.images %}
 
 <!-- ============================================================
      PAGE HEADER
      ============================================================ -->
-<header class="page-header">
-  <span class="eyebrow">Write for the Journal</span>
-  <h1>Submissions</h1>
-  <p class="lead">We welcome theological essays, creative writing, poetry, and visual art from students, scholars, and artists.</p>
+<header class="page-header"{% if img.submissions_hero and img.submissions_hero != "" %} style="background-image:url('{{ img.submissions_hero }}');"{% endif %}>
+  <span class="eyebrow">{{ sub.header_eyebrow | default: "Write for the Journal" }}</span>
+  <h1>{{ sub.header_heading | default: "Submissions" }}</h1>
+  <p class="lead">{{ sub.header_lead | default: "We welcome theological essays, creative writing, poetry, and visual art from students, scholars, and artists." }}</p>
 </header>
 
 <!-- ============================================================
@@ -22,13 +23,13 @@ permalink: /submissions/
 <section class="section">
   <div class="container-narrow prose">
     {% if sub.intro_paragraph_1 %}
-    <p style="font-size:1.05rem;">{{ sub.intro_paragraph_1 }}</p>
+      {{ sub.intro_paragraph_1 | markdownify }}
     {% endif %}
     {% if sub.intro_paragraph_2 %}
-    <p>{{ sub.intro_paragraph_2 }}</p>
+      {{ sub.intro_paragraph_2 | markdownify }}
     {% endif %}
     {% if sub.intro_paragraph_3 %}
-    <p>{{ sub.intro_paragraph_3 }}</p>
+      {{ sub.intro_paragraph_3 | markdownify }}
     {% endif %}
 
     {% if sub.deadline_text %}

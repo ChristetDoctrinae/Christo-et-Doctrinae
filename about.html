@@ -5,16 +5,17 @@ description: "Learn about Christo et Doctrinae, its mission, editorial board, an
 permalink: /about/
 ---
 
-{% assign team = site.data.team %}
+{% assign team     = site.data.team %}
 {% assign settings = site.data.settings %}
-{% assign ap = site.data.about_page %}
+{% assign ap       = site.data.about_page %}
+{% assign img      = site.data.images %}
 
 {% assign avatar_colors = "linear-gradient(135deg,#7A1C2E,#5E1522),linear-gradient(135deg,#1C1C2E,#2A1A24),linear-gradient(135deg,#B8976A,#8A6A40),linear-gradient(135deg,#1A3A4A,#0D2030),linear-gradient(135deg,#3A1A4A,#200D30),linear-gradient(135deg,#1A3A1A,#0D200D),linear-gradient(135deg,#2A2A1A,#18180A),linear-gradient(135deg,#3A1A1A,#200D0D),linear-gradient(135deg,#2A1A3A,#180A20),linear-gradient(135deg,#1A2A3A,#0A1820),linear-gradient(135deg,#1A3A2A,#0A2018),linear-gradient(135deg,#3A2A1A,#201A0A),linear-gradient(135deg,#1A2A3A,#100A20)" | split: "," %}
 
 <!-- ============================================================
      TOP HERO PANEL
      ============================================================ -->
-<header class="page-hero" aria-label="About page header">
+<header class="page-hero" aria-label="About page header"{% if img.about_hero and img.about_hero != "" %} style="background-image:url('{{ img.about_hero }}');"{% endif %}>
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
     <span class="eyebrow">{{ ap.hero_eyebrow | default: "Who We Are" }}</span>
@@ -32,9 +33,9 @@ permalink: /about/
     <h2 id="mission-heading">{{ ap.mission_heading | default: "Our Mission" }}</h2>
     <div class="section-divider left" style="margin-left: 0;"></div>
 
-    <p style="margin-top: 1.5rem; font-size: 1.05rem;">
-      {{ ap.mission_text | default: "OUR MISSION STATEMENT PLACEHOLDER" }}
-    </p>
+    <div style="margin-top: 1.5rem; font-size: 1.05rem;">
+      {{ ap.mission_text | default: "OUR MISSION STATEMENT PLACEHOLDER" | markdownify }}
+    </div>
   </div>
 </section>
 
@@ -60,7 +61,13 @@ permalink: /about/
       {% for member in leaders %}
         {% assign color = avatar_colors[forloop.index0] %}
         <div class="team-card">
-          <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          {% if member.photo and member.photo != "" %}
+            <div class="team-avatar team-avatar--photo" style="background:{{ color }};">
+              <img src="{{ member.photo }}" alt="{{ member.name }}" class="team-avatar-img" />
+            </div>
+          {% else %}
+            <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          {% endif %}
           <h4>{{ member.name }}</h4>
           <span class="role">{{ member.title }}</span>
           <span class="dept">{{ member.major }}</span>
@@ -76,7 +83,13 @@ permalink: /about/
         {% assign color_index = forloop.index0 | plus: 3 | modulo: 13 %}
         {% assign color = avatar_colors[color_index] %}
         <div class="team-card">
-          <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          {% if member.photo and member.photo != "" %}
+            <div class="team-avatar team-avatar--photo" style="background:{{ color }};">
+              <img src="{{ member.photo }}" alt="{{ member.name }}" class="team-avatar-img" />
+            </div>
+          {% else %}
+            <div class="team-avatar" style="background:{{ color }};">{{ member.name | slice: 0 }}</div>
+          {% endif %}
           <h4>{{ member.name }}</h4>
           <span class="role">{{ member.title }}</span>
           <span class="dept">{{ member.major }}</span>

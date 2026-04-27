@@ -22,15 +22,17 @@ permalink: /
 {% assign gradients = "linear-gradient(150deg,#1C1C2E 0%,#2A1A24 60%,#5E1A30 100%),linear-gradient(150deg,#1E1A10 0%,#2A2010 50%,#7A5A1C 100%),linear-gradient(150deg,#0D1A20 0%,#102530 50%,#1A4A5A 100%)" | split: "," %}
 {% assign focal_map = "center:center center,top:center top,bottom:center bottom,left:left center,right:right center,top-left:left top,top-right:right top,bottom-left:left bottom,bottom-right:right bottom" | split: "," %}
 
+{% assign hp  = site.data.homepage %}
+{% assign sd  = site.data.site %}
+{% assign img = site.data.images %}
+
 <!-- ============================================================
      PANEL 1 — HERO BANNER
      ============================================================ -->
-{% assign hp = site.data.homepage %}
-
-<section class="hero" aria-label="Journal banner">
+<section class="hero" aria-label="Journal banner"{% if img.homepage_hero and img.homepage_hero != "" %} style="background-image:url('{{ img.homepage_hero }}');"{% endif %}>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>{{ hp.hero_heading | default: "Christo et Doctrinae" }}</h1>
+    <h1{% if sd.hero_title_size and sd.hero_title_size != "" %} style="font-size:{{ sd.hero_title_size }};"{% endif %}>{{ hp.hero_heading | default: "Christo et Doctrinae" }}</h1>
   </div>
 </section>
 
@@ -115,7 +117,7 @@ permalink: /
 <!-- ============================================================
      PANEL 3 — ABOUT OVERLAY PANEL
      ============================================================ -->
-<section class="about-overlay-panel" aria-label="About the journal">
+<section class="about-overlay-panel" aria-label="About the journal"{% if img.homepage_about_panel and img.homepage_about_panel != "" %} style="background-image:url('{{ img.homepage_about_panel }}');"{% endif %}>
   <div class="panel-overlay"></div>
   <div class="panel-content">
     <p>{{ hp.about_panel_text | default: "PLACEHOLDER ABOUT ON COVER" }}</p>
@@ -191,16 +193,30 @@ permalink: /
      ============================================================ -->
 <div class="series-tiles" aria-label="Journal series">
   {% for s in site.series %}
-    <a href="{{ s.url | relative_url }}" class="series-tile">
-      <div class="series-tile-bg" style="background-color:{{ s.tile_color | default: '#1A1220' }};"></div>
-      <div class="series-tile-overlay"></div>
-      <div class="series-tile-content">
-        <span class="eyebrow">Series</span>
-        <h3>{{ s.name | replace: " Series", "<br />Series" }}</h3>
-        <p>{{ s.description }}</p>
-        <span class="series-tile-link">Explore the Series</span>
-      </div>
-    </a>
+    {% comment %} Skip series with a future publish_date {% endcomment %}
+    {% assign show_tile = true %}
+    {% if s.publish_date and s.publish_date != "" %}
+      {% assign s_pub_str = s.publish_date | date: "%Y-%m-%d" %}
+      {% if s_pub_str > now_str %}{% assign show_tile = false %}{% endif %}
+    {% endif %}
+    {% if show_tile %}
+      {% comment %} Build tile background style {% endcomment %}
+      {% if s.tile_image and s.tile_image != "" %}
+        {% assign tile_bg_style = "background-image:url('" | append: s.tile_image | append: "');" %}
+      {% else %}
+        {% assign tile_bg_style = "background-color:" | append: s.tile_color | default: "#1A1220" | append: ";" %}
+      {% endif %}
+      <a href="{{ s.url | relative_url }}" class="series-tile">
+        <div class="series-tile-bg" style="{{ tile_bg_style }}"></div>
+        <div class="series-tile-overlay"></div>
+        <div class="series-tile-content">
+          <span class="eyebrow">Series</span>
+          <h3>{{ s.name | replace: " Series", "<br />Series" }}</h3>
+          <p>{{ s.description }}</p>
+          <span class="series-tile-link">Explore the Series</span>
+        </div>
+      </a>
+    {% endif %}
   {% endfor %}
 </div>
 

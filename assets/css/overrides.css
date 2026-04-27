@@ -1,7 +1,27 @@
 /* ================================================================
    Christo et Doctrinae — Feature Overrides
-   Edition listing, edition ToC, article nav arrows
+   Edition listing, edition ToC, article nav arrows, team photos
    ================================================================ */
+
+/* ----------------------------------------------------------------
+   Team Member Photos  (about.html)
+   ---------------------------------------------------------------- */
+
+/* When a photo is set, hide the fallback initial letter and clip to circle */
+.team-avatar--photo {
+  padding: 0 !important;
+  overflow: hidden;
+  font-size: 0; /* hide any stray text / initial letter */
+}
+
+.team-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 50%;
+}
 
 /* ----------------------------------------------------------------
    Edition Listing Grid  (print-editions.html)

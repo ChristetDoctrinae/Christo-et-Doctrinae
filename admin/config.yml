@@ -9,6 +9,21 @@
 #   2. Enable Git Gateway in Identity settings
 #      (Identity → Services → Enable Git Gateway)
 #   3. Visit /admin to log in and invite your team
+#
+# Rich Text Note:
+#   Fields using the "markdown" widget have a full WYSIWYG toolbar:
+#   Bold (Ctrl+B), Italic (Ctrl+I), Strikethrough, Links, Lists, etc.
+#   For Underline type <u>text</u>, Superscript <sup>text</sup>, and
+#   Subscript <sub>text</sub> — switch to "Raw" mode to enter HTML,
+#   then switch back to Rich Text. These render correctly on the site.
+#
+# Scheduled Publishing Note:
+#   Articles, Series, and Print Editions all support a "Scheduled
+#   Publish Date" field. Set a future date and the item will be hidden
+#   from the site until that date. The site must be redeployed (or a
+#   scheduled build hook configured) for the item to appear automatically
+#   at the set time. Without a scheduled build, the item publishes on
+#   the next manual deploy after the date has passed.
 # ================================================================
 
 backend:
@@ -64,7 +79,11 @@ collections:
         label: "Scheduled Publish Date"
         widget: "datetime"
         required: false
-        hint: "Leave blank to publish immediately on next deploy. Set a future date/time to hold the article until then."
+        hint: >
+          Leave blank to publish immediately on next deploy.
+          Set a future date/time to hold the article until then.
+          The site must be rebuilt (or a scheduled build hook used)
+          for the article to appear automatically at that time.
 
       - name: "series"
         label: "Series"
@@ -117,8 +136,11 @@ collections:
         label: "Article Content"
         widget: "markdown"
         hint: >
-          Write or paste the full article here. To position an inline image,
-          set its alt text to: left|caption, right|caption, full|caption, or center|caption
+          Write or paste the full article here. Toolbar: Bold, Italic, Strikethrough,
+          Links, Headings, Lists, and more. For Underline use <u>text</u>,
+          Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
+          To position an inline image, set its alt text to:
+          left|caption, right|caption, full|caption, or center|caption
 
   # --------------------------------------------------------------
   # SERIES — create and manage series
@@ -143,16 +165,33 @@ collections:
 
       - name: "description"
         label: "Description"
-        widget: "text"
+        widget: "markdown"
         required: false
-        hint: "Brief description shown on the Series page (1–3 sentences)"
+        hint: >
+          Brief description shown on the Series page and homepage tile (1–3 sentences).
+          Toolbar: Bold (Ctrl+B), Italic (Ctrl+I), Strikethrough. For Underline use
+          <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
       - name: "tile_color"
         label: "Homepage Tile Background Color"
         widget: "string"
         required: false
         default: "#1A1220"
-        hint: "Hex color for the series tile on the homepage, e.g. #1A1220"
+        hint: "Hex color for the series tile on the homepage, e.g. #1A1220. Used when no tile image is set."
+
+      - name: "tile_image"
+        label: "Homepage Tile Background Image"
+        widget: "image"
+        required: false
+        hint: "Upload an image to use as the series tile background on the homepage. Overrides the background color when set."
+
+      - name: "publish_date"
+        label: "Scheduled Publish Date"
+        widget: "datetime"
+        required: false
+        hint: >
+          Leave blank to show the series immediately. Set a future date to hide this
+          series from listings until that date (requires a site rebuild to take effect).
 
   # --------------------------------------------------------------
   # PRINT EDITIONS — manage each print edition
@@ -179,7 +218,7 @@ collections:
         label: "Season / Date"
         widget: "string"
         required: false
-        hint: "e.g. Spring 2025"
+        hint: "e.g. Spring 2025 — also used to match articles assigned to this edition"
 
       - name: "volume_number"
         label: "Volume Number"
@@ -199,15 +238,26 @@ collections:
 
       - name: "description"
         label: "Description"
-        widget: "text"
+        widget: "markdown"
         required: false
-        hint: "1–3 sentence description shown on the Print Editions page"
+        hint: >
+          1–3 sentence description shown on the edition's own page.
+          Toolbar: Bold (Ctrl+B), Italic (Ctrl+I), Strikethrough. For Underline use
+          <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
       - name: "cover_image"
         label: "Cover Image"
         widget: "image"
         required: false
         hint: "Upload the cover image for this edition (JPG, PNG, WEBP). Shown on the editions listing and on the edition's own page."
+
+      - name: "publish_date"
+        label: "Scheduled Publish Date"
+        widget: "datetime"
+        required: false
+        hint: >
+          Leave blank to list this edition immediately. Set a future date to hide it
+          from the Print Editions listing until that date (requires a site rebuild).
 
   # --------------------------------------------------------------
   # TAGS — create and delete tags; articles reference them by name
@@ -256,6 +306,11 @@ collections:
               - { name: "major",    label: "Major of Study",   widget: "string" }
               - { name: "year",     label: "Year at School",   widget: "string", hint: "e.g. Class of 2025" }
               - { name: "hometown", label: "Hometown & State", widget: "string", hint: "e.g. Nashville, TN" }
+              - name: "photo"
+                label: "Photo"
+                widget: "image"
+                required: false
+                hint: "Upload a headshot (square crop recommended). Displayed in the circular frame on the About page."
 
           - name: "managing_editor"
             label: "Managing Editor"
@@ -266,6 +321,11 @@ collections:
               - { name: "major",    label: "Major of Study",   widget: "string" }
               - { name: "year",     label: "Year at School",   widget: "string" }
               - { name: "hometown", label: "Hometown & State", widget: "string" }
+              - name: "photo"
+                label: "Photo"
+                widget: "image"
+                required: false
+                hint: "Upload a headshot (square crop recommended). Displayed in the circular frame on the About page."
 
           - name: "chief_of_design"
             label: "Chief of Design"
@@ -276,6 +336,11 @@ collections:
               - { name: "major",    label: "Major of Study",   widget: "string" }
               - { name: "year",     label: "Year at School",   widget: "string" }
               - { name: "hometown", label: "Hometown & State", widget: "string" }
+              - name: "photo"
+                label: "Photo"
+                widget: "image"
+                required: false
+                hint: "Upload a headshot (square crop recommended). Displayed in the circular frame on the About page."
 
           - name: "contributors"
             label: "Contributors"
@@ -287,11 +352,31 @@ collections:
               - { name: "major",    label: "Major of Study",   widget: "string" }
               - { name: "year",     label: "Year at School",   widget: "string" }
               - { name: "hometown", label: "Hometown & State", widget: "string" }
+              - name: "photo"
+                label: "Photo"
+                widget: "image"
+                required: false
+                hint: "Upload a headshot (square crop recommended). Displayed in the circular frame on the About page."
 
       - name: "submissions"
         label: "Submissions Page"
         file: "_data/submissions.json"
         fields:
+          - name: "header_eyebrow"
+            label: "Page Header Eyebrow"
+            widget: "string"
+            hint: "Small label above the main heading, e.g. 'Write for the Journal'"
+
+          - name: "header_heading"
+            label: "Page Header Heading"
+            widget: "string"
+            hint: "The main page title, e.g. 'Submissions'"
+
+          - name: "header_lead"
+            label: "Page Header Subtitle"
+            widget: "text"
+            hint: "Sentence beneath the page heading describing who may submit"
+
           - name: "deadline_text"
             label: "Current Deadline Text"
             widget: "text"
@@ -299,21 +384,27 @@ collections:
 
           - name: "intro_paragraph_1"
             label: "Intro Paragraph 1"
-            widget: "text"
+            widget: "markdown"
             required: false
-            hint: "First intro paragraph (HTML allowed, e.g. <em>italics</em>)"
+            hint: >
+              First intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "intro_paragraph_2"
             label: "Intro Paragraph 2"
-            widget: "text"
+            widget: "markdown"
             required: false
-            hint: "Second intro paragraph (HTML allowed)"
+            hint: >
+              Second intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "intro_paragraph_3"
             label: "Intro Paragraph 3"
-            widget: "text"
+            widget: "markdown"
             required: false
-            hint: "Third intro paragraph (HTML allowed)"
+            hint: >
+              Third intro paragraph. Toolbar: Bold, Italic, Strikethrough.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "scholarly_guidelines"
             label: "Scholarly & Critical Writing Guidelines"
@@ -384,6 +475,14 @@ collections:
             label: "Newsletter Lead Text"
             widget: "text"
 
+          - name: "hero_title_size"
+            label: "Hero Title Font Size"
+            widget: "string"
+            required: false
+            hint: >
+              CSS font-size for the main homepage title (e.g. 4rem, 5rem, 3.5rem, 60px).
+              Leave blank to use the default size from the stylesheet.
+
       - name: "homepage"
         label: "Homepage"
         file: "_data/homepage.yml"
@@ -452,8 +551,10 @@ collections:
 
           - name: "mission_text"
             label: "Mission Statement"
-            widget: "text"
-            hint: "The editorial mission statement paragraph"
+            widget: "markdown"
+            hint: >
+              The editorial mission statement. Toolbar: Bold, Italic, Strikethrough, Links.
+              For Underline use <u>text</u>, Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "team_eyebrow"
             label: "Team Section Eyebrow"
@@ -493,15 +594,24 @@ collections:
 
           - name: "paragraph_1"
             label: "Body Paragraph 1"
-            widget: "text"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "paragraph_2"
             label: "Body Paragraph 2"
-            widget: "text"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "paragraph_3"
             label: "Body Paragraph 3"
-            widget: "text"
+            widget: "markdown"
+            hint: >
+              Toolbar: Bold, Italic, Strikethrough. For Underline use <u>text</u>,
+              Superscript <sup>text</sup>, Subscript <sub>text</sub> in Raw mode.
 
           - name: "donate_btn"
             label: "Donate Button Label"
@@ -539,3 +649,56 @@ collections:
             label: "Page Subtitle Bar Text"
             widget: "text"
             hint: "Longer paragraph in the subtitle bar beneath the sub-navigation"
+
+  # --------------------------------------------------------------
+  # SITE IMAGES — upload and manage all background images
+  # --------------------------------------------------------------
+  - name: "site_images"
+    label: "Site Images"
+    files:
+
+      - name: "page_images"
+        label: "Page Background Images"
+        file: "_data/images.yml"
+        fields:
+          - name: "homepage_hero"
+            label: "Homepage Hero Background"
+            widget: "image"
+            required: false
+            hint: "Full-bleed background image for the homepage hero banner. Leave blank to use the default CSS gradient."
+
+          - name: "homepage_about_panel"
+            label: "Homepage About Panel Background"
+            widget: "image"
+            required: false
+            hint: "Background for the full-width dark 'About' panel on the homepage. Leave blank to use the default."
+
+          - name: "about_hero"
+            label: "About Page Hero Background"
+            widget: "image"
+            required: false
+            hint: "Full-bleed background for the top hero on the About page. Leave blank to use the default."
+
+          - name: "series_hero"
+            label: "Series Page Header Background"
+            widget: "image"
+            required: false
+            hint: "Background image for the Series listing page header. Leave blank for default."
+
+          - name: "print_editions_hero"
+            label: "Print Editions Page Header Background"
+            widget: "image"
+            required: false
+            hint: "Background image for the Print Editions listing page header. Leave blank for default."
+
+          - name: "submissions_hero"
+            label: "Submissions Page Header Background"
+            widget: "image"
+            required: false
+            hint: "Background image for the Submissions page header. Leave blank for default."
+
+          - name: "donate_hero"
+            label: "Donate Page Header Background"
+            widget: "image"
+            required: false
+            hint: "Background image for the Donate page header. Leave blank for default."

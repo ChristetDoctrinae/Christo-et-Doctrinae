@@ -1,7 +1,10 @@
 {
+  "header_eyebrow": "Write for the Journal",
+  "header_heading": "Submissions",
+  "header_lead": "We welcome theological essays, creative writing, poetry, and visual art from students, scholars, and artists.",
   "deadline_text": "Submissions for our Fall 2026 print edition are open through April 28, 2026. Submissions for the Spring 2027 art edition will open in August 2026.",
-  "intro_paragraph_1": "<em>Christo et Doctrinae</em> is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.",
-  "intro_paragraph_2": "We accept work in two broad categories: <strong>scholarly and critical writing</strong> (theology, philosophy, church history, ethics, cultural criticism) and <strong>creative work</strong> (poetry, personal essays, short fiction, and visual art). Both categories are equally important to us. We believe the distinction between them is often less clear than we pretend.",
+  "intro_paragraph_1": "*Christo et Doctrinae* is always looking for serious work. We are not interested in safe pieties or tidy conclusions. We want writing that risks something — that follows an argument or an image wherever it leads, trusting that truth is not fragile.",
+  "intro_paragraph_2": "We accept work in two broad categories: **scholarly and critical writing** (theology, philosophy, church history, ethics, cultural criticism) and **creative work** (poetry, personal essays, short fiction, and visual art). Both categories are equally important to us. We believe the distinction between them is often less clear than we pretend.",
   "intro_paragraph_3": "Submissions are reviewed on a rolling basis. We aim to respond within eight weeks. If your work is accepted for our print edition, you will be contacted separately regarding layout and formatting.",
   "scholarly_guidelines": [
     "Essays should be between 600 and 3,000 words.",

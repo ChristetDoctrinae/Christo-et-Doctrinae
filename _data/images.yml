@@ -1,0 +1,24 @@
+# ================================================================
+# Site Images — Christo et Doctrinae
+# Upload images here to set backgrounds across the site.
+# Leave a field blank to use the default CSS gradient/color.
+# ================================================================
+
+# Homepage
+homepage_hero: ""
+homepage_about_panel: ""
+
+# About page
+about_hero: ""
+
+# Series listing page
+series_hero: ""
+
+# Print editions page
+print_editions_hero: ""
+
+# Submissions page
+submissions_hero: ""
+
+# Donate page
+donate_hero: ""

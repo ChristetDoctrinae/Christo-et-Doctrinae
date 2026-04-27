@@ -5,12 +5,13 @@ description: "Support Christo et Doctrinae with a gift. Your generosity sustains
 permalink: /donate/
 ---
 
-{% assign dp = site.data.donate_page %}
+{% assign dp  = site.data.donate_page %}
+{% assign img = site.data.images %}
 
 <!-- ============================================================
      PAGE HEADER
      ============================================================ -->
-<header class="page-header">
+<header class="page-header"{% if img.donate_hero and img.donate_hero != "" %} style="background-image:url('{{ img.donate_hero }}');"{% endif %}>
   <span class="eyebrow">{{ dp.page_eyebrow | default: "Support the Journal" }}</span>
   <h1>{{ dp.page_heading | default: "Make a Gift" }}</h1>
   <p class="lead">{{ dp.page_lead | default: "Your generosity keeps this work alive — in print, online, and in the minds of students who need a place to think." }}</p>
@@ -25,17 +26,9 @@ permalink: /donate/
     <h2>{{ dp.section_heading | default: "What Your Gift Supports" }}</h2>
     <div class="section-divider left" style="margin-left:0; margin-bottom:1.75rem;"></div>
 
-    {% if dp.paragraph_1 %}
-    <p>{{ dp.paragraph_1 }}</p>
-    {% endif %}
-
-    {% if dp.paragraph_2 %}
-    <p>{{ dp.paragraph_2 }}</p>
-    {% endif %}
-
-    {% if dp.paragraph_3 %}
-    <p>{{ dp.paragraph_3 }}</p>
-    {% endif %}
+    {% if dp.paragraph_1 %}{{ dp.paragraph_1 | markdownify }}{% endif %}
+    {% if dp.paragraph_2 %}{{ dp.paragraph_2 | markdownify }}{% endif %}
+    {% if dp.paragraph_3 %}{{ dp.paragraph_3 | markdownify }}{% endif %}
 
     <div style="margin-top:3rem; text-align:center;">
       <a

@@ -19,12 +19,13 @@ permalink: /series/
 {% endfor %}
 
 {% assign romans = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," %}
-{% assign sp = site.data.series_page %}
+{% assign sp  = site.data.series_page %}
+{% assign img = site.data.images %}
 
 <!-- ============================================================
      PAGE HEADER
      ============================================================ -->
-<header class="page-header">
+<header class="page-header"{% if img.series_hero and img.series_hero != "" %} style="background-image:url('{{ img.series_hero }}');"{% endif %}>
   <span class="eyebrow">Read Our Work</span>
   <h1>Series</h1>
   <p class="lead">{{ sp.page_lead | default: "Sustained reflection on questions that do not admit of easy answers." }}</p>
@@ -57,34 +58,44 @@ permalink: /series/
 
       {% assign roman_index = 0 %}
       {% for s in site.series %}
-        {% assign series_articles = published | where: "series", s.name %}
-        {% if series_articles.size > 0 %}
 
-          {% if s.is_yearly %}
-            {% assign year_set = "" | split: "" %}
-            {% for a in series_articles %}
-              {% unless year_set contains a.series_year %}
-                {% assign year_set = year_set | push: a.series_year %}
-              {% endunless %}
-            {% endfor %}
-            {% assign count_label = year_set.size | append: " year" %}
-            {% if year_set.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
-          {% else %}
-            {% assign count_label = series_articles.size | append: " article" %}
-            {% if series_articles.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
-          {% endif %}
+        {% comment %} Respect publish_date on series {% endcomment %}
+        {% assign series_visible = true %}
+        {% if s.publish_date and s.publish_date != "" %}
+          {% assign s_pub_str = s.publish_date | date: "%Y-%m-%d" %}
+          {% if s_pub_str > now_str %}{% assign series_visible = false %}{% endif %}
+        {% endif %}
 
-          <div class="series-card">
-            <div class="series-number">{{ romans[roman_index] }}</div>
-            <div>
-              <h3>{{ s.name }}</h3>
-              <p class="series-count">{{ count_label }}</p>
-              {% if s.description %}<p>{{ s.description }}</p>{% endif %}
-              <a href="{{ s.url | relative_url }}" class="btn btn-outline btn-sm">Explore the Series</a>
+        {% if series_visible %}
+          {% assign series_articles = published | where: "series", s.name %}
+          {% if series_articles.size > 0 %}
+
+            {% if s.is_yearly %}
+              {% assign year_set = "" | split: "" %}
+              {% for a in series_articles %}
+                {% unless year_set contains a.series_year %}
+                  {% assign year_set = year_set | push: a.series_year %}
+                {% endunless %}
+              {% endfor %}
+              {% assign count_label = year_set.size | append: " year" %}
+              {% if year_set.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
+            {% else %}
+              {% assign count_label = series_articles.size | append: " article" %}
+              {% if series_articles.size != 1 %}{% assign count_label = count_label | append: "s" %}{% endif %}
+            {% endif %}
+
+            <div class="series-card">
+              <div class="series-number">{{ romans[roman_index] }}</div>
+              <div>
+                <h3>{{ s.name }}</h3>
+                <p class="series-count">{{ count_label }}</p>
+                {% if s.description %}<p>{{ s.description | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>{% endif %}
+                <a href="{{ s.url | relative_url }}" class="btn btn-outline btn-sm">Explore the Series</a>
+              </div>
             </div>
-          </div>
 
-          {% assign roman_index = roman_index | plus: 1 %}
+            {% assign roman_index = roman_index | plus: 1 %}
+          {% endif %}
         {% endif %}
       {% endfor %}
 

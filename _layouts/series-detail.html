@@ -21,7 +21,7 @@ layout: default
   <span class="eyebrow">Series</span>
   <h1>{{ page.name }}</h1>
   {% if page.description %}
-    <p class="lead">{{ page.description }}</p>
+    <p class="lead">{{ page.description | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
   {% endif %}
 </header>
 
