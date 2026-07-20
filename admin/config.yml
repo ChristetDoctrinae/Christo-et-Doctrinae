@@ -30,6 +30,11 @@ backend:
   name: git-gateway
   branch: main
 
+# Local development: when running `netlify-cms-proxy-server` on localhost,
+# the CMS talks to the local repo instead of Git Gateway. Ignored in
+# production (only active when the admin is opened via localhost/127.0.0.1).
+local_backend: true
+
 locale: en
 
 media_folder: "assets/uploads"
