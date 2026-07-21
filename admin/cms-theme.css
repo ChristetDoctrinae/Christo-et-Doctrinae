@@ -76,7 +76,12 @@ html, body,
   border-bottom: 1px solid rgba(184, 151, 106, 0.25) !important;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4) !important;
 }
-header[class*="AppHeader"] * {
+/* NOTE: dropdown/quick-add menus (Quick add, Avatar) are rendered as DOM
+   CHILDREN of <header> even though they visually float below it. This
+   blanket rule used to color them too (ivory-on-ivory, contrast ~1.08)
+   because a direct declaration on the item beats an inherited one from
+   the (correctly dark-text) menu rule further down. Exclude menu content. */
+header[class*="AppHeader"] *:not([role="menu"]):not([role="menu"] *):not([role="menuitem"]):not([role="menuitem"] *) {
   color: var(--nav-text) !important;
 }
 /* Header nav buttons (Contents / Media / Workflow) */
@@ -247,8 +252,13 @@ header[class*="AppHeader"] * {
 }
 [class*="SearchInput"]::placeholder { color: var(--text-muted) !important; }
 
-/* Entry cards — mirror the front-end .card exactly */
-[class*="ListCard"] {
+/* Entry cards — mirror the front-end .card exactly.
+   BUG FIXED: [class*="ListCard"] is a substring match that also hits
+   ListCardLink (the <a>) and ListCardTitle (the <h2>) since both contain
+   "ListCard" — giving all three their own border/bg and nesting three
+   boxes inside each other (the "box around just the title text" bug).
+   Anchor to the exact card suffix "ListCard-card" so only the <li> matches. */
+[class*="ListCard-card"] {
   background-color: var(--bg-card) !important;
   border: 1px solid var(--border) !important;
   border-radius: 2px !important;
@@ -256,18 +266,73 @@ header[class*="AppHeader"] * {
   overflow: hidden !important;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
 }
-[class*="ListCard"]:hover {
+[class*="ListCard-card"]:hover {
   transform: translateY(-4px) !important;
   border-color: var(--gold) !important;
   box-shadow: 0 12px 36px rgba(28, 28, 46, 0.13) !important;
 }
-[class*="ListCardLink"] { color: inherit !important; text-decoration: none !important; }
+[class*="ListCardLink"] {
+  color: inherit !important;
+  text-decoration: none !important;
+  border: none !important;
+  background: transparent !important;
+}
 [class*="ListCardTitle"] {
   color: var(--text) !important;
   font-family: var(--serif-display) !important;
   font-size: 1.3rem !important;
   font-weight: 500 !important;
   line-height: 1.25 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* ================================================================
+   TAGS COLLECTION — compact list, not big tiles.
+   Netlify CMS (OSS) has no built-in inline add/delete-from-list; every
+   entry still opens its own editor page to rename or delete (Delete
+   Entry lives in that page's toolbar, already themed burgundy). This
+   gets as close to "a list with an edit affordance" as the platform
+   allows: a dense single-column row list instead of a card grid, with
+   a hover arrow hinting each row opens for editing.
+   Driven by body.cms-col-tags, set by the companion script in index.html.
+   ================================================================ */
+body.cms-col-tags [class*="CardsGrid"] {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  gap: 0.5rem !important;
+  margin: 1rem 0 !important;
+}
+body.cms-col-tags [class*="ListCard-card"] {
+  width: 100% !important;
+  margin: 0 !important;
+}
+body.cms-col-tags [class*="ListCardLink"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0.85rem 1.25rem !important;
+}
+body.cms-col-tags [class*="ListCardTitle"] {
+  font-size: 1rem !important;
+  text-transform: lowercase !important;
+}
+body.cms-col-tags [class*="ListCardLink"]::after {
+  content: "Edit \2192" !important;
+  font-family: var(--serif-body) !important;
+  font-size: 0.68rem !important;
+  font-style: italic !important;
+  letter-spacing: 0.04em !important;
+  color: var(--text-muted) !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+}
+body.cms-col-tags [class*="ListCard-card"]:hover [class*="ListCardLink"]::after {
+  opacity: 1 !important;
+}
+body.cms-col-tags [class*="ListCard-card"]:hover {
+  transform: none !important;
 }
 
 /* ================================================================
@@ -324,6 +389,16 @@ label {
   text-transform: uppercase !important;
   padding: 0 0 0.5rem 0 !important;
   border-radius: 0 !important;
+}
+/* Default Netlify CMS labels use an absolutely-positioned white ::after
+   (a text-overflow fade effect) — background-color on the label itself
+   doesn't cascade to its own pseudo-elements, so it survived as a stray
+   white box overlapping the label text. Remove it outright. */
+[class*="FieldLabel"]::before,
+[class*="FieldLabel"]::after,
+label::before,
+label::after {
+  content: none !important;
 }
 
 /* FIELD HINT — italic muted, like the front-end .lead / hints */
@@ -504,9 +579,20 @@ button[class*="Danger"] {
   box-shadow: 0 10px 32px rgba(20, 19, 31, 0.22) !important;
   color: var(--text) !important;
 }
+/* Menu items: the real component class is "StyledMenuItem" (lowercase
+   "dropdownItem" prefix, not "DropdownItem" — [class*=] is case-sensitive,
+   so that never matched). Set color on the item AND every descendant,
+   since the header-wide text-color rule directly targets the leaf span
+   and a direct declaration beats an inherited one. */
 [role="menuitem"],
+[role="menuitem"] *,
+[class*="StyledMenuItem"],
+[class*="StyledMenuItem"] *,
 [class*="DropdownItem"] { color: var(--text) !important; }
 [role="menuitem"]:hover,
+[role="menuitem"]:hover *,
+[class*="StyledMenuItem"]:hover,
+[class*="StyledMenuItem"]:hover *,
 [class*="DropdownItem"]:hover {
   background-color: var(--bg-section) !important;
   color: var(--accent) !important;

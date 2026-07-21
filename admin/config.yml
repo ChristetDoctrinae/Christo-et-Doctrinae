@@ -110,9 +110,16 @@ collections:
 
       - name: "tags"
         label: "Tags"
-        widget: "list"
+        widget: "relation"
         required: false
-        hint: "Up to 3 tags. Enter each tag name exactly (e.g. theology, art, poetry)"
+        collection: "tags"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        min: 0
+        max: 3
+        hint: "Search and select up to 3 existing tags. To create a new tag, add it in the Tags collection first."
 
       - name: "cover_image"
         label: "Cover Image"

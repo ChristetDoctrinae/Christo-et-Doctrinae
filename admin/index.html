@@ -17,6 +17,10 @@
   <!-- Netlify CMS -->
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
+  <!-- Live site-accurate preview templates (must load after netlify-cms.js,
+       which defines the global CMS object this script registers against). -->
+  <script src="/admin/preview-templates.js"></script>
+
   <!-- CMS Companion Script
        Handles dynamic body-class assignment for per-collection CSS targeting.
        body.cms-col-tags  → compact list view for the Tags collection
