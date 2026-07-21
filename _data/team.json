@@ -33,12 +33,12 @@
       "photo": ""
     },
     {
-      "name": "Graham Fink",
-      "title": "Photographer",
-      "major": "Computer Science and German Studies",
-      "year": "Class of 2028",
-      "hometown": "Greenville, SC",
-      "photo": "/assets/uploads/graham-fink.jpg"
+      "name": "Nathan Johnson",
+      "title": "Editor",
+      "major": "History and Politics & International Affairs",
+      "year": "Class of 2027",
+      "hometown": "Atlanta, GA",
+      "photo": "/assets/uploads/nathan-johnson-pic.jpg"
     },
     {
       "name": "Olivia Herrin",
@@ -49,20 +49,20 @@
       "photo": ""
     },
     {
+      "name": "Graham Fink",
+      "title": "Photographer",
+      "major": "Computer Science and German Studies",
+      "year": "Class of 2028",
+      "hometown": "Greenville, SC",
+      "photo": "/assets/uploads/graham-fink.jpg"
+    },
+    {
       "name": "Anya Barringer",
       "title": "Writer",
       "major": "Computer Science and Violin Performance",
       "year": "Class of 2028",
       "hometown": "Duncan, SC",
       "photo": "/assets/uploads/anya-barringer.webp"
-    },
-    {
-      "name": "Nathan Johnson",
-      "title": "Editor",
-      "major": "History and Politics & International Affairs",
-      "year": "Class of 2027",
-      "hometown": "Atlanta, GA",
-      "photo": "/assets/uploads/nathan-johnson-pic.jpg"
     },
     {
       "name": "Makena Wyngaard",
@@ -78,7 +78,23 @@
       "major": "Studio Art",
       "year": "Class of 2028",
       "hometown": "Clover, SC",
-      "photo": ""
+      "photo": null
+    },
+    {
+      "name": "Max Fowler",
+      "title": "Writer",
+      "year": "Class of 2029",
+      "hometown": "Johnson City, TN",
+      "major": "Economics",
+      "photo": "/assets/uploads/max-fowler-headshot.jpeg"
+    },
+    {
+      "name": "Max Weckel",
+      "title": "Writer",
+      "major": "Economics",
+      "year": "Class of 2028",
+      "hometown": "Wilmington, NC",
+      "photo": "/assets/uploads/max-weckel-headshot.jpeg"
     }
   ]
 }
